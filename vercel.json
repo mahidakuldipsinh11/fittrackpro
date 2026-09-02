@@ -1,7 +1,7 @@
 {
-  "outputDirectory": "mk/mk/Fittrack/dist",
-  "installCommand": "npm install --prefix mk/mk/Fittrack",
-  "buildCommand": "npm run build --prefix mk/mk/Fittrack",
+  "outputDirectory": "public",
+  "cleanUrls": false,
+  "trailingSlash": false,
   "rewrites": [
     { "source": "/((?!assets/|product_images/).*)", "destination": "/index.html" }
   ],
@@ -10,12 +10,6 @@
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/product_images/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
   ]

@@ -1,0 +1,9 @@
+{
+  "name": "fittrackpro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install-deps": "cd mk/mk/Fittrack && npm install",
+    "build": "cd mk/mk/Fittrack && npm run build"
+  }
+}
