@@ -9,9 +9,6 @@ __pycache__/
 venv/
 env/
 
-# Django
-*.sqlite3
-db.sqlite3
 
 # Media files (too large)
 media/
@@ -34,7 +31,6 @@ Thumbs.db
 .venv/
 
 # Product images (downloaded, not source)
-product_images/
 
 # Python venv
 kuldip/

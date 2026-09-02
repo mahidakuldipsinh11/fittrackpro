@@ -62,20 +62,32 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = "fittrack.wsgi.application"
 
-# Database - MySQL for local development
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "fittrack_db",
-        "USER": "root",
-        "PASSWORD": "kuldip2612",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
-        "OPTIONS": {
-            "charset": "utf8mb4",
-        },
+# Detect Vercel environment — use SQLite, otherwise MySQL
+IS_VERCEL = os.environ.get("VERCEL", False) or os.environ.get("VERCEL_ENV") is not None
+
+if IS_VERCEL:
+    # Vercel: SQLite (serverless, no MySQL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    # Local: MySQL
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "fittrack_db",
+            "USER": "root",
+            "PASSWORD": "kuldip2612",
+            "HOST": "127.0.0.1",
+            "PORT": "3306",
+            "OPTIONS": {
+                "charset": "utf8mb4",
+            },
+        }
+    }
 
 AUTH_USER_MODEL = "accounts.User"
 
