@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fittrackpro-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd mk/mk/Fittrack/django_backend && python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn fittrack.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: PYTHON_VERSION
+        value: "3.11"
