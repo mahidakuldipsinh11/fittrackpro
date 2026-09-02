@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "mk/mk/Fittrack/django_backend/manage.py",
+      "use": "@vercel/python",
+      "config": { "maxDuration": 30 }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/product_images/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/manage.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/staticfiles/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/media/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/manage.py"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/manage.py"
+    },
+    {
+      "src": "/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "dest": "mk/mk/Fittrack/django_backend/staticfiles/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "mk/mk/Fittrack/django_backend/manage.py"
+    }
+  ]
+}
