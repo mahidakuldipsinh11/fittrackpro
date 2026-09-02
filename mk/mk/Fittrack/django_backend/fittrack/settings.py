@@ -62,11 +62,24 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = "fittrack.wsgi.application"
 
-# Detect Vercel environment — use SQLite, otherwise MySQL
+# Detect Vercel environment
 IS_VERCEL = os.environ.get("VERCEL", False) or os.environ.get("VERCEL_ENV") is not None
 
-if IS_VERCEL:
-    # Vercel: SQLite (serverless, no MySQL)
+# Database: DATABASE_URL env var > MySQL > SQLite
+DATABASE_URL = os.getenv("DATABASE_URL", "")
+
+if DATABASE_URL:
+    # Cloud database (PlanetScale, Neon, etc.) via DATABASE_URL
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+elif IS_VERCEL:
+    # Vercel without DATABASE_URL — SQLite fallback
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
