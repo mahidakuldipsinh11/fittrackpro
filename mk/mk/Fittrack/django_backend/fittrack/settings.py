@@ -65,11 +65,11 @@ WSGI_APPLICATION = "fittrack.wsgi.application"
 # Detect Vercel environment
 IS_VERCEL = os.environ.get("VERCEL", False) or os.environ.get("VERCEL_ENV") is not None
 
-# Database: DATABASE_URL env var > MySQL > SQLite
+# Database: Supabase PostgreSQL (primary) > MySQL (fallback)
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if DATABASE_URL:
-    # Cloud database (PlanetScale, Neon, etc.) via DATABASE_URL
+    # Cloud database (Supabase, PlanetScale, etc.) via DATABASE_URL
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config(
@@ -78,16 +78,11 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-elif IS_VERCEL:
-    # Vercel without DATABASE_URL — SQLite fallback
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+    # Force SSL for Supabase
+    DATABASES["default"]["OPTIONS"] = DATABASES["default"].get("OPTIONS", {})
+    DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
 else:
-    # Local: MySQL
+    # Local: MySQL (fallback)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
