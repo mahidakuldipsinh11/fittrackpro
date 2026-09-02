@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useCoupon } from "../context/CouponContext";
-import { useToast } from "../context/ToastContext";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 const TRUST_ITEMS = [
@@ -46,11 +44,7 @@ const SOCIALS = [
 export default function Footer() {
   const footerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate();
-  const toast = useToast();
-  const { activateCoupon, isCouponActive } = useCoupon();
-  const [email, setEmail] = useState("");
-  const isLoggedIn = !!JSON.parse(localStorage.getItem("currentUser") || "null");
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,27 +62,6 @@ export default function Footer() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleNewsletter = async (e) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    if (!isLoggedIn) {
-      toast.error("Please login first to subscribe!");
-      navigate("/login");
-      return;
-    }
-    if (isCouponActive) {
-      toast.info("You already have the welcome 10% discount active!");
-      setEmail("");
-      return;
-    }
-    const success = await activateCoupon(email);
-    if (success === true) toast.success("Subscribed! Welcome 10% discount activated!");
-    else if (success === "already_used")
-      toast.error("This email has already claimed the welcome discount.");
-    else toast.error("Something went wrong. Please try again.");
-    setEmail("");
   };
 
   return (
@@ -116,39 +89,7 @@ export default function Footer() {
             FitTrack <span>Pro</span>
           </div>
           <p>Equipment built for people who don't skip sets.</p>
-          <div className="ft-footer__newsletter-wrap">
-            <h3 className="ft-footer__newsletter-title">Subscribe</h3>
-            <p className="ft-footer__newsletter-desc">Get exclusive deals, new arrivals, and fitness tips.</p>
-            {isLoggedIn && isCouponActive ? (
-              <div className="ft-footer__newsletter-active">
-                <span>✅</span>
-                <span>
-                  Welcome <strong>10% discount</strong> is active!
-                </span>
-              </div>
-            ) : (
-              <form className="ft-footer__newsletter" onSubmit={handleNewsletter}>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  aria-label="Email address"
-                />
-                <button type="submit" aria-label="Subscribe">
-                  Subscribe
-                </button>
-              </form>
-            )}
-            {!isLoggedIn ? (
-              <span className="ft-footer__newsletter-note">
-                Please <Link to="/login">login</Link> to subscribe
-              </span>
-            ) : (
-              <span className="ft-footer__newsletter-note">No spam. Unsubscribe anytime.</span>
-            )}
-          </div>
+
           <div className="ft-footer__socials">
             {SOCIALS.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
@@ -185,15 +126,6 @@ export default function Footer() {
           <Link to="/refund-policy">Refund Policy</Link>
           <Link to="/privacy-policy">Privacy Policy</Link>
           <Link to="/disclaimer">Disclaimer</Link>
-        </div>
-      </div>
-
-      {/* Payment Badges */}
-      <div className="ft-footer__payments">
-        <span className="ft-footer__payments-label">Payment Methods:</span>
-        <div className="ft-footer__payments-list">
-          <span className="ft-footer__payment-badge">Razorpay</span>
-          <span className="ft-footer__payment-badge">COD</span>
         </div>
       </div>
 
