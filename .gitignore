@@ -36,3 +36,14 @@ mk/mk/Fittrack/django_backend/staticfiles/
 # Logs
 *.log
 .venv/
+
+# Product images (downloaded, not source)
+product_images/
+
+# Python venv
+kuldip/
+
+# Temp scripts
+update_images*.py
+download_*.py
+fit.txt
