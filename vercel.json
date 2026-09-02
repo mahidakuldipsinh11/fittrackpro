@@ -1,6 +1,6 @@
 {
   "outputDirectory": "public",
-  "cleanUrls": false,
+  "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     { "source": "/((?!assets/|product_images/).*)", "destination": "/index.html" }

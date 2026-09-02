@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "install-deps": "cd mk/mk/Fittrack && npm install",
-    "build": "cd mk/mk/Fittrack && npm run build"
+    "dev": "cd mk/mk/Fittrack && npm run dev",
+    "build": "cd mk/mk/Fittrack && npm run build",
+    "vercel-build": "echo 'Static files already in public/'"
   }
 }
