@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import api from "../api/client";
+import localProducts from "../data/products.json";
 
 const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
@@ -35,7 +36,9 @@ export const ProductProvider = ({ children }) => {
       const list = res.data.results || res.data;
       setProducts(list.map(mapProduct));
     } catch (err) {
-      console.error("Failed to load products", err);
+      // API available nahi hai — use local products data
+      console.warn("API unavailable, using local products data");
+      setProducts(localProducts.map(mapProduct));
     } finally {
       setLoading(false);
     }
