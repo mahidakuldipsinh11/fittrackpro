@@ -325,6 +325,9 @@
   .ft-footer__col a {
     line-height: 1.7;
   }
+  .ft-footer__socials {
+    justify-content: center;
+  }
   .ft-footer__trust {
     flex-direction: column;
     align-items: center;
