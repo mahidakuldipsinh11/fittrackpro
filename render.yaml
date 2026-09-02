@@ -6,12 +6,21 @@ services:
     startCommand: cd mk/mk/Fittrack/django_backend && python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn fittrack.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: fittrack-db
+          property: connectionString
       - key: SECRET_KEY
-        sync: false
+        value: "django-insecure-f#j6)9t+m7117e+t*e!o-iemm@y@-&0$u#&%qpn-&g=p)yoqk3"
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
       - key: PYTHON_VERSION
         value: "3.11"
+
+databases:
+  - name: fittrack-db
+    databaseName: fittrack_db_340o
+    user: fittrack_user
+    plan: free
+    region: oregon

@@ -78,9 +78,12 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-    # Force SSL for Supabase
+    # SSL mode for cloud databases
     DATABASES["default"]["OPTIONS"] = DATABASES["default"].get("OPTIONS", {})
-    DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
+    if "render.com" in DATABASE_URL:
+        DATABASES["default"]["OPTIONS"]["sslmode"] = "prefer"
+    else:
+        DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
 else:
     # Local: MySQL (fallback)
     DATABASES = {
