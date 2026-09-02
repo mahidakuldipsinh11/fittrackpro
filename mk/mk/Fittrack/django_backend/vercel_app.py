@@ -12,7 +12,9 @@ import django
 django.setup()
 
 # Import WSGI application
-from fittrack.wsgi import application
+from django.core.wsgi import get_wsgi_application
 
-# Vercel expects a handler variable
+application = get_wsgi_application()
+
+# Vercel handler
 handler = application
