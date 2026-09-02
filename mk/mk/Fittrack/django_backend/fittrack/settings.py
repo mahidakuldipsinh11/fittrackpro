@@ -48,7 +48,7 @@ TEMPLATES = [
     {
        "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR.parent / "dist",
+            BASE_DIR.parent / "dist" if (BASE_DIR.parent / "dist").exists() else BASE_DIR.parent / "public",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -115,7 +115,7 @@ STATIC_URL = "static/"
 
 # Only include dist in STATICFILES_DIRS if it exists (not on Vercel)
 _dist_dir = BASE_DIR.parent / "dist"
-if _dist_dir.exists():
+if _dist_dir.exists() and not IS_VERCEL:
     STATICFILES_DIRS = [_dist_dir]
 else:
     STATICFILES_DIRS = []
