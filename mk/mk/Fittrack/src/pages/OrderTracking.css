@@ -1,0 +1,583 @@
+/* ═══════════════════════════════════════════════════════
+   ORDER TRACKING — Amazon/Flipkart Style
+   ═══════════════════════════════════════════════════════ */
+
+.ot-page {
+  min-height: 80vh;
+  padding: 2rem 1rem 4rem;
+}
+
+.ot-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.ot-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--orange, #f97316);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.ot-back:hover {
+  color: var(--orange-deep, #ea580c);
+  text-decoration: underline;
+}
+
+.ot-page h1 {
+  font-family: 'Oswald', sans-serif;
+  color: var(--ivory, #fff);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+.ot-loading {
+  color: var(--steel, #94a3b8);
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.ot-error {
+  color: #ef4444;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* ═══ EMPTY STATE ═══ */
+.ot-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--steel, #94a3b8);
+}
+
+.ot-empty svg {
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.ot-empty h2 {
+  color: var(--ivory, #fff);
+  font-family: 'Oswald', sans-serif;
+  margin: 0 0 0.5rem;
+}
+
+.ot-empty p {
+  margin: 0 0 1.5rem;
+}
+
+.ot-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  background: var(--grad-cta);
+  color: #FAF7F2;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  border: none;
+  margin: 0 auto;
+}
+
+.ot-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ═══ ORDERS LIST ═══ */
+.ot-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ot-order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg-panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.ot-order-card:hover {
+  border-color: var(--orange, #f97316);
+  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.1);
+  transform: translateY(-1px);
+}
+
+.ot-order-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ot-order-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ot-order-status-dot--confirmed { background: #3b82f6; }
+.ot-order-status-dot--processing { background: #f59e0b; }
+.ot-order-status-dot--shipped { background: #a855f7; }
+.ot-order-status-dot--out-for-delivery { background: #10b981; }
+.ot-order-status-dot--delivered { background: #10b981; }
+.ot-order-status-dot--cancelled { background: #ef4444; }
+
+.ot-order-info strong {
+  color: var(--ivory, #fff);
+  display: block;
+  font-size: 0.95rem;
+}
+
+.ot-order-date {
+  color: var(--steel, #94a3b8);
+  font-size: 0.8rem;
+}
+
+.ot-order-items {
+  color: var(--steel-dim, #64748b);
+  font-size: 0.78rem;
+  display: block;
+}
+
+.ot-order-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.ot-order-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ot-order-meta span {
+  color: var(--steel, #94a3b8);
+  font-size: 0.85rem;
+}
+
+/* ═══ STATUS BADGES ═══ */
+.ot-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ot-status--large {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+}
+
+.ot-status--confirmed { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.ot-status--processing { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.ot-status--shipped { background: rgba(168,85,247,0.15); color: #a855f7; }
+.ot-status--out-for-delivery { background: rgba(16,185,129,0.15); color: #10b981; }
+.ot-status--delivered { background: rgba(16,185,129,0.2); color: #10b981; }
+.ot-status--cancelled { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+.ot-total {
+  color: var(--orange, #f97316) !important;
+  font-weight: 700;
+  font-size: 1rem !important;
+}
+
+/* ═══ ORDER HEADER ═══ */
+.ot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.ot-header-left h1 {
+  margin-bottom: 0.25rem;
+}
+
+.ot-order-date-big {
+  color: var(--steel, #94a3b8);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ═══ PROGRESS BAR ═══ */
+.ot-progress-card {
+  background: var(--bg-panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.ot-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.ot-progress-title {
+  color: var(--ivory, #fff);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ot-progress-pct {
+  color: var(--orange, #f97316);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.ot-progress-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-panel-2, #243044);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ot-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange, #f97316), var(--orange-deep, #ea580c));
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+}
+
+/* ═══ TIMELINE CARD ═══ */
+.ot-timeline-card {
+  background: var(--bg-panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.ot-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ot-step {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.ot-step-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 48px;
+}
+
+.ot-step-icon-wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.ot-step-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel-2, #243044);
+  border: 2px solid var(--border, #334155);
+  color: var(--steel, #94a3b8);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.ot-step--done .ot-step-icon {
+  background: var(--orange, #f97316);
+  border-color: var(--orange, #f97316);
+  color: #fff;
+}
+
+.ot-step--current .ot-step-icon {
+  box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.25), 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+.ot-step-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--orange, #f97316);
+  animation: otPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes otPulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+.ot-step-line {
+  width: 3px;
+  flex: 1;
+  min-height: 30px;
+  background: var(--border, #334155);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+
+.ot-step-line--done {
+  background: var(--orange, #f97316);
+}
+
+.ot-step-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+  min-height: 44px;
+}
+
+.ot-step-label {
+  color: var(--steel, #94a3b8);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.ot-step--done .ot-step-label,
+.ot-step--current .ot-step-label {
+  color: var(--ivory, #fff);
+  font-weight: 700;
+}
+
+.ot-step-desc {
+  color: var(--steel-dim, #64748b);
+  font-size: 0.78rem;
+  margin-top: 0.15rem;
+}
+
+.ot-step--done .ot-step-desc,
+.ot-step--current .ot-step-desc {
+  color: var(--steel, #94a3b8);
+}
+
+.ot-step-time {
+  color: var(--orange, #f97316);
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.ot-step-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--steel, #94a3b8);
+  font-size: 0.75rem;
+  margin-top: 0.15rem;
+}
+
+/* ═══ CANCELLED BANNER ═══ */
+.ot-cancelled-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #ef4444;
+  margin-bottom: 2rem;
+}
+
+.ot-cancelled-banner strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.ot-cancelled-banner p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* ═══ TRACKING HISTORY CARD ═══ */
+.ot-history-card {
+  background: var(--bg-panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.ot-history-card h2 {
+  font-family: 'Oswald', sans-serif;
+  color: var(--ivory, #fff);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+}
+
+.ot-history-empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--steel, #94a3b8);
+}
+
+.ot-history-empty svg {
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+
+.ot-history-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ot-history-item {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.ot-history-line-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.ot-history-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border, #334155);
+  border: 2px solid var(--bg-panel-2, #243044);
+  flex-shrink: 0;
+  z-index: 1;
+  margin-top: 4px;
+}
+
+.ot-history-dot--active {
+  background: var(--orange, #f97316);
+  border-color: var(--orange, #f97316);
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+}
+
+.ot-history-connector {
+  width: 2px;
+  flex: 1;
+  min-height: 20px;
+  background: var(--border, #334155);
+  margin: 4px 0;
+}
+
+.ot-history-item:last-child .ot-history-connector {
+  display: none;
+}
+
+.ot-history-content {
+  flex: 1;
+  padding-bottom: 1.5rem;
+}
+
+.ot-history-item:last-child .ot-history-content {
+  padding-bottom: 0;
+}
+
+.ot-history-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ot-history-top strong {
+  color: var(--ivory, #fff);
+  font-size: 0.9rem;
+}
+
+.ot-history-latest-badge {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--orange, #f97316);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ot-history-content p {
+  color: var(--steel, #94a3b8);
+  font-size: 0.85rem;
+  margin: 0.3rem 0;
+  line-height: 1.5;
+}
+
+.ot-history-content time {
+  color: var(--steel-dim, #64748b);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.ot-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--steel, #94a3b8);
+  font-size: 0.8rem;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .ot-page { padding: 1.5rem 0.75rem 3rem; }
+  .ot-header { flex-direction: column; }
+  .ot-timeline-card { padding: 1.5rem 1rem; }
+  .ot-step-desc { display: none; }
+  .ot-progress-card { padding: 1rem 1.25rem; }
+  .ot-history-card { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .ot-page h1 { font-size: 1.4rem; }
+  .ot-order-card { padding: 0.85rem 1rem; }
+  .ot-order-left { gap: 0.5rem; }
+  .ot-step-icon { width: 36px; height: 36px; }
+  .ot-step-connector { width: 40px; }
+  .ot-step-label { font-size: 0.8rem; }
+  .ot-timeline-card { padding: 1.25rem 0.75rem; }
+}
+
+@media (max-width: 360px) {
+  .ot-step-info { padding-bottom: 1rem; }
+  .ot-step-icon { width: 32px; height: 32px; font-size: 0.85rem; }
+  .ot-step-connector { width: 36px; }
+}

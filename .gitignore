@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+env/
+
+# Django
+*.sqlite3
+db.sqlite3
+
+# Media files (too large)
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Freebuff
+.freebuff/
+
+# Dist (will be built)
+mk/mk/Fittrack/dist/
+
+# Static files (will be built)
+mk/mk/Fittrack/django_backend/staticfiles/
+
+# Logs
+*.log
+.venv/

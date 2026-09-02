@@ -1,0 +1,41 @@
+/* App overrides */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  color: var(--ivory);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-to-top:hover {
+  background-color: var(--orange);
+  border-color: var(--orange);
+  color: white;
+}

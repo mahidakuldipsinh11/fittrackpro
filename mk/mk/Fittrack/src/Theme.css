@@ -1,0 +1,14 @@
+/* =========================================================
+   FITTRACK PRO — NEW "POWER FORGE" COLOR SYSTEM
+   Inspired by Rogue Fitness / York Fitness (dark + energy accents)
+   Paste/merge this :root block into your global CSS (App.css / index.css)
+   ========================================================= */
+/* Theme.css — Color aliases for backward compat */
+:root {
+  /* Primary accent aliases for Cream White & Obsidian Black */
+  --crimson: #111111;
+  --crimson-deep: #27272A;
+  --crimson-soft: rgba(17, 17, 17, 0.08);
+  --accent: #C5A059;
+  --accent-soft: rgba(197, 160, 89, 0.10);
+}

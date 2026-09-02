@@ -1,0 +1,443 @@
+/* ═══════════════════════════════════════════════════
+   POLICY PAGES — Return, Refund, Privacy, Disclaimer
+   FitTrack Pro — Indian E-commerce Style
+   ═══════════════════════════════════════════════════ */
+
+/* ─── HERO ─── */
+.policy-hero {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+  border-bottom: 3px solid var(--orange, #FF6B00);
+}
+
+.policy-hero--refund {
+  border-bottom-color: #10b981;
+}
+
+.policy-hero--privacy {
+  border-bottom-color: #3b82f6;
+}
+
+.policy-hero--disclaimer {
+  border-bottom-color: #f59e0b;
+}
+
+.policy-hero__badge {
+  display: inline-block;
+  background: rgba(255, 107, 0, 0.15);
+  color: var(--orange, #FF6B00);
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+}
+
+.policy-hero--refund .policy-hero__badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.policy-hero--privacy .policy-hero__badge {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.policy-hero--disclaimer .policy-hero__badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.policy-hero__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 1rem;
+  letter-spacing: -0.5px;
+}
+
+.policy-hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.policy-hero__meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* ─── CONTENT ─── */
+.policy-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─── CARDS ─── */
+.policy-card {
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.policy-card.policy-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.policy-card:hover {
+  border-color: rgba(255, 107, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.policy-card--highlight {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.08) 0%, rgba(255, 107, 0, 0.02) 100%);
+  border-color: rgba(255, 107, 0, 0.3);
+}
+
+.policy-card--highlight:hover {
+  border-color: var(--orange, #FF6B00);
+}
+
+.policy-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.policy-card__icon {
+  font-size: 1.5rem;
+}
+
+.policy-card__header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.policy-card__text {
+  color: #94a3b8;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+.policy-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.policy-card__list li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.93rem;
+}
+
+.policy-card__list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--orange, #FF6B00);
+  font-weight: 700;
+}
+
+.policy-card__steps {
+  padding-left: 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.policy-card__steps li {
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.93rem;
+}
+
+.policy-card__steps li::marker {
+  color: var(--orange, #FF6B00);
+  font-weight: 700;
+}
+
+/* ─── CONTACT BUTTONS ─── */
+.policy-card__contact {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.policy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  background: var(--grad-cta);
+  color: #FAF7F2;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.policy-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.policy-btn--outline {
+  background: transparent;
+  color: var(--ivory);
+  border: 1px solid var(--border);
+}
+
+.policy-btn--outline:hover {
+  background: var(--bg-panel-2);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  .policy-hero {
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  .policy-content {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .policy-card {
+    padding: 1.5rem;
+  }
+
+  .policy-card__header h2 {
+    font-size: 1.1rem;
+  }
+
+  .policy-card__contact {
+    flex-direction: column;
+  }
+
+  .policy-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .policy-hero__meta {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-hero {
+    padding: 4.5rem 1rem 2.5rem;
+  }
+
+  .policy-hero__title {
+    font-size: 1.8rem;
+  }
+
+  .policy-card {
+    padding: 1.2rem;
+    border-radius: 12px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   EDIT MODE — Logged-in users can edit policy content
+   ═══════════════════════════════════════════════════ */
+
+.policy-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  background: rgba(255, 107, 0, 0.15);
+  border: 2px solid rgba(255, 107, 0, 0.5);
+  color: var(--orange, #FF6B00);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.policy-edit-btn:hover {
+  background: var(--orange, #FF6B00);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.policy-edit-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.policy-btn--save {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+.policy-btn--save:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.policy-btn--save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Edit inputs ─── */
+.policy-edit-icon {
+  width: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.4rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.policy-edit-icon:focus {
+  border-color: var(--orange, #FF6B00);
+}
+
+.policy-edit-title {
+  flex: 1;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.policy-edit-title:focus {
+  border-color: var(--orange, #FF6B00);
+}
+
+.policy-edit-textarea {
+  width: 100%;
+  min-height: 80px;
+  font-size: 0.93rem;
+  color: #cbd5e1;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 10px;
+  padding: 0.75rem;
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+  font-family: inherit;
+  margin-top: 0.75rem;
+  transition: border-color 0.3s;
+}
+
+.policy-edit-textarea:focus {
+  border-color: var(--orange, #FF6B00);
+}
+
+.policy-edit-hero-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: #fff;
+  background: transparent;
+  border: 2px dashed rgba(255, 107, 0, 0.4);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.policy-edit-hero-title:focus {
+  border-color: var(--orange, #FF6B00);
+}
+
+.policy-edit-hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #94a3b8;
+  background: transparent;
+  border: 2px dashed rgba(255, 107, 0, 0.3);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.policy-edit-hero-sub:focus {
+  border-color: var(--orange, #FF6B00);
+}
+
+/* ─── Editing card border ─── */
+.policy-card.policy-visible {
+  border-color: rgba(255, 107, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .policy-edit-actions {
+    flex-direction: column;
+  }
+
+  .policy-edit-title {
+    font-size: 1.1rem;
+  }
+
+  .policy-edit-hero-title {
+    font-size: 1.8rem;
+  }
+}
