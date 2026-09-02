@@ -62,43 +62,20 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = "fittrack.wsgi.application"
 
-# Database - Support SQLite for Vercel, MySQL for local, PostgreSQL for Railway
-DATABASE_URL = os.getenv("DATABASE_URL")
-DB_ENGINE = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
-
-if DATABASE_URL:
-    # PostgreSQL (Railway/Render)
-    import dj_database_url
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
+# Database - MySQL for local development
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "fittrack_db",
+        "USER": "root",
+        "PASSWORD": "kuldip2612",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
-elif DB_ENGINE == "django.db.backends.mysql":
-    # MySQL (local)
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": os.getenv("DB_NAME", "fittrack_db"),
-            "USER": os.getenv("DB_USER", "root"),
-            "PASSWORD": os.getenv("DB_PASSWORD", "kuldip2612"),
-            "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-            "PORT": os.getenv("DB_PORT", "3306"),
-            "OPTIONS": {
-                "charset": "utf8mb4",
-            },
-        }
-    }
-else:
-    # SQLite (Vercel/serverless)
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+}
 
 AUTH_USER_MODEL = "accounts.User"
 
