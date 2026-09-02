@@ -1,6 +1,9 @@
 {
+  "outputDirectory": "mk/mk/Fittrack/dist",
+  "installCommand": "npm install --prefix mk/mk/Fittrack",
+  "buildCommand": "npm run build --prefix mk/mk/Fittrack",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|product_images/).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
