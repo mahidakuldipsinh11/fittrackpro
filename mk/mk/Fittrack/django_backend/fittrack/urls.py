@@ -1,3 +1,4 @@
+import os
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,7 +16,12 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Product images serve karo
-urlpatterns += static('/product_images/', document_root='D:/Mk_demo/product_images')
+PRODUCT_IMAGES_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "product_images"
+)
+if os.path.exists(PRODUCT_IMAGES_DIR):
+    urlpatterns += static('/product_images/', document_root=PRODUCT_IMAGES_DIR)
 
 # SPA catch-all
 urlpatterns += [

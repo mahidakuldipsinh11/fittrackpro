@@ -104,7 +104,14 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR.parent / "dist"]
+
+# Only include dist in STATICFILES_DIRS if it exists (not on Vercel)
+_dist_dir = BASE_DIR.parent / "dist"
+if _dist_dir.exists():
+    STATICFILES_DIRS = [_dist_dir]
+else:
+    STATICFILES_DIRS = []
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "staticfiles": {
