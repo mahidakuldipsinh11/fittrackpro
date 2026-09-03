@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Shield, Truck, RotateCcw, IndianRupee, Zap, ChevronRight, ChevronLeft,
+  Shield, Truck, RotateCcw, IndianRupee, Zap,
   Quote, Star, Clock, Award, Users, Package, Headphones, ArrowRight,
   Heart, ShoppingCart, Timer, Trophy, Target, Dumbbell, Home as HomeIcon,
   Building2, Swords, Flame, TrendingUp, Gift, Eye, CheckCircle, Phone
@@ -135,17 +135,11 @@ function HeroCarousel() {
         </Link>
       </div>
       <div className="home-hero-carousel__nav">
-        <button onClick={() => goTo((current - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)} className="home-hero-carousel__arrow">
-          <ChevronLeft size={24} />
-        </button>
         <div className="home-hero-carousel__dots">
           {HERO_SLIDES.map((_, i) => (
             <button key={i} className={`home-hero-carousel__dot ${i === current ? "active" : ""}`} onClick={() => goTo(i)} />
           ))}
         </div>
-        <button onClick={() => goTo((current + 1) % HERO_SLIDES.length)} className="home-hero-carousel__arrow">
-          <ChevronRight size={24} />
-        </button>
       </div>
     </section>
   );
@@ -317,7 +311,7 @@ export default function Home() {
           <p>Join 50+ athletes who trust FitTrack Pro. Shop now and get free delivery across India.</p>
           <div className="home-final-cta__actions">
             <Link to="/shop" className="ft-btn ft-btn--primary"><Dumbbell size={18} /> Shop All Equipment</Link>
-            <Link to="/deals" className="ft-btn ft-btn--ghost"><Flame size={16} /> Today's Deals</Link>
+            <Link to="/deals" className="ft-btn ft-btn--ghost"><Flame size={16} /> Deals</Link>
           </div>
         </div>
       </section>
