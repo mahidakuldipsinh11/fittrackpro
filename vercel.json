@@ -1,9 +1,9 @@
 {
-  "buildCommand": "cd mk/mk/Fittrack && npm install && npx vite build --base=/",
+  "buildCommand": "cd mk/mk/Fittrack && npm install && VITE_API_URL=https://fittrackpro-backend-uayc.onrender.com/api npx vite build --base=/",
   "outputDirectory": "mk/mk/Fittrack/dist",
+  "installCommand": "cd mk/mk/Fittrack && npm install",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://fittrackpro-backend.onrender.com/api/:path*" },
     { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ]
 }
