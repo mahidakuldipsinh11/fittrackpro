@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
   plugins: [react()],
-  base: process.env.VITE_API_URL ? '/' : (command === 'build' ? '/static/' : '/'),
+  base: process.env.VITE_API_URL ? "/" : (command === 'build' ? '/static/' : '/'),
   server: {
     port: 5175,
     proxy: {
