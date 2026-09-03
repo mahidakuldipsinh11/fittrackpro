@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Category, ContactMessage, Order, OrderItem, Product, Review, CouponUsage
 
@@ -15,9 +16,25 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", "category", "price", "is_deal", "is_featured"]
+    list_display = ["image_thumb", "name", "category", "price", "stock", "is_deal", "is_featured"]
     list_filter = ["category", "is_deal", "is_featured"]
-    search_fields = ["name"]
+    search_fields = ["name", "brand"]
+    readonly_fields = ["image_preview"]
+    list_editable = ["price", "stock", "is_deal", "is_featured"]
+
+    def image_thumb(self, obj):
+        url = obj.image_url
+        if url:
+            return format_html('<img src="{}" style="max-height:40px;border-radius:4px;" />', url)
+        return "-"
+    image_thumb.short_description = "Image"
+
+    def image_preview(self, obj):
+        url = obj.image_url
+        if url:
+            return format_html('<img src="{}" style="max-height:200px;border-radius:8px;" />', url)
+        return "No image"
+    image_preview.short_description = "Image Preview"
 
 
 @admin.register(Order)
