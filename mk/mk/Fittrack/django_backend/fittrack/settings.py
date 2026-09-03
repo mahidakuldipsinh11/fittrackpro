@@ -16,6 +16,11 @@ DEBUG = os.getenv("DEBUG", "True").lower() in ("1", "true", "yes")
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
+# Ensure Render domains are always allowed
+RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -70,6 +75,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if DATABASE_URL:
     # Cloud database (Supabase, PlanetScale, etc.) via DATABASE_URL
+    # pyrefly: ignore [missing-import]
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config(
@@ -80,10 +86,7 @@ if DATABASE_URL:
     }
     # SSL mode for cloud databases
     DATABASES["default"]["OPTIONS"] = DATABASES["default"].get("OPTIONS", {})
-    if "render.com" in DATABASE_URL:
-        DATABASES["default"]["OPTIONS"]["sslmode"] = "prefer"
-    else:
-        DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
+    DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
 else:
     # Local: MySQL (fallback)
     DATABASES = {
@@ -127,6 +130,28 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# ── LOGGING (so errors show up in Render logs) ──
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 
