@@ -1,5 +1,10 @@
 from django.urls import path
 
+from .payment_views import (
+    RazorpayKeyView,
+    RazorpayCreateOrderView,
+    RazorpayVerifyView,
+)
 from .views import (
     ContactMessageCreateView,
     DealListView,
@@ -91,6 +96,11 @@ urlpatterns = [
     path("policies/", PolicyListView.as_view(), name="policy-list"),
     path("policies/<slug:slug>/", PolicyDetailView.as_view(), name="policy-detail"),
     path("policies/<slug:slug>/edit/", PolicySectionUpdateView.as_view(), name="policy-edit"),
+
+    # Razorpay Payment endpoints
+    path("payment/key/", RazorpayKeyView.as_view(), name="razorpay-key"),
+    path("payment/create-order/", RazorpayCreateOrderView.as_view(), name="razorpay-create-order"),
+    path("payment/verify/", RazorpayVerifyView.as_view(), name="razorpay-verify"),
 
     # Return request endpoints
     path("returns/", ReturnRequestListView.as_view(), name="return-list"),

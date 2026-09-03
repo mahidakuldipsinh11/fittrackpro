@@ -218,3 +218,7 @@ DEFAULT_FROM_EMAIL = f"FitTrack Pro <{EMAIL_HOST_USER}>"
 
 if not EMAIL_HOST_PASSWORD:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Razorpay
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
