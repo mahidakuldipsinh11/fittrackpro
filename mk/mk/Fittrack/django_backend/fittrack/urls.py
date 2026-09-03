@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -16,13 +16,27 @@ urlpatterns = [
 # Static files serve karo (dev me)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Product images serve karo
-PRODUCT_IMAGES_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    "product_images"
-)
+# Product images serve karo — works in both DEBUG and production
+# urls.py: django_backend/fittrack/urls.py → need to reach Mk_demo/product_images
+# BASE_DIR = django_backend (from settings), so 4 parents up = Mk_demo
+PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent.parent / "product_images")
+if not os.path.exists(PRODUCT_IMAGES_DIR):
+    # Fallback: relative to django_backend
+    PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent / "product_images")
 if os.path.exists(PRODUCT_IMAGES_DIR):
-    urlpatterns += static('/product_images/', document_root=PRODUCT_IMAGES_DIR)
+    # Development: use static() helper
+    if settings.DEBUG:
+        urlpatterns += static('/product_images/', document_root=PRODUCT_IMAGES_DIR)
+    else:
+        # Production: custom view that serves product images
+        def serve_product_image(request, path):
+            file_path = os.path.join(PRODUCT_IMAGES_DIR, path)
+            if os.path.isfile(file_path):
+                return static_serve(request, path, document_root=PRODUCT_IMAGES_DIR)
+            raise Http404
+        urlpatterns += [
+            re_path(r'^product_images/(?P<path>.+)$', serve_product_image, name='product-image'),
+        ]
 
 # SPA catch-all — only serve index.html if the template actually exists
 _template_dirs = settings.TEMPLATES[0].get("DIRS", [])

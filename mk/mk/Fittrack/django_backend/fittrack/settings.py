@@ -126,6 +126,11 @@ if _dist_dir.exists() and not IS_VERCEL:
 else:
     STATICFILES_DIRS = []
 
+# Product images — serve via WhiteNoise in production
+_product_images = BASE_DIR.parent.parent / "product_images"
+if _product_images.exists():
+    STATICFILES_DIRS.append(_product_images)
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "staticfiles": {
