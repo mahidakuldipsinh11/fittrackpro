@@ -141,6 +141,9 @@ const Profile = () => {
   const getTrackingSteps = (order) => {
     const steps = ['Order Confirmed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
     const status = String(order.status || 'Confirmed').toLowerCase();
+    if (status.includes('cancelled')) {
+      return { steps, completed: 0, cancelled: true };
+    }
     const completed = status.includes('delivered') ? 5 : status.includes('delivery') ? 4 : status.includes('shipped') ? 3 : status.includes('processing') ? 2 : 1;
     return { steps, completed };
   };
@@ -402,10 +405,22 @@ const Profile = () => {
                             <div className="expanded-order-info fade-in">
                               <div className="delivery-tracker">
                                 <h4>Delivery Tracking</h4>
-                                <div className="tracking-steps">
-                                  {tracking.steps.map((step, index) => <div key={step} className={`tracking-step ${index + 1 <= tracking.completed ? 'complete' : ''}`}><span>{index + 1 <= tracking.completed ? '✓' : index + 1}</span><small>{step}</small></div>)}
-                                </div>
-                                <p className="delivery-status">Current status: <strong>{tracking.steps[tracking.completed - 1]}</strong></p>
+                                {tracking.cancelled ? (
+                                  <div className="tracking-cancelled">
+                                    <div className="tracking-cancelled-icon">❌</div>
+                                    <div className="tracking-cancelled-text">
+                                      <strong>Order Cancelled</strong>
+                                      <p>This order has been cancelled.</p>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div className="tracking-steps">
+                                      {tracking.steps.map((step, index) => <div key={step} className={`tracking-step ${index + 1 <= tracking.completed ? 'complete' : ''}`}><span>{index + 1 <= tracking.completed ? '✓' : index + 1}</span><small>{step}</small></div>)}
+                                    </div>
+                                    <p className="delivery-status">Current status: <strong>{tracking.steps[tracking.completed - 1]}</strong></p>
+                                  </>
+                                )}
                               </div>
                               <div className="expanded-grid">
                                 {order.customer && (
