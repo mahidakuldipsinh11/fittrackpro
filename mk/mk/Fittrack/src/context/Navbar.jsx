@@ -390,10 +390,6 @@ export default function Navbar() {
             <span>My Cart</span>
             {totalItems > 0 && <span className="ft-sidebar__count">{totalItems}</span>}
           </NavLink>
-          <NavLink to="/deals" className="ft-sidebar__link" onClick={() => setSidebarOpen(false)}>
-            <Flame size={18} />
-            <span>Hot Deals</span>
-          </NavLink>
         </nav>
 
         <div className="ft-sidebar__divider" />
