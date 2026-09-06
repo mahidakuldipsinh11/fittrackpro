@@ -26,20 +26,18 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         tokens = get_tokens_for_user(user)
 
-        # Send welcome email in background thread (non-blocking)
-        import threading, logging as _log_mod
+        # Send welcome email (synchronous — ensures delivery on serverless)
+        import logging as _log_mod
         _log = _log_mod.getLogger('store.email')
-        def _send_welcome():
-            try:
-                from store.email_utils import send_welcome_email
-                sent = send_welcome_email(user)
-                if sent:
-                    _log.info(f'Welcome email sent to {user.email}')
-                else:
-                    _log.warning(f'Welcome email NOT sent to {user.email}')
-            except Exception as e:
-                _log.error(f'Welcome email failed for {user.email}: {e}')
-        threading.Thread(target=_send_welcome, daemon=True).start()
+        try:
+            from store.email_utils import send_welcome_email
+            sent = send_welcome_email(user)
+            if sent:
+                _log.info(f'Welcome email sent to {user.email}')
+            else:
+                _log.warning(f'Welcome email NOT sent to {user.email}')
+        except Exception as e:
+            _log.error(f'Welcome email failed for {user.email}: {e}')
 
         return Response(
             {
@@ -59,6 +57,18 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         tokens = get_tokens_for_user(user)
+
+        # Send login notification email
+        import logging as _log_mod
+        _log = _log_mod.getLogger('store.email')
+        try:
+            from store.email_utils import send_login_notification_email
+            sent = send_login_notification_email(user)
+            if sent:
+                _log.info(f'Login email sent to {user.email}')
+        except Exception as e:
+            _log.error(f'Login email failed for {user.email}: {e}')
+
         return Response(
             {
                 "user": UserSerializer(user).data,

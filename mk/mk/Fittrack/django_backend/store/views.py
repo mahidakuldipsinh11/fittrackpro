@@ -116,25 +116,19 @@ class OrderListCreateView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
 
-        # Send order confirmation email in background thread (non-blocking)
-        import threading
+        # Send order confirmation email (synchronous — ensures delivery on serverless)
         import logging
         _log = logging.getLogger('store.email')
+        try:
+            from store.email_utils import send_order_confirmation_email
+            sent = send_order_confirmation_email(order)
+            if sent:
+                _log.info(f'Order confirmation email sent for {order.order_id}')
+            else:
+                _log.warning(f'Order confirmation email NOT sent for {order.order_id} — no email found')
+        except Exception as e:
+            _log.error(f'Order confirmation email failed for {order.order_id}: {e}')
 
-        def _send_email():
-            try:
-                from store.email_utils import send_order_confirmation_email
-                sent = send_order_confirmation_email(order)
-                if sent:
-                    _log.info(f'Order confirmation email sent for {order.order_id}')
-                else:
-                    _log.warning(f'Order confirmation email NOT sent for {order.order_id} — no email found')
-            except Exception as e:
-                _log.error(f'Order confirmation email failed for {order.order_id}: {e}')
-
-        threading.Thread(target=_send_email, daemon=True).start()
-
-        # Return response immediately — don't wait for email
         return Response(
             OrderSerializer(order).data,
             status=status.HTTP_201_CREATED,

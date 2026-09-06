@@ -570,3 +570,45 @@ def send_welcome_email(user):
     except Exception as e:
         logger.error(f"Failed to send welcome email to {user.email}: {e}")
         return False
+
+
+def send_login_notification_email(user):
+    """User ke login hone par notification email."""
+    try:
+        if not user.email:
+            return False
+        html = f"""
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;">
+            <div style="background:#1a1a2e;padding:30px;text-align:center;">
+                <h1 style="color:white;margin:0;font-size:24px;">🏋️ FitTrack Pro</h1>
+                <p style="color:#fff;margin:10px 0 0;opacity:0.9;">Login Notification</p>
+            </div>
+            <div style="padding:30px;background:white;">
+                <h2 style="color:#16a34a;margin-top:0;">✅ Login Successful!</h2>
+                <p style="color:#555;">Hi <strong>{user.get_full_name() or user.name}</strong>,</p>
+                <p style="color:#555;">You have successfully logged in to your FitTrack Pro account.</p>
+                <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:15px;margin:20px 0;">
+                    <p style="margin:0;color:#166534;"><strong>Email:</strong> {user.email}</p>
+                    <p style="margin:5px 0 0;color:#166534;"><strong>Login Time:</strong> {__import__('django.utils.timezone').now().strftime('%d %B %Y, %I:%M %p')}</p>
+                </div>
+                <p style="color:#555;">If this wasn't you, please change your password immediately.</p>
+                <div style="text-align:center;margin:25px 0;">
+                    <a href="{SITE_URL}/shop" style="background:#FF6B00;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block;">Continue Shopping</a>
+                </div>
+            </div>
+            <div style="background:#1a1a2e;padding:20px;text-align:center;">
+                <p style="color:#94a3b8;margin:0;font-size:12px;">© 2026 FitTrack Pro. All rights reserved.</p>
+            </div>
+        </div>"""
+        msg = EmailMultiAlternatives(
+            subject="✅ Login Successful — FitTrack Pro",
+            body=f"Hi {user.name}, you have successfully logged in.",
+            from_email=FROM_EMAIL,
+            to=[user.email],
+        )
+        msg.attach_alternative(html, "text/html")
+        msg.send(fail_silently=True)
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send login email to {user.email}: {e}")
+        return False
