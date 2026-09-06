@@ -2,6 +2,12 @@
   padding: 80px 20px 60px;
   background: var(--bg-panel);
   border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.contact-hero .ft-eyebrow {
+  display: inline-flex;
+  justify-content: center;
 }
 
 .contact-hero h1 {
