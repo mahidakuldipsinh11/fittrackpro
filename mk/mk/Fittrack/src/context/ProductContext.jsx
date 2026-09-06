@@ -8,6 +8,18 @@ export const useProducts = () => useContext(ProductContext);
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=800&auto=format&fit=crop&q=80";
 
+// Resolve relative image paths to absolute backend URLs
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const BACKEND_ORIGIN = API_BASE.startsWith("http") ? API_BASE.replace(/\/api\/?$/, "") : "";
+
+const resolveImageUrl = (url) => {
+  if (!url) return FALLBACK_IMAGE;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  // Relative path like /product_images/... → make absolute
+  if (BACKEND_ORIGIN) return `${BACKEND_ORIGIN}${url}`;
+  return url; // local server can serve relative paths
+};
+
 const mapProduct = (p) => ({
   id: p.id,
   name: p.name,
@@ -17,7 +29,7 @@ const mapProduct = (p) => ({
   was: p.was_price ? Number(p.was_price) : undefined,
   off: p.off_percent || undefined,
   description: p.description || "",
-  image: p.image || FALLBACK_IMAGE,
+  image: resolveImageUrl(p.image),
   tag: p.tag || null,
   is_deal: !!p.is_deal,
   claimed: p.claimed || 0,
