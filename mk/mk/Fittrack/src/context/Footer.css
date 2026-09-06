@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 .ft-footer {
-  background: #232f3e;
+  background: #000000;
   color: #ddd;
   font-family: 'Inter', sans-serif;
   padding: 0;
@@ -12,7 +12,7 @@
 
 /* ── Back to Top Bar ── */
 .ft-footer__back-bar {
-  background: #37475a;
+  background: #111;
   text-align: center;
   padding: 0.7rem;
   cursor: pointer;
@@ -25,7 +25,7 @@
 }
 
 .ft-footer__back-bar:hover {
-  background: #485769;
+  background: #222;
 }
 
 /* ── Main Footer Grid ── */
@@ -36,7 +36,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   padding: 1.5rem 2rem;
-  border-bottom: 1px solid #3a4553;
+  border-bottom: 1px solid #333;
 }
 
 .ft-footer__col h3 {
@@ -81,7 +81,7 @@
 }
 
 .ft-footer__brand span {
-  color: var(--orange, #ff9900);
+  color: #FFFFFF;
 }
 
 /* ── Newsletter (compact) ── */
@@ -121,12 +121,12 @@
 }
 
 .ft-footer__newsletter input:focus {
-  box-shadow: 0 0 0 2px #ff9900;
+  box-shadow: 0 0 0 2px #fff;
 }
 
 .ft-footer__newsletter button {
-  background: #ff9900;
-  color: #111;
+  background: #FFFFFF;
+  color: #000;
   border: none;
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
@@ -139,7 +139,7 @@
 }
 
 .ft-footer__newsletter button:hover {
-  background: #e88b00;
+  background: #ddd;
 }
 
 .ft-footer__newsletter-active {
@@ -196,9 +196,9 @@
 }
 
 .ft-footer__socials a:hover {
-  color: #fff;
-  background: #ff9900;
-  border-color: #ff9900;
+  color: #000;
+  background: #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 /* ── Trust Badges Strip ── */
@@ -210,7 +210,7 @@
   justify-content: center;
   gap: 0.5rem 1.2rem;
   padding: 0.8rem 2rem;
-  border-bottom: 1px solid #3a4553;
+  border-bottom: 1px solid #333;
 }
 
 .ft-footer__trust-item {
@@ -227,8 +227,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #37475a;
-  color: #ff9900;
+  background: #222;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -278,7 +278,7 @@
 .ft-footer__bottom {
   max-width: 1200px;
   margin: 0 auto;
-  border-top: 1px solid #3a4553;
+  border-top: 1px solid #333;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
