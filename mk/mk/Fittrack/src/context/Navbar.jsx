@@ -161,7 +161,14 @@ export default function Navbar() {
         <div className="ft-nav__container">
           {/* BRAND */}
           <NavLink to="/" className="ft-nav__brand">
-            <div className="ft-nav__brand-icon">🏋️</div>
+            <div className="ft-nav__brand-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" rx="8" fill="#1A1A1A"/>
+                <rect x="1" y="1" width="34" height="34" rx="7" stroke="#C8A951" strokeWidth="1.5" fill="none"/>
+                <path d="M8 18C8 18 10 12 12 12C14 12 14 16 18 16C22 16 22 12 24 12C26 12 28 18 28 18C28 18 30 24 28 24C26 24 26 20 22 20C18 20 18 24 16 24C12 24 10 24 8 24C6 24 8 18 8 18Z" fill="#C8A951"/>
+                <circle cx="18" cy="18" r="2.5" fill="#FFFDF5"/>
+              </svg>
+            </div>
             <div className="ft-nav__brand-text">
               <span className="ft-nav__brand-name">FitTrack <i>PRO</i></span>
               <span className="ft-nav__brand-tagline">India's Premier Fitness Store</span>
@@ -334,7 +341,14 @@ export default function Navbar() {
         {/* Sidebar Header */}
         <div className="ft-sidebar__header">
           <NavLink to="/" className="ft-sidebar__brand" onClick={() => setSidebarOpen(false)}>
-            <span className="ft-sidebar__brand-icon">🏋️</span>
+            <span className="ft-sidebar__brand-icon">
+              <svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" rx="8" fill="#1A1A1A"/>
+                <rect x="1" y="1" width="34" height="34" rx="7" stroke="#C8A951" strokeWidth="1.5" fill="none"/>
+                <path d="M8 18C8 18 10 12 12 12C14 12 14 16 18 16C22 16 22 12 24 12C26 12 28 18 28 18C28 18 30 24 28 24C26 24 26 20 22 20C18 20 18 24 16 24C12 24 10 24 8 24C6 24 8 18 8 18Z" fill="#C8A951"/>
+                <circle cx="18" cy="18" r="2.5" fill="#FFFDF5"/>
+              </svg>
+            </span>
             <span className="ft-sidebar__brand-name">FitTrack <i>PRO</i></span>
           </NavLink>
           <button className="ft-sidebar__close" onClick={() => setSidebarOpen(false)} aria-label="Close menu">

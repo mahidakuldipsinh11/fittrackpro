@@ -16,6 +16,21 @@ urlpatterns = [
 # Static files serve karo (dev me)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# Serve /assets/ from static/assets/ (for Vite build output)
+ASSETS_DIR = str(settings.BASE_DIR / 'static' / 'assets')
+if os.path.isdir(ASSETS_DIR):
+    if settings.DEBUG:
+        urlpatterns += static('/assets/', document_root=ASSETS_DIR)
+    else:
+        def serve_assets(request, path):
+            file_path = os.path.join(ASSETS_DIR, path)
+            if os.path.isfile(file_path):
+                return static_serve(request, path, document_root=ASSETS_DIR)
+            raise Http404
+        urlpatterns += [
+            re_path(r'^assets/(?P<path>.+)$', serve_assets, name='static-asset'),
+        ]
+
 # Product images serve karo — works in both DEBUG and production
 # urls.py: django_backend/fittrack/urls.py → need to reach Mk_demo/product_images
 # BASE_DIR = django_backend (from settings), so 4 parents up = Mk_demo
@@ -46,7 +61,7 @@ _has_index = any(
 
 if _has_index:
     urlpatterns += [
-        re_path(r"^(?!admin/|api/|static/|product_images/).*$", TemplateView.as_view(template_name="index.html")),
+        re_path(r"^(?!admin/|api/|static/|assets/|product_images/).*$", TemplateView.as_view(template_name="index.html")),
     ]
 else:
     # Backend-only mode (no frontend build present)

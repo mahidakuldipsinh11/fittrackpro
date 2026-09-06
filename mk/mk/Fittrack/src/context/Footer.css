@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 .ft-footer {
-  background: #000000;
+  background: #1A1A1A;
   color: #ddd;
   font-family: 'Inter', sans-serif;
   padding: 0;
@@ -12,12 +12,13 @@
 
 /* ── Back to Top Bar ── */
 .ft-footer__back-bar {
-  background: #111;
+  background: #C8A951;
   text-align: center;
   padding: 0.7rem;
   cursor: pointer;
   font-size: 0.8rem;
-  color: #fff;
+  color: #1A1A1A;
+  font-weight: 700;
   transition: background 0.2s;
   border: none;
   width: 100%;
@@ -25,7 +26,7 @@
 }
 
 .ft-footer__back-bar:hover {
-  background: #222;
+  background: #D4B96E;
 }
 
 /* ── Main Footer Grid ── */
@@ -42,7 +43,7 @@
 .ft-footer__col h3 {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
+  color: #FFFDF5;
   margin: 0 0 0.6rem;
   text-transform: none;
   font-family: 'Inter', sans-serif;
@@ -73,7 +74,7 @@
 .ft-footer__brand {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: #FFFDF5;
   margin-bottom: 0.5rem;
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
@@ -81,7 +82,7 @@
 }
 
 .ft-footer__brand span {
-  color: #FFFFFF;
+  color: #C8A951;
 }
 
 /* ── Newsletter (compact) ── */
@@ -92,7 +93,7 @@
 .ft-footer__newsletter-title {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
+  color: #FFFDF5;
   margin: 0 0 0.3rem;
 }
 
@@ -110,9 +111,9 @@
 
 .ft-footer__newsletter input {
   flex: 1;
-  background: #fff;
+  background: #FFFDF5;
   border: none;
-  color: #111;
+  color: #1A1A1A;
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   border-radius: 3px 0 0 3px;
@@ -125,8 +126,8 @@
 }
 
 .ft-footer__newsletter button {
-  background: #FFFFFF;
-  color: #000;
+  background: #C8A951;
+  color: #1A1A1A;
   border: none;
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
@@ -139,7 +140,7 @@
 }
 
 .ft-footer__newsletter button:hover {
-  background: #ddd;
+  background: #D4B96E;
 }
 
 .ft-footer__newsletter-active {
@@ -182,8 +183,8 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid #555;
-  color: #ddd;
+  border: 1px solid #C8A951;
+  color: #C8A951;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,9 +197,9 @@
 }
 
 .ft-footer__socials a:hover {
-  color: #000;
-  background: #FFFFFF;
-  border-color: #FFFFFF;
+  color: #1A1A1A;
+  background: #C8A951;
+  border-color: #C8A951;
 }
 
 /* ── Trust Badges Strip ── */
@@ -227,8 +228,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #222;
-  color: #FFFFFF;
+  background: #C8A951;
+  color: #1A1A1A;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,8 +266,8 @@
 }
 
 .ft-footer__payment-badge {
-  background: #fff;
-  color: #111;
+  background: #FFFDF5;
+  color: #1A1A1A;
   font-size: 0.65rem;
   font-weight: 700;
   padding: 3px 8px;
