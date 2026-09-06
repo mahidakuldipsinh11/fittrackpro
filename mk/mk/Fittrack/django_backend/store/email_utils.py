@@ -612,3 +612,79 @@ def send_login_notification_email(user):
     except Exception as e:
         logger.error(f"Failed to send login email to {user.email}: {e}")
         return False
+
+
+def send_order_out_for_delivery_email(order):
+    """
+    Order out for delivery — tracking update email.
+    """
+    try:
+        user_email = order.user.email if order.user else None
+        if not user_email:
+            return False
+
+        customer_name = order.customer_name or (order.user.get_full_name() if order.user else "Customer")
+
+        html_message = f"""
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;">
+            <div style="background:#f97316;padding:30px;text-align:center;">
+                <h1 style="color:white;margin:0;font-size:24px;">🏋️ FitTrack Pro</h1>
+                <p style="color:#fff;margin:10px 0 0;opacity:0.9;">Delivery Update</p>
+            </div>
+            <div style="padding:30px;background:white;">
+                <h2 style="color:#f97316;margin-top:0;">🚚 Your Order is Out for Delivery!</h2>
+                <p style="color:#555;">Hi <strong>{customer_name}</strong>,</p>
+                <p style="color:#555;">Great news! Your order <strong>#{order.order_id}</strong> is out for delivery and will reach you soon.</p>
+
+                <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:15px;margin:20px 0;">
+                    <p style="margin:0;color:#9a3412;"><strong>Order ID:</strong> {order.order_id}</p>
+                    <p style="margin:5px 0 0;color:#9a3412;"><strong>Status:</strong> 🚚 Out for Delivery</p>
+                    <p style="margin:5px 0 0;color:#9a3412;"><strong>Estimated Delivery:</strong> Today</p>
+                </div>
+
+                <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:15px;margin:20px 0;">
+                    <p style="margin:0;color:#1e40af;">📍 <strong>Delivery Address:</strong></p>
+                    <p style="margin:5px 0 0;color:#1e40af;">{order.customer_name}<br>{order.customer_address}<br>📞 {order.customer_phone}</p>
+                </div>
+
+                <h3 style="color:#333;">📍 Tracking Status</h3>
+                <div style="padding:10px 0;">
+                    <div style="display:flex;align-items:center;padding:8px 0;color:#16a34a;">
+                        <span style="margin-right:10px;">✅</span> <strong>Confirmed</strong> <span style="margin-left:auto;color:#888;">Order placed</span>
+                    </div>
+                    <div style="display:flex;align-items:center;padding:8px 0;color:#16a34a;">
+                        <span style="margin-right:10px;">✅</span> <strong>Processing</strong> <span style="margin-left:auto;color:#888;">Preparing for shipment</span>
+                    </div>
+                    <div style="display:flex;align-items:center;padding:8px 0;color:#16a34a;">
+                        <span style="margin-right:10px;">✅</span> <strong>Shipped</strong> <span style="margin-left:auto;color:#888;">On the way</span>
+                    </div>
+                    <div style="display:flex;align-items:center;padding:8px 0;color:#f97316;font-weight:bold;">
+                        <span style="margin-right:10px;">🚚</span> <strong>Out for Delivery</strong> <span style="margin-left:auto;color:#888;">Arriving today</span>
+                    </div>
+                    <div style="display:flex;align-items:center;padding:8px 0;color:#ccc;">
+                        <span style="margin-right:10px;">⏳</span> Delivered
+                    </div>
+                </div>
+
+                <p style="color:#555;">Track your order from <a href="{SITE_URL}/profile" style="color:#FF6B00;">Profile → My Orders</a>.</p>
+            </div>
+            <div style="background:#1a1a2e;padding:20px;text-align:center;">
+                <p style="color:#94a3b8;margin:0;font-size:12px;">© 2026 FitTrack Pro. All rights reserved.</p>
+            </div>
+        </div>"""
+
+        msg = EmailMultiAlternatives(
+            subject=f"🚚 Order Out for Delivery — {order.order_id} | FitTrack Pro",
+            body=f"Order {order.order_id} is out for delivery. It will reach you soon.",
+            from_email=FROM_EMAIL,
+            to=[user_email],
+        )
+        msg.attach_alternative(html_message, "text/html")
+        msg.send(fail_silently=True)
+
+        logger.info(f"Out for delivery email sent for {order.order_id}")
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to send out for delivery email for {order.order_id}: {e}")
+        return False

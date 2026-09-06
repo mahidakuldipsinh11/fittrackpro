@@ -32,6 +32,7 @@ const STATUS_STYLE = {
   Processing: { bg: 'rgba(168,85,247,0.16)', fg: '#c084fc' },
   Pending: { bg: 'rgba(234,179,8,0.16)', fg: C.amber },
   Shipped: { bg: 'rgba(59,130,246,0.16)', fg: C.blue },
+  'Out for Delivery': { bg: 'rgba(249,115,22,0.16)', fg: '#f97316' },
   Delivered: { bg: 'rgba(34,197,94,0.16)', fg: C.green },
   Cancelled: { bg: 'rgba(239,68,68,0.16)', fg: C.red },
   Returned: { bg: 'rgba(249,115,22,0.16)', fg: '#fb923c' },

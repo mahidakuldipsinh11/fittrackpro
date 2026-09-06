@@ -166,24 +166,25 @@ class AdminOrderStatusUpdateView(generics.UpdateAPIView):
         order.status = status_value
         order.save()
 
-        # Send email notification in background thread (non-blocking)
-        import threading, logging as _log_mod
+        # Send email notification (synchronous — ensures delivery on serverless)
+        import logging as _log_mod
         _log = _log_mod.getLogger('store.email')
-        def _send_status_email():
-            try:
-                from store.email_utils import send_order_shipped_email, send_order_delivered_email, send_order_processing_email
-                if status_value == "Processing":
-                    sent = send_order_processing_email(order)
-                    _log.info(f'Processing email sent={sent} for {order.order_id}')
-                elif status_value == "Shipped":
-                    sent = send_order_shipped_email(order)
-                    _log.info(f'Shipped email sent={sent} for {order.order_id}')
-                elif status_value == "Delivered":
-                    sent = send_order_delivered_email(order)
-                    _log.info(f'Delivered email sent={sent} for {order.order_id}')
-            except Exception as e:
-                _log.error(f'Status email failed for {order.order_id}: {e}')
-        threading.Thread(target=_send_status_email, daemon=True).start()
+        try:
+            from store.email_utils import send_order_shipped_email, send_order_delivered_email, send_order_processing_email, send_order_out_for_delivery_email
+            if status_value == "Processing":
+                sent = send_order_processing_email(order)
+                _log.info(f'Processing email sent={sent} for {order.order_id}')
+            elif status_value == "Shipped":
+                sent = send_order_shipped_email(order)
+                _log.info(f'Shipped email sent={sent} for {order.order_id}')
+            elif status_value == "Out for Delivery":
+                sent = send_order_out_for_delivery_email(order)
+                _log.info(f'Out for Delivery email sent={sent} for {order.order_id}')
+            elif status_value == "Delivered":
+                sent = send_order_delivered_email(order)
+                _log.info(f'Delivered email sent={sent} for {order.order_id}')
+        except Exception as e:
+            _log.error(f'Status email failed for {order.order_id}: {e}')
 
         return Response(OrderSerializer(order).data)
 
