@@ -170,11 +170,9 @@ class AdminOrderStatusUpdateView(generics.UpdateAPIView):
         import logging as _log_mod
         _log = _log_mod.getLogger('store.email')
         try:
-            from store.email_utils import send_order_shipped_email, send_order_delivered_email, send_order_processing_email, send_order_out_for_delivery_email
-            if status_value == "Processing":
-                sent = send_order_processing_email(order)
-                _log.info(f'Processing email sent={sent} for {order.order_id}')
-            elif status_value == "Shipped":
+            from store.email_utils import send_order_shipped_email, send_order_delivered_email, send_order_out_for_delivery_email
+            # Processing pe email NAHI bhejte — user ko sirf Shipped, Out for Delivery, Delivered pe email jaata hai
+            if status_value == "Shipped":
                 sent = send_order_shipped_email(order)
                 _log.info(f'Shipped email sent={sent} for {order.order_id}')
             elif status_value == "Out for Delivery":
