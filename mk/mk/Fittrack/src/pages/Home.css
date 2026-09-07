@@ -369,18 +369,22 @@
 /* ═══════════ FINAL CTA ═══════════ */
 .home-final-cta { padding: 3rem 0; }
 .home-final-cta__inner {
-  background: var(--grad-cta); border-radius: 16px;
+  background: #FFFDF5;
+  border: 2px solid #C8A951;
+  border-radius: 16px;
   padding: 3rem; text-align: center;
+  box-shadow: 0 8px 32px rgba(200, 169, 81, 0.15);
 }
 .home-final-cta__inner h2 {
   font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800;
-  color: #fff; margin-bottom: 0.5rem;
+  color: #1A1A1A; margin-bottom: 0.5rem;
 }
-.home-final-cta__inner p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; }
+.home-final-cta__inner p { color: #555; margin-bottom: 1.5rem; font-size: 0.95rem; }
 .home-final-cta__actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-.home-final-cta__actions .ft-btn--primary { background: #fff; color: var(--ivory); }
-.home-final-cta__actions .ft-btn--ghost { color: #fff; border-color: rgba(255,255,255,0.3); }
-.home-final-cta__actions .ft-btn--ghost:hover { background: rgba(255,255,255,0.1); }
+.home-final-cta__actions .ft-btn--primary { background: #1A1A1A; color: #FFFDF5; }
+.home-final-cta__actions .ft-btn--primary:hover { background: #C8A951; color: #1A1A1A; }
+.home-final-cta__actions .ft-btn--ghost { color: #1A1A1A; border-color: #C8A951; }
+.home-final-cta__actions .ft-btn--ghost:hover { background: #C8A951; color: #1A1A1A; }
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 1024px) {
