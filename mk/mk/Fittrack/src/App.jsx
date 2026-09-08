@@ -26,6 +26,7 @@ import ReturnPolicy from "./pages/ReturnPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Disclaimer from "./pages/Disclaimer";
+import Reviews from "./pages/Reviews";
 import CartDrawer from "./context/CartDrawer";
 import "./index.css";
 import "./App.css";
@@ -100,6 +101,7 @@ function AppShell() {
         <Route path="/refund-policy" element={<PageWrapper><RefundPolicy /></PageWrapper>} />
         <Route path="/privacy-policy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
         <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
+        <Route path="/reviews" element={<PageWrapper><Reviews /></PageWrapper>} />
         <Route path="/settings" element={<PageWrapper><Profile /></PageWrapper>} />
         <Route path="/admin" element={<FitTrackAdmin />} />
       </Routes>

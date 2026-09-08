@@ -275,7 +275,6 @@ export default function Shop() {
         <section className="shop-hero ft-container">
           <span className="ft-eyebrow">Full catalogue</span>
           <h1>{cat === "All" ? `Shop All Equipment (${products.length})` : `${cat} (${filtered.length})`}</h1>
-          <p>{filtered.length} items found{cat !== "All" ? ` in ${cat}` : ""} — {products.length} total products</p>
           {cat !== "All" && (
             <button className="ft-btn ft-btn--ghost" style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1rem', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={() => { setCat('All'); searchParams.delete('category'); setSearchParams(searchParams, { replace: true }); }}>
               ← View All Equipment

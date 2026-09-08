@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu } from "lucide-react";
+import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { to: "/deals", label: "Deals", icon: Tag },
   { to: "/about", label: "About", icon: Info },
   { to: "/contact", label: "Contact", icon: Headphones },
+  { to: "/reviews", label: "Reviews", icon: Star },
 ];
 
 export default function Navbar() {
