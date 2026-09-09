@@ -39,6 +39,25 @@ kuldip/
 update_images*.py
 download_*.py
 fit.txt
+clean_unused.py
+build_sqlite_db.py
+export_to_fixture.py
+migrate_to_supabase.py
+product_list_200.txt
+
+# Scratch files from agent sessions
+new_fn.txt
+step2.txt
+test123.js
+test_write.txt
+0
+
+# Applied one-off scripts (superseded)
+apply.py
+step1.txt
+analytics_check.txt
+src_b64.txt
+new_analytics_fn.txt
 
 # Collected static files (rebuilt on deploy)
 mk/mk/Fittrack/django_backend/staticfiles/

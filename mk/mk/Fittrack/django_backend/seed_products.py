@@ -25,7 +25,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 25,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images\gamma-fitness-olympic-bar.jpg",
     },
     {
         "name": "Rubber Bumper Plate Set 100kg",

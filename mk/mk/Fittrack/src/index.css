@@ -6,27 +6,27 @@
      ═══════════════════════════════════════════════════ */
 
   /* ─── BACKGROUNDS (Warm Cream White & Crisp White Surfaces) ─── */
-  --bg: #FAF7F2;           /* Main Background: Warm Cream White */
-  --bg-panel: #FFFFFF;     /* Elevated Card Background: Pure White */
-  --bg-panel-2: #F4EFE6;   /* Sub-panel / Input Background: Soft Cream */
-  --bg-panel-3: #ECE5D8;   /* Active / Hover Background */
+  --bg: #FAF7F2;
+  --bg-panel: #FFFFFF;
+  --bg-panel-2: #F4EFE6;
+  --bg-panel-3: #ECE5D8;
   --bg-card: #FFFFFF;
   --bg-hover: #F4EFE6;
-  --border: #E5DDD0;       /* Soft Sand Divider */
+  --border: #E5DDD0;
   --border-light: #ECE5D8;
 
-  /* ─── PRIMARY ACCENTS (Obsidian Black & Warm Gold) ─── */
-  --orange: #111111;       /* Main Accent: Obsidian Black */
-  --orange-deep: #27272A;  /* Hover Black */
+  /* ─── PRIMARY ACCENTS ─── */
+  --orange: #111111;
+  --orange-deep: #27272A;
   --orange-soft: rgba(17, 17, 17, 0.08);
   --orange-glow: rgba(17, 17, 17, 0.15);
-  --gold: #C5A059;         /* Warm Gold Accent */
+  --gold: #C5A059;
   --gold-deep: #A37E36;
   --gold-glow: rgba(197, 160, 89, 0.20);
 
-  /* ─── SECONDARY ACCENTS (Monochrome & Warm Accents) ─── */
-  --energy-orange: #111111; /* Sleek Black for badges/highlights */
-  --energy-amber: #D97706;  /* Golden Amber */
+  /* ─── SECONDARY ACCENTS ─── */
+  --energy-orange: #111111;
+  --energy-amber: #D97706;
   --blue: #2563EB;
   --blue-deep: #1D4ED8;
   --blue-soft: rgba(37, 99, 235, 0.08);
@@ -36,15 +36,15 @@
   --pink-deep: #BE123C;
   --purple: #7C3AED;
 
-  /* ─── TYPOGRAPHY (Deep Black & Dark Charcoal for Cream BG) ─── */
-  --ivory: #111111;        /* Primary Text: Deep Obsidian Black */
-  --steel: #4B5563;        /* Secondary Body Text: Charcoal Slate */
-  --steel-dim: #6B7280;    /* Muted Text: Warm Grey */
+  /* ─── TYPOGRAPHY ─── */
+  --ivory: #111111;
+  --steel: #4B5563;
+  --steel-dim: #6B7280;
   --text-muted: #6B7280;
 
   /* ─── STATUS COLORS ─── */
-  --success: #15803D;      /* Deep Forest Green */
-  --error: #DC2626;        /* Deep Crimson Red */
+  --success: #15803D;
+  --error: #DC2626;
   --info: #2563EB;
   --warning: #D97706;
 

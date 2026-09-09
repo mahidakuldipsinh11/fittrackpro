@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useProducts } from '../context/ProductContext';
-import api from '../api/client';
+
+
 import {
   LayoutDashboard, Package, ShoppingCart, Users, LogOut, Plus, Pencil,
   Trash2, X, Search, IndianRupee, Menu, Dumbbell, Lock, Mail, Eye, EyeOff, RotateCcw,
@@ -745,13 +745,8 @@ function ProductsTab({ products, onAdd, onEdit, onDelete }) {
                     onClick={() => setImgModal(p)}
                     title="Click to update image"
                   >
-                    {p.image ? (
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="fta-product-thumb"
-                        onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
-                      />
+                    {p.image ? (            <img src={p.image} alt={p.name} className="fta-product-thumb"
+                    onError={(e) => { e.target.src = FALLBACK_IMAGE; }} />
                     ) : (
                       <div className="fta-product-thumb fta-product-thumb--empty">
                         <ImagePlus size={16} color={C.muted} />
@@ -1092,9 +1087,16 @@ const NAV = [
   { key: 'purchases', label: 'User Purchases', icon: ShoppingCart },
 ];
 
-function Dashboard({ account, products, orders, customers, returns, actions, onLogout }) {
+function Dashboard({ account, returns, actions, onLogout }) {
+  const { products, loading: productsLoading } = useProducts();
+  const [customers, setCustomers] = useState([]);
+  const [customersLoading, setCustomersLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [orderMessage, setOrderMessage] = useState(null);
   const [tab, setTab] = useState('analytics');
   const [navOpen, setNavOpen] = useState(false);
+
 
   return (
     <div className="fta fta-shell">
@@ -1150,9 +1152,7 @@ function Dashboard({ account, products, orders, customers, returns, actions, onL
           {tab === 'analytics' && <Analytics products={products} orders={orders} customers={customers} />}
           {tab === 'orders' && <OrdersTab orders={orders} updateStatus={actions.updateOrderStatus} />}
           {tab === 'returns' && <ReturnsTab returns={returns} updateReturnStatus={actions.updateReturnStatus} />}
-          {tab === 'products' && (
-            <ProductsTab products={products} onAdd={actions.addProduct} onEdit={actions.editProduct} onDelete={actions.deleteProduct} />
-          )}
+          {tab === 'products' && <ProductsTab products={products} onAdd={actions.addProduct} onEdit={actions.editProduct} onDelete={actions.deleteProduct} />}
           {tab === 'customers' && <CustomersTab customers={customers} />}
           {tab === 'purchases' && <UserPurchasesTab customers={customers} orders={orders} />}
         </div>
@@ -1172,13 +1172,37 @@ export default function FitTrackAdmin() {
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [returns, setReturns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const refreshData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const responses = await Promise.all([
+        api.get('/products/'),
+        api.get('/orders/'),
+        api.get('/customers/'),
+        api.get('/returns/'),
+      ]);
+      setProducts(responses[0].data.results || responses[0].data);
+      setOrders(responses[1].data.results || responses[1].data);
+      setCustomers(responses[2].data.results || responses[2].data);
+      setReturns(responses[3].data.results || responses[3].data);
+    } catch (err) {
+      setError(err.response?.data?.detail || err.message || 'Failed to load dashboard data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  useEffect(() => { refreshData(); }, []);
 
   const loadOrdersAndCustomers = useCallback(async () => {
     try {
       const [ordersRes, customersRes, returnsRes] = await Promise.all([
-        api.get('/admin/orders/'),
-        api.get('/auth/users/'),
-        api.get('/admin/returns/'),
+        api.get('/admin/orders/', { timeout: 8000 }),
+        api.get('/auth/users/', { timeout: 8000 }),
+        api.get('/admin/returns/', { timeout: 8000 }),
       ]);
       const orderList = ordersRes.data.results || ordersRes.data;
       const userList = customersRes.data.results || customersRes.data;

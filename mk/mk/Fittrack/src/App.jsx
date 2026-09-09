@@ -12,7 +12,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Deals from "./pages/Deals";
-import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";

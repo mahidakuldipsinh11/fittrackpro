@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star } from "lucide-react";
+import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star, BarChart3, Shield } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
@@ -15,6 +15,8 @@ const CATEGORIES = [
   "Apparel & Gear",
   "Accessories"
 ];
+
+
 
 const NAV_LINKS = [
   { to: "/", label: "Home", icon: Home },
@@ -236,11 +238,11 @@ export default function Navbar() {
           {/* NAV LINKS (Desktop) */}
           <nav className="ft-nav__links-desktop">
             {NAV_LINKS.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) => `ft-nav__link ${isActive ? "active" : ""}`}
-              >
+            <NavLink
+              key={l.to}
+              to={l.to}
+              className={({ isActive }) => `ft-nav__link ${isActive ? "active" : ""}`}
+            >
                 <l.icon size={16} />
                 {l.label}
               </NavLink>
@@ -258,7 +260,7 @@ export default function Navbar() {
               <span className="ft-nav__action-label">₹{Number(total || 0).toLocaleString("en-IN")}</span>
             </NavLink>
 
-            {/* Logged IN — Desktop: user dropdown | Mobile: hamburger only */}
+            {/* Logged IN — Desktop: user dropdown + admin + About in popup | Mobile: hamburger only */}
             {isLoggedIn ? (
               <>
                 {/* Desktop user dropdown */}
@@ -290,6 +292,7 @@ export default function Navbar() {
                     </div>
                   )}
                 </div>
+
                 {/* Mobile hamburger for logged-in users */}
                 <button
                   className="ft-nav__hamburger"
@@ -379,9 +382,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className="ft-sidebar__divider" />
-
-        {/* Navigation Links */}
+        <div className="ft-sidebar__divider" />          {/* Navigation Links */}
         <nav className="ft-sidebar__nav">
           {NAV_LINKS.map((l) => (
             <NavLink
@@ -394,6 +395,7 @@ export default function Navbar() {
               <span>{l.label}</span>
             </NavLink>
           ))}
+
         </nav>
 
         <div className="ft-sidebar__divider" />
@@ -406,6 +408,9 @@ export default function Navbar() {
             {totalItems > 0 && <span className="ft-sidebar__count">{totalItems}</span>}
           </NavLink>
         </nav>
+
+
+
 
         <div className="ft-sidebar__divider" />
 

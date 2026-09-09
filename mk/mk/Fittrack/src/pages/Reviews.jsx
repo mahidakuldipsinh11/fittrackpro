@@ -103,8 +103,10 @@ export default function Reviews() {
   // Submit review
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
-    if (!user) {
+
+    const stored = localStorage.getItem("fittrack_token");
+    const user = JSON.parse(localStorage.getItem("fittrack_user") || "null");
+    if (!stored || !user) {
       toast.error("Please login to submit a review.");
       navigate("/login");
       return;
@@ -117,7 +119,12 @@ export default function Reviews() {
 
     setSubmitting(true);
     try {
-      const payload = { rating, text: text.trim() };
+      const payload = {
+        rating,
+        text: text.trim(),
+        user_name: user.name || undefined,
+        user_email: user.email || undefined,
+      };
       if (title.trim()) payload.title = title.trim();
       if (productName.trim()) payload.product_name = productName.trim();
       if (role.trim()) payload.role = role.trim();
@@ -144,7 +151,7 @@ export default function Reviews() {
     }
   };
 
-  const isLoggedIn = !!JSON.parse(localStorage.getItem("currentUser") || "null");
+  const isLoggedIn = !!localStorage.getItem("fittrack_token") && !!JSON.parse(localStorage.getItem("fittrack_user") || "null");
 
   // Stats
   const totalReviews = reviews.length;
