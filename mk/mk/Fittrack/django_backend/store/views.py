@@ -48,7 +48,8 @@ class ProductListView(generics.ListAPIView):
         if is_deal is not None:
             queryset = queryset.filter(is_deal=is_deal.lower() in ("1", "true", "yes"))
 
-        return queryset
+        # Shop page pe max 50 products hi dikhane hain
+        return queryset[:50]
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
