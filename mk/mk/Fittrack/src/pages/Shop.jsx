@@ -261,10 +261,6 @@ export default function Shop() {
     return list;
   }, [cat, brand, rating, sort, query, products]);
 
-  const brands = useMemo(
-    () => [...new Set(products.map(getProductBrand))].sort(),
-    [products]
-  );
  const relatedProducts = useMemo(() => selectedProduct ? products.filter((item) => item.id !== selectedProduct.id && item.cat === selectedProduct.cat).slice(0, 4) : [], [products, selectedProduct]);
 
   return (
@@ -320,7 +316,6 @@ export default function Shop() {
               onChange={(e) => setBrand(e.target.value)}
             >
               <option value="All">All Brands</option>
-              {brands.map((itemBrand) => <option key={itemBrand} value={itemBrand}>{itemBrand}</option>)}
             </select>
           </div>
 
