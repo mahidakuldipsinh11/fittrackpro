@@ -36,8 +36,12 @@ if os.path.isdir(ASSETS_DIR):
 # BASE_DIR = django_backend (from settings), so 4 parents up = Mk_demo
 PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent.parent / "product_images")
 if not os.path.exists(PRODUCT_IMAGES_DIR):
-    # Fallback: relative to django_backend
     PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent / "product_images")
+if not os.path.exists(PRODUCT_IMAGES_DIR):
+    PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent / "product_images")
+if not os.path.exists(PRODUCT_IMAGES_DIR):
+    # Fallback: directly inside django_backend
+    PRODUCT_IMAGES_DIR = str(settings.BASE_DIR / "product_images")
 if os.path.exists(PRODUCT_IMAGES_DIR):
     # Development: use static() helper
     if settings.DEBUG:
