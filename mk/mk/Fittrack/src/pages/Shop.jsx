@@ -10,7 +10,6 @@ import { useCoupon } from "../context/CouponContext";
 
 const SORTS = ["Featured", "Price: Low to High", "Price: High to Low"];
 
-const getProductBrand = (product) => product.brand || "FitTrack Pro";
 const getProductRating = (product) => Number(product.rating || 4);
 
 function ProductCard({ p, index, onViewDetails }) {
@@ -158,7 +157,7 @@ function ProductDetailsModal({ product, relatedProducts, onSelectProduct, onClos
         <div className="product-modal__top">
           <div className="product-modal__image-wrap"><img src={product.image} alt={product.name} /></div>
           <div className="product-modal__content">
-            <p className="product-modal__meta">{product.cat} · {getProductBrand(product)}</p>
+            <p className="product-modal__meta">{product.cat}</p>
             <h2 id="product-details-title">{product.name}</h2>
             <p className="product-modal__rating">★ {rating}.0 out of 5</p>
             <div className="product-modal__price-row">
@@ -173,7 +172,7 @@ function ProductDetailsModal({ product, relatedProducts, onSelectProduct, onClos
               )}
             </div>
             <p className="product-modal__description">{product.description}</p>
-            <ul className="product-modal__features"><li>Brand: {getProductBrand(product)}</li><li>Category: {product.cat}</li><li>Secure checkout and downloadable invoice available</li></ul>
+            <ul className="product-modal__features"><li>Category: {product.cat}</li><li>Secure checkout and downloadable invoice available</li></ul>
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
               <button type="button" className="ft-btn ft-btn--primary product-modal__add" onClick={handleAdd}>Add to Cart</button>
               <button
@@ -205,7 +204,6 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCat = searchParams.get("category") || "All";
   const [cat, setCat] = useState(initialCat);
-  const [brand, setBrand] = useState("All");
   const [rating, setRating] = useState("All");
   const [sort, setSort] = useState("Featured");
   const [query, setQuery] = useState("");
@@ -246,7 +244,6 @@ export default function Shop() {
   const filtered = useMemo(() => {
     let list = products
       .filter((p) => (cat === "All" ? true : p.cat === cat))
-      .filter((p) => (brand === "All" ? true : getProductBrand(p) === brand))
       .filter((p) => (rating === "All" ? true : getProductRating(p) === Number(rating)))
       .filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase())
@@ -259,7 +256,7 @@ export default function Shop() {
       list = [...list].sort((a, b) => b.price - a.price);
 
     return list;
-  }, [cat, brand, rating, sort, query, products]);
+  }, [cat, rating, sort, query, products]);
 
  const relatedProducts = useMemo(() => selectedProduct ? products.filter((item) => item.id !== selectedProduct.id && item.cat === selectedProduct.cat).slice(0, 4) : [], [products, selectedProduct]);
 
@@ -305,17 +302,6 @@ export default function Shop() {
               {categories.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
-            </select>
-          </div>
-
-          <div className="shop-filters__block">
-            <label htmlFor="brand-filter">Brand</label>
-            <select
-              id="brand-filter"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-            >
-              <option value="All">All Brands</option>
             </select>
           </div>
 
