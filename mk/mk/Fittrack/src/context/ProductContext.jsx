@@ -59,6 +59,7 @@ export const ProductProvider = ({ children }) => {
     } catch (err) {
       // API available nahi hai — use local products data
       console.warn("❌ API unavailable, using local products data");
+      console.error("API Error:", err);
       setProducts(localProducts.map(mapProduct));
     } finally {
       setLoading(false);

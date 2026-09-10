@@ -7,6 +7,7 @@ export default defineConfig(({ command }) => ({
   base: '/',
   server: {
     port: 5175,
+    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8000',

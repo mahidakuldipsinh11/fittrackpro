@@ -6,33 +6,27 @@ import api from "../api/client";
 import jsPDF from "jspdf";
 import "./Checkout.css";
 
-// Razorpay Key — fetched from backend at runtime
-let RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY || "";
-
 const loadRazorpayScript = () =>
   new Promise((resolve) => {
     if (document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
+      console.log("Razorpay script already loaded");
       resolve(true);
       return;
     }
+    console.log("Loading Razorpay script...");
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
+    script.onload = () => {
+      console.log("✅ Razorpay script loaded successfully");
+      resolve(true);
+    };
+    script.onerror = (error) => {
+      console.error("❌ Razorpay script failed to load:", error);
+      resolve(false);
+    };
     document.body.appendChild(script);
   });
 
-// Fetch Razorpay key from backend if not set via env
-async function ensureRazorpayKey() {
-  if (RAZORPAY_KEY_ID) return RAZORPAY_KEY_ID;
-  try {
-    const res = await api.get("/payment/key/");
-    RAZORPAY_KEY_ID = res.data.key_id;
-    return RAZORPAY_KEY_ID;
-  } catch {
-    return null;
-  }
-}
 
 export default function Checkout() {
   const { cart, total, clearCart } = useCart();
@@ -192,84 +186,133 @@ export default function Checkout() {
   const handleRazorpayPayment = async () => {
     if (placingOrder) return;
 
-    // Get Razorpay key from backend
-    const key = await ensureRazorpayKey();
-    if (!key) {
-      toast.error("Payment system not configured. Please try Cash on Delivery.");
-      return;
-    }
+    console.log("🚀 Starting Razorpay payment process...");
+    console.log("Final total:", finalTotal);
 
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
+      console.error("❌ Razorpay script failed to load");
       toast.error("Failed to load Razorpay SDK. Please try again.");
       return;
     }
 
+    console.log("✅ Razorpay script loaded successfully");
+
     setPlacingOrder(true);
     soundPlayedRef.current = false;
 
-    // Step 1: Create order on backend
-    let razorpayOrderId;
+// Step 1: Create order on backend
+let razorpayOrderId;
+let razorpayKeyId;
+let razorpayAmount;
+
+try {
+  console.log("📝 Creating Razorpay order...");
+
+  const orderRes = await api.post("/payment/create-order/", {
+    amount: finalTotal,
+    currency: "INR",
+    receipt: `ORD-${Date.now()}`,
+  });
+
+  console.log("✅ Order created successfully:", orderRes.data);
+
+  // Backend response values
+  razorpayOrderId = orderRes.data.order_id;
+  razorpayKeyId = orderRes.data.key_id;
+  razorpayAmount = orderRes.data.amount;
+
+  // Safety check
+  if (!razorpayOrderId || !razorpayKeyId || !razorpayAmount) {
+    console.error("❌ Invalid Razorpay response:", orderRes.data);
+    toast.error("Invalid payment configuration received.");
+    setPlacingOrder(false);
+    return;
+  }
+
+} catch (err) {
+  console.error("❌ Failed to create Razorpay order:", err);
+  console.error("Error details:", err.response?.data || err.message);
+
+  toast.error("Failed to initialize payment. Please try again.");
+  setPlacingOrder(false);
+  return;
+}
+
+
+// Step 2: Open Razorpay checkout
+const options = {
+  key: razorpayKeyId,
+
+  amount: razorpayAmount,
+
+  currency: "INR",
+
+  name: "FitTrack Pro",
+
+  description: `Order — ₹${finalTotal.toLocaleString("en-IN")}`,
+
+  image: "/vite.svg",
+
+  order_id: razorpayOrderId,
+
+  handler: async function (response) {
     try {
-      const orderRes = await api.post("/payment/create-order/", {
-        amount: finalTotal,
-        currency: "INR",
-        receipt: `ORD-${Date.now()}`,
+      console.log("💳 Payment successful, verifying...");
+
+      const verifyRes = await api.post("/payment/verify/", {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
       });
-      razorpayOrderId = orderRes.data.order_id;
+
+      console.log("✅ Payment verification response:", verifyRes.data);
+
+      if (verifyRes.data.verified) {
+        playSound();
+
+        await placeOrder(
+          `Razorpay (${response.razorpay_payment_id})`
+        );
+
+      } else {
+        toast.error("Payment verification failed. Contact support.");
+      }
+
     } catch (err) {
-      console.error("Failed to create Razorpay order:", err);
-      toast.error("Failed to initialize payment. Please try again.");
+      console.error("❌ Payment verification error:", err);
+      console.error(
+        "Error details:",
+        err.response?.data || err.message
+      );
+
+      toast.error(
+        "Payment received but verification failed. Contact support."
+      );
+
+    } finally {
       setPlacingOrder(false);
-      return;
     }
+  },
 
-    // Step 2: Open Razorpay checkout
-    const options = {
-      key: key,
-      amount: Math.round(finalTotal * 100),
-      currency: "INR",
-      name: "FitTrack Pro",
-      description: `Order — ₹${finalTotal.toLocaleString("en-IN")}`,
-      image: "/vite.svg",
-      order_id: razorpayOrderId,
-      handler: async function (response) {
-        // Step 3: Verify payment on backend
-        try {
-          const verifyRes = await api.post("/payment/verify/", {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-          });
+  prefill: {
+    name: customer.name,
+    contact: customer.phone,
+    email: "",
+  },
 
-          if (verifyRes.data.verified) {
-            playSound();
-            await placeOrder(`Razorpay (${response.razorpay_payment_id})`);
-          } else {
-            toast.error("Payment verification failed. Contact support.");
-          }
-        } catch (err) {
-          console.error(err);
-          toast.error("Payment received but verification failed. Contact support.");
-        } finally {
-          setPlacingOrder(false);
-        }
-      },
-      prefill: {
-        name: customer.name,
-        contact: customer.phone,
-        email: "",
-      },
-      theme: {
-        color: "#131921",
-      },
-      modal: {
-        ondismiss: function () {
-          toast.info("Payment cancelled. You can try again.");
-          setPlacingOrder(false);
-        },
-      },
-    };
+  theme: {
+    color: "#131921",
+  },
+
+  modal: {
+    ondismiss: function () {
+      console.log("⚠️ Payment popup closed");
+      toast.info("Payment cancelled. You can try again.");
+      setPlacingOrder(false);
+    },
+  },
+};
 
     const rzp = new window.Razorpay(options);
     rzp.on("payment.failed", function (response) {
