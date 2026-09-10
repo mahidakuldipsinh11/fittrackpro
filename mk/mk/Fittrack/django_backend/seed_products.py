@@ -11,6 +11,8 @@ django.setup()
 
 from store.models import Category, Product
 
+# Clear existing products before seeding
+Product.objects.all().delete()
 
 PRODUCTS = [
     # ---------------- WEIGHTS ----------------
@@ -25,7 +27,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 25,
-        "image": "product_images\gamma-fitness-olympic-bar.jpg",
+        "image": "product_images/olympic-barbell-20kg.jpg",
     },
     {
         "name": "Rubber Bumper Plate Set 100kg",
@@ -38,7 +40,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 15,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/rubber-bumper-plate-set-100kg.jpg",
     },
     {
         "name": "EZ Curl Bar",
@@ -50,7 +52,7 @@ PRODUCTS = [
         "tag": "POPULAR",
         "is_featured": True,
         "stock": 40,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/Ez-curl-bar.jpg",
     },
     {
         "name": "Cast Iron Plate Set 50kg",
@@ -61,7 +63,7 @@ PRODUCTS = [
         "description": "Durable cast iron weight plates for home and commercial gyms.",
         "tag": "VALUE",
         "stock": 30,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/cast-iron-plate-set-50kg.jpg",
     },
     {
         "name": "Trap Bar / Hex Bar",
@@ -72,7 +74,7 @@ PRODUCTS = [
         "description": "Heavy-duty hex bar for deadlifts, shrugs and functional strength training.",
         "tag": "PRO",
         "stock": 18,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/trap-bar-hex-bar.jpg",
     },
     {
         "name": "Olympic Curl Bar with Collars",
@@ -83,7 +85,7 @@ PRODUCTS = [
         "description": "Olympic curl bar supplied with secure spring collars.",
         "tag": "NEW",
         "stock": 35,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/olympic-curl-bar-with-collars.jpg",
     },
 
     # ---------------- RACKS ----------------
@@ -98,7 +100,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 10,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/heavy-duty-power-rack.jpg",
     },
     {
         "name": "Half Rack with Pull-up Bar",
@@ -109,7 +111,7 @@ PRODUCTS = [
         "description": "Compact half rack with integrated pull-up bar.",
         "tag": "POPULAR",
         "stock": 12,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/half-rack-with-pullup-bar.jpg",
     },
     {
         "name": "Full Powerlifting Competition Rack",
@@ -121,7 +123,7 @@ PRODUCTS = [
         "tag": "PRO",
         "is_featured": True,
         "stock": 5,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/full-powerlifting-competition-rack.jpg",
     },
 
     # ---------------- CARDIO ----------------
@@ -136,7 +138,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 8,
-        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800",
+        "image": "product_images/commercial-treadmill-t9.jpg",
     },
     {
         "name": "Air Rowing Machine",
@@ -147,7 +149,7 @@ PRODUCTS = [
         "description": "Air resistance rowing machine for full-body cardiovascular workouts.",
         "tag": "HOT",
         "stock": 10,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/air-rowing-machine.jpg",
     },
     {
         "name": "Spin Bike Studio Edition",
@@ -159,7 +161,7 @@ PRODUCTS = [
         "tag": "POPULAR",
         "is_featured": True,
         "stock": 15,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/spin-bike-studio-edition.jpg",
     },
     {
         "name": "Commercial Elliptical Trainer",
@@ -170,7 +172,7 @@ PRODUCTS = [
         "description": "Low-impact elliptical trainer designed for commercial gym use.",
         "tag": "PRO",
         "stock": 7,
-        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800",
+        "image": "product_images/commercial-elliptical-trainer.jpg",
     },
     {
         "name": "Curved Manual Treadmill",
@@ -182,7 +184,7 @@ PRODUCTS = [
         "tag": "PREMIUM",
         "is_featured": True,
         "stock": 6,
-        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800",
+        "image": "product_images/curved-manual-treadmill.jpg",
     },
     {
         "name": "Spin Bike Home Edition",
@@ -194,7 +196,7 @@ PRODUCTS = [
         "tag": "DEAL",
         "is_deal": True,
         "stock": 25,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/spin-bike-home-edition.jpg",
     },
     {
         "name": "Recumbent Exercise Bike",
@@ -205,7 +207,7 @@ PRODUCTS = [
         "description": "Comfortable recumbent bike for low-impact cardio training.",
         "tag": "COMFORT",
         "stock": 12,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/recumbent-exercise-bike.jpg",
     },
     {
         "name": "Stair Climber Step Machine",
@@ -216,7 +218,7 @@ PRODUCTS = [
         "description": "Professional stair climbing machine for intense cardio sessions.",
         "tag": "PRO",
         "stock": 8,
-        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800",
+        "image": "product_images/stair-climber-step-machine.jpg",
     },
 
     # ---------------- BENCHES ----------------
@@ -230,7 +232,7 @@ PRODUCTS = [
         "tag": "BEST SELLER",
         "is_featured": True,
         "stock": 20,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/adjustable-fid-bench.jpg",
     },
     {
         "name": "Flat Utility Bench",
@@ -241,7 +243,7 @@ PRODUCTS = [
         "description": "Strong and compact flat utility bench for home gyms.",
         "tag": "VALUE",
         "stock": 30,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/flat-utility-bench.jpg",
     },
     {
         "name": "Adjustable Weight Bench Pro",
@@ -252,7 +254,7 @@ PRODUCTS = [
         "description": "Premium adjustable weight bench with multiple backrest positions.",
         "tag": "PRO",
         "stock": 18,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/adjustable-weight-bench-pro.jpg",
     },
     {
         "name": "Preacher Curl Bench",
@@ -263,7 +265,7 @@ PRODUCTS = [
         "description": "Dedicated preacher curl bench for focused biceps training.",
         "tag": "POPULAR",
         "stock": 15,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/preacher-curl-bench.jpg",
     },
 
     # ---------------- ACCESSORIES ----------------
@@ -277,7 +279,7 @@ PRODUCTS = [
         "tag": "DEAL",
         "is_deal": True,
         "stock": 100,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/premium-cotton-wrist-wraps.jpg",
     },
     {
         "name": "Resistance Band Set - 5 Levels",
@@ -289,7 +291,7 @@ PRODUCTS = [
         "tag": "BEST SELLER",
         "is_featured": True,
         "stock": 80,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/resistance-band-set-5-levels.jpg",
     },
     {
         "name": "Adjustable Dumbbell Pair 20kg",
@@ -302,7 +304,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 25,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/adjustable-dumbbell-pair-20kg.jpg",
     },
     {
         "name": "Kettlebell Set 4kg to 16kg",
@@ -313,7 +315,7 @@ PRODUCTS = [
         "description": "Multi-weight kettlebell set for functional fitness training.",
         "tag": "SET",
         "stock": 20,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/kettlebell-set-4kg-to-16kg.jpg",
     },
     {
         "name": "Olympic Weightlifting Platform",
@@ -324,7 +326,7 @@ PRODUCTS = [
         "description": "Heavy-duty platform designed for Olympic weightlifting.",
         "tag": "PRO",
         "stock": 8,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/olympic-weightlifting-platform.jpg",
     },
     {
         "name": "Neoprene Dumbbell Pair 2kg",
@@ -335,7 +337,7 @@ PRODUCTS = [
         "description": "Compact neoprene dumbbells ideal for home fitness and aerobics.",
         "tag": "HOME GYM",
         "stock": 60,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/neoprene-dumbbell-pair-2kg.jpg",
     },
     {
         "name": "Skipping Rope with Counter",
@@ -347,7 +349,7 @@ PRODUCTS = [
         "tag": "DEAL",
         "is_deal": True,
         "stock": 100,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/skipping-rope-with-counter.jpg",
     },
     {
         "name": "Push-Up Board Training System",
@@ -358,7 +360,7 @@ PRODUCTS = [
         "description": "Multi-position push-up board for targeted upper-body training.",
         "tag": "POPULAR",
         "stock": 70,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/push-up-board-training-system.jpg",
     },
     {
         "name": "Ab Roller Wheel with Knee Pad",
@@ -370,7 +372,7 @@ PRODUCTS = [
         "tag": "DEAL",
         "is_deal": True,
         "stock": 90,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/ab-roller-wheel-with-knee-pad.jpg",
     },
     {
         "name": "Yoga Mat 8mm Anti-Slip",
@@ -382,7 +384,7 @@ PRODUCTS = [
         "tag": "BEST SELLER",
         "is_featured": True,
         "stock": 100,
-        "image": "https://images.unsplash.com/photo-1591741532674-5e2f3d6f0c4c?w=800",
+        "image": "product_images/yoga-mat-8mm-anti-slip.jpg",
     },
     {
         "name": "Weighted Medicine Ball 8kg",
@@ -393,7 +395,7 @@ PRODUCTS = [
         "description": "Durable 8kg medicine ball for functional strength training.",
         "tag": "TRAINING",
         "stock": 35,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/weighted-medicine-ball-8kg.jpg",
     },
     {
         "name": "Plyometric Jump Box Set",
@@ -404,7 +406,7 @@ PRODUCTS = [
         "description": "Adjustable plyometric box set for explosive power training.",
         "tag": "PRO",
         "stock": 15,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/plyometric-jump-box-set.jpg",
     },
     {
         "name": "Battle Rope 40ft",
@@ -415,7 +417,7 @@ PRODUCTS = [
         "description": "Heavy-duty 40ft battle rope for HIIT and conditioning.",
         "tag": "HIIT",
         "stock": 30,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/battle-rope-40ft.jpg",
     },
     {
         "name": "Pull-Up Bar Doorway Mount",
@@ -426,7 +428,7 @@ PRODUCTS = [
         "description": "Strong doorway-mounted pull-up bar for home workouts.",
         "tag": "HOME GYM",
         "stock": 50,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/pull-up-bar-doorway-mount.jpg",
     },
     {
         "name": "Competition Kettlebell 24kg",
@@ -437,7 +439,7 @@ PRODUCTS = [
         "description": "Competition-style 24kg kettlebell for advanced training.",
         "tag": "PRO",
         "stock": 25,
-        "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800",
+        "image": "product_images/competition-kettlebell-24kg.jpg",
     },
 
     # ---------------- STORAGE ----------------
@@ -450,7 +452,7 @@ PRODUCTS = [
         "description": "Compact vertical storage tree for Olympic weight plates.",
         "tag": "STORAGE",
         "stock": 20,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/vertical-plate-storage-tree.jpg",
     },
     {
         "name": "Dumbbell Storage Rack 3 Tier",
@@ -461,7 +463,7 @@ PRODUCTS = [
         "description": "Three-tier dumbbell rack for organized gym storage.",
         "tag": "STORAGE",
         "stock": 15,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/dumbbell-storage-rack-3-tier.jpg",
     },
 
     # ---------------- MACHINES ----------------
@@ -474,7 +476,7 @@ PRODUCTS = [
         "description": "Heavy-duty sled trainer for pushing and pulling workouts.",
         "tag": "FUNCTIONAL",
         "stock": 12,
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800",
+        "image": "product_images/sled-push-and-pull-trainer.jpg",
     },
     {
         "name": "Rubber Gym Flooring Roll 10mm",
@@ -485,7 +487,7 @@ PRODUCTS = [
         "description": "10mm rubber flooring roll designed to protect gym floors.",
         "tag": "GYM ESSENTIAL",
         "stock": 40,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/rubber-gym-flooring-roll-10mm.jpg",
     },
     {
         "name": "Functional Cable Crossover Machine",
@@ -497,7 +499,7 @@ PRODUCTS = [
         "tag": "PREMIUM",
         "is_featured": True,
         "stock": 4,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/functional-cable-crossover-machine.jpg",
     },
     {
         "name": "Smith Machine with Lat Pulldown",
@@ -510,7 +512,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 5,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/smith-machine-with-lat-pulldown.jpg",
     },
     {
         "name": "Professional Leg Press Machine",
@@ -521,7 +523,7 @@ PRODUCTS = [
         "description": "Professional leg press machine for commercial gyms.",
         "tag": "PRO",
         "stock": 4,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/professional-leg-press-machine.jpg",
     },
     {
         "name": "Multi Station 8-User Gym",
@@ -533,7 +535,7 @@ PRODUCTS = [
         "tag": "COMMERCIAL",
         "is_featured": True,
         "stock": 2,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/multi-station-8-user-gym.jpg",
     },
     {
         "name": "Complete Commercial Gym Setup",
@@ -546,7 +548,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 2,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/complete-commercial-gym-setup.jpg",
     },
     {
         "name": "Seated Chest Press Machine",
@@ -557,7 +559,7 @@ PRODUCTS = [
         "description": "Commercial seated chest press machine for controlled chest training.",
         "tag": "CHEST",
         "stock": 5,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/seated-chest-press-machine.jpg",
     },
     {
         "name": "Lat Pulldown and Low Row",
@@ -568,7 +570,7 @@ PRODUCTS = [
         "description": "Dual-function lat pulldown and low row machine.",
         "tag": "BACK",
         "stock": 6,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/lat-pulldown-and-low-row.jpg",
     },
     {
         "name": "Seated Leg Extension Machine",
@@ -579,7 +581,7 @@ PRODUCTS = [
         "description": "Commercial leg extension machine for isolated quadriceps training.",
         "tag": "LEGS",
         "stock": 6,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/seated-leg-extension-machine.jpg",
     },
     {
         "name": "Assisted Dip and Pull-Up Machine",
@@ -590,7 +592,7 @@ PRODUCTS = [
         "description": "Assisted dip and pull-up machine for progressive upper-body training.",
         "tag": "UPPER BODY",
         "stock": 5,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/assisted-dip-and-pull-up-machine.jpg",
     },
     {
         "name": "Luxury Home Gym Package",
@@ -603,7 +605,7 @@ PRODUCTS = [
         "is_deal": True,
         "is_featured": True,
         "stock": 5,
-        "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+        "image": "product_images/luxury-home-gym-package.jpg",
     },
 ]
 

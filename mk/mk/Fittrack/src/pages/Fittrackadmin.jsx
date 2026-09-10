@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useProducts } from '../context/ProductContext';
+import api from '../api/client';
 
 
 import {
@@ -1168,7 +1170,7 @@ export default function FitTrackAdmin() {
   const [booting, setBooting] = useState(true);
   const [account, setAccount] = useState(null);
   const [authError, setAuthError] = useState('');
-  const { products, addProduct, editProduct, deleteProduct } = useProducts();
+  const { products, addProduct, editProduct, deleteProduct, fetchProducts } = useProducts();
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [returns, setReturns] = useState([]);
@@ -1179,22 +1181,21 @@ export default function FitTrackAdmin() {
     setLoading(true);
     setError(null);
     try {
-      const responses = await Promise.all([
-        api.get('/products/'),
+      const [ordersRes, customersRes, returnsRes] = await Promise.all([
         api.get('/orders/'),
         api.get('/customers/'),
         api.get('/returns/'),
       ]);
-      setProducts(responses[0].data.results || responses[0].data);
-      setOrders(responses[1].data.results || responses[1].data);
-      setCustomers(responses[2].data.results || responses[2].data);
-      setReturns(responses[3].data.results || responses[3].data);
+      setOrders(ordersRes.data.results || ordersRes.data);
+      setCustomers(customersRes.data.results || customersRes.data);
+      setReturns(returnsRes.data.results || returnsRes.data);
+      await fetchProducts();
     } catch (err) {
       setError(err.response?.data?.detail || err.message || 'Failed to load dashboard data');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fetchProducts]);
   useEffect(() => { refreshData(); }, []);
 
   const loadOrdersAndCustomers = useCallback(async () => {

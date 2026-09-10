@@ -15,6 +15,10 @@ const BACKEND_ORIGIN = API_BASE.startsWith("http") ? API_BASE.replace(/\/api\/?$
 const resolveImageUrl = (url) => {
   if (!url) return FALLBACK_IMAGE;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  // For development, use backend origin for product_images
+  if (url.startsWith("/product_images/")) {
+    return `http://localhost:8000${url}`;
+  }
   // Relative path like /product_images/... → make absolute
   if (BACKEND_ORIGIN) return `${BACKEND_ORIGIN}${url}`;
   return url; // local server can serve relative paths
@@ -47,9 +51,10 @@ export const ProductProvider = ({ children }) => {
       const res = await api.get("/products/");
       const list = res.data.results || res.data;
       setProducts(list.map(mapProduct));
+      console.log("✅ Using API products:", list.length);
     } catch (err) {
       // API available nahi hai — use local products data
-      console.warn("API unavailable, using local products data");
+      console.warn("❌ API unavailable, using local products data");
       setProducts(localProducts.map(mapProduct));
     } finally {
       setLoading(false);

@@ -18,6 +18,11 @@ export default defineConfig(({ command }) => ({
         changeOrigin: true,
         timeout: 30000,
       },
+      '/product_images': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        timeout: 30000,
+      },
     },
   },
 }))
