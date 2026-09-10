@@ -252,8 +252,62 @@ class Refund(models.Model):
 
 
 # ═══════════════════════════════════════════════════════════════
-# FEATURE 4: PRODUCT VARIANTS (size / weight)
+# RAZORPAY PAYMENTS (record of every verified online payment)
 # ═══════════════════════════════════════════════════════════════
+
+class Payment(models.Model):
+    """Record of a verified Razorpay payment.
+
+    Created in RazorpayVerifyView after the checkout signature is
+    verified; the linked Order is attached later when the customer's
+    order is actually placed (placeOrder runs after payment).
+    """
+    STATUS_CHOICES = [
+        ("Created", "Created"),       # Razorpay order created, payment not yet made
+        ("Captured", "Captured"),     # Payment successful & signature verified
+        ("Failed", "Failed"),
+        ("Refunded", "Refunded"),
+    ]
+
+    razorpay_order_id = models.CharField(max_length=64, unique=True, db_index=True)
+    razorpay_payment_id = models.CharField(max_length=64, unique=True, db_index=True)
+    razorpay_signature = models.CharField(max_length=200, blank=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Amount in INR (from Razorpay)")
+    currency = models.CharField(max_length=10, default="INR")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Created")
+    receipt = models.CharField(max_length=100, blank=True)
+    method = models.CharField(max_length=50, blank=True, help_text="upi / card / netbanking / wallet")
+    email = models.EmailField(blank=True)
+    contact = models.CharField(max_length=20, blank=True)
+    error_description = models.TextField(blank=True)
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="payments",
+        help_text="Attached when the order is placed after successful payment",
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="payments",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.razorpay_payment_id} — ₹{self.amount} ({self.status})"
+
+
+# ═══════════════════════════════════════════
+# FEATURE 4: PRODUCT VARIANTS (size / weight)
+# ═══════════════════════════════════════════
 
 class ProductVariant(models.Model):
     """Size or weight variant for a product."""

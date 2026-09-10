@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Category, ContactMessage, Order, OrderItem, Product, Review, CouponUsage
+from .models import Category, ContactMessage, Order, OrderItem, Product, Review, CouponUsage, Payment
 
 
 class OrderItemInline(admin.TabularInline):
@@ -37,7 +37,19 @@ class ProductAdmin(admin.ModelAdmin):
     image_preview.short_description = "Image Preview"
 
 
-@admin.register(Order)
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ["razorpay_payment_id", "amount", "currency", "status", "method", "order", "created_at"]
+    list_filter = ["status", "method", "currency"]
+    search_fields = ["razorpay_payment_id", "razorpay_order_id", "email", "contact", "receipt"]
+    readonly_fields = ["razorpay_payment_id", "razorpay_order_id", "razorpay_signature", "amount", "currency", "status", "method", "email", "contact", "receipt", "error_description", "order", "user", "created_at", "updated_at"]
+
+    def has_add_permission(self, request):
+        return False  # Payments are created by the verify endpoint only
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ["order_id", "customer_name", "total", "status", "date"]
     list_filter = ["status", "date"]

@@ -6,9 +6,13 @@ services:
     startCommand: cd mk/mk/Fittrack/django_backend && python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn fittrack.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DATABASE_URL
-        value: "postgresql://fittrack_user:ZN3chRBveTZqgYSVef9Ku2BIr9sSj7LJ@dpg-dac6bmek1f9s73b7drfg-a.singapore-postgres.render.com/fittrack_db_340o"
+        sync: false          # set in Render Dashboard (Secret: Supabase Postgres URL)
       - key: SECRET_KEY
-        value: "django-insecure-f#j6)9t+m7117e+t*e!o-iemm@y@-&0$u#&%qpn-&g=p)yoqk3"
+        sync: false          # set in Render Dashboard (Secret: Django secret key)
+      - key: RAZORPAY_KEY_ID
+        sync: false          # set in Render Dashboard (rzp_test_... or rzp_live_...)
+      - key: RAZORPAY_KEY_SECRET
+        sync: false          # set in Render Dashboard (secret key)
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS

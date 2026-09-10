@@ -19,15 +19,16 @@ import logging
 from decimal import Decimal
 
 from django.conf import settings
+from django.db import IntegrityError
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 logger = logging.getLogger("store.payment")
 
-# Load Razorpay credentials from environment
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
+# Load Razorpay credentials from environment (via Django settings)
+RAZORPAY_KEY_ID = getattr(settings, "RAZORPAY_KEY_ID", "") or os.getenv("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = getattr(settings, "RAZORPAY_KEY_SECRET", "") or os.getenv("RAZORPAY_KEY_SECRET", "")
 
 
 def get_razorpay_client():
@@ -160,7 +161,49 @@ class RazorpayVerifyView(APIView):
 
             client.utility.verify_payment_signature(params_dict)
 
-            logger.info(f"Payment verified: {razorpay_payment_id} for order {razorpay_order_id}")
+            # ── Persist payment record for bookkeeping ──
+            method = email = contact = ""
+            amount_inr = None
+            rzp_receipt = ""
+            try:
+                # Enrich with details straight from Razorpay (best-effort)
+                payment_data = client.payment.fetch(razorpay_payment_id)
+                method = payment_data.get("method", "") or ""
+                email = payment_data.get("email", "") or ""
+                contact = payment_data.get("contact", "") or ""
+                rzp_receipt = payment_data.get("order_id") and (client.order.fetch(payment_data["order_id"]).get("receipt", "") or "") or ""
+                if payment_data.get("amount") is not None:
+                    amount_inr = Decimal(payment_data["amount"]) / 100  # paise → INR
+            except Exception as fetch_err:
+                logger.warning(f"Could not fetch payment details for {razorpay_payment_id}: {fetch_err}")
+
+            from store.models import Payment, Order
+
+            # Link to an existing order if the receipt matches one
+            linked_order = None
+            if rzp_receipt:
+                linked_order = Order.objects.filter(order_id=rzp_receipt).first()
+
+            try:
+                Payment.objects.update_or_create(
+                    razorpay_payment_id=razorpay_payment_id,
+                    defaults={
+                        "razorpay_order_id": razorpay_order_id,
+                        "razorpay_signature": razorpay_signature,
+                        "amount": amount_inr or Decimal(request.data.get("amount", "0")) or None,
+                        "currency": request.data.get("currency", "INR"),
+                        "status": "Captured",
+                        "method": method,
+                        "email": email,
+                        "contact": contact,
+                        "order": linked_order,
+                        "user": request.user if request.user.is_authenticated else None,
+                    },
+                )
+            except IntegrityError:
+                logger.warning(f"Payment record conflict for {razorpay_payment_id}")
+
+            logger.info(f"Payment verified & recorded: {razorpay_payment_id} for order {razorpay_order_id}")
 
             return Response({
                 "verified": True,
