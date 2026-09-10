@@ -15,13 +15,17 @@ const BACKEND_ORIGIN = API_BASE.startsWith("http") ? API_BASE.replace(/\/api\/?$
 const resolveImageUrl = (url) => {
   if (!url) return FALLBACK_IMAGE;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  // For development, use backend origin for product_images
-  if (url.startsWith("/product_images/")) {
-    return `http://localhost:8000${url}`;
+  // Normalize: API may return paths with or without a leading slash
+  const path = url.startsWith("/") ? url : `/${url}`;
+  if (BACKEND_ORIGIN) {
+    // Production (Vercel): images live on the Render backend origin
+    return `${BACKEND_ORIGIN}${path}`;
   }
-  // Relative path like /product_images/... → make absolute
-  if (BACKEND_ORIGIN) return `${BACKEND_ORIGIN}${url}`;
-  return url; // local server can serve relative paths
+  if (path.startsWith("/product_images/")) {
+    // Local dev: Django backend serves images on port 8000
+    return `http://localhost:8000${path}`;
+  }
+  return path; // relative paths served by same origin
 };
 
 const mapProduct = (p) => ({
