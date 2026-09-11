@@ -98,7 +98,6 @@ class DealClaimView(APIView):
             "message": f"Deal claimed! Now {product.claimed}% claimed"
         })
 
-
 class OrderListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
@@ -117,18 +116,23 @@ class OrderListCreateView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
 
-        # Send order confirmation email (synchronous — ensures delivery on serverless)
+        # Send order confirmation email in background — non-blocking
+        import threading
         import logging
         _log = logging.getLogger('store.email')
-        try:
-            from store.email_utils import send_order_confirmation_email
-            sent = send_order_confirmation_email(order)
-            if sent:
-                _log.info(f'Order confirmation email sent for {order.order_id}')
-            else:
-                _log.warning(f'Order confirmation email NOT sent for {order.order_id} — no email found')
-        except Exception as e:
-            _log.error(f'Order confirmation email failed for {order.order_id}: {e}')
+
+        def _send_confirmation_email():
+            try:
+                from store.email_utils import send_order_confirmation_email
+                sent = send_order_confirmation_email(order)
+                if sent:
+                    _log.info(f'Order confirmation email sent for {order.order_id}')
+                else:
+                    _log.warning(f'Order confirmation email NOT sent for {order.order_id} — no email found')
+            except Exception as e:
+                _log.error(f'Order confirmation email failed for {order.order_id}: {e}')
+
+        threading.Thread(target=_send_confirmation_email, daemon=True).start()
 
         return Response(
             OrderSerializer(order).data,
