@@ -1089,13 +1089,8 @@ const NAV = [
   { key: 'purchases', label: 'User Purchases', icon: ShoppingCart },
 ];
 
-function Dashboard({ account, returns, actions, onLogout }) {
+function Dashboard({ account, orders, customers, returns, actions, onLogout }) {
   const { products, loading: productsLoading } = useProducts();
-  const [customers, setCustomers] = useState([]);
-  const [customersLoading, setCustomersLoading] = useState(true);
-  const [orders, setOrders] = useState([]);
-  const [ordersLoading, setOrdersLoading] = useState(true);
-  const [orderMessage, setOrderMessage] = useState(null);
   const [tab, setTab] = useState('analytics');
   const [navOpen, setNavOpen] = useState(false);
 

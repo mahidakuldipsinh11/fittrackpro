@@ -6,7 +6,7 @@ const TRUST_ITEMS = [
   { icon: "🔒", text: "Secure Checkout" },
   { icon: "🚚", text: "Free Shipping" },
   { icon: "🔄", text: "7-Day Easy Returns" },
-  { icon: "📞", text: "24/7 Support" },
+  { icon: "📞", text: "24/7 Support", to: "/contact" },
 ];
 
 const SOCIALS = [
@@ -73,12 +73,19 @@ export default function Footer() {
 
       {/* Trust Strip */}
       <div className="ft-footer__trust">
-        {TRUST_ITEMS.map((item) => (
-          <div className="ft-footer__trust-item" key={item.text}>
-            <span className="ft-footer__trust-icon">{item.icon}</span>
-            <span>{item.text}</span>
-          </div>
-        ))}
+        {TRUST_ITEMS.map((item) => {
+          const content = (
+            <>
+              <span className="ft-footer__trust-icon">{item.icon}</span>
+              <span>{item.text}</span>
+            </>
+          );
+          return item.to ? (
+            <Link to={item.to} className="ft-footer__trust-item" key={item.text}>{content}</Link>
+          ) : (
+            <div className="ft-footer__trust-item" key={item.text}>{content}</div>
+          );
+        })}
       </div>
 
       {/* Main Grid */}

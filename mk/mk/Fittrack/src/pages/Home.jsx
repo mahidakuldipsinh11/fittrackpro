@@ -46,11 +46,11 @@ const HERO_SLIDES = [
 
 /* ═══════════ CATEGORIES ═══════════ */
 const CATEGORIES = [
-  { name: "Barbells & Plates", icon: "🏋️", color: "#FF6B35", desc: "Olympic & Bumper Plates", count: "25+" },
-  { name: "Racks & Rigs", icon: "🏗️", color: "#4A90D9", desc: "Cages & Power Racks", count: "15+" },
-  { name: "Dumbbells", icon: "💪", color: "#2ECC71", desc: "Fixed & Adjustable", count: "30+" },
-  { name: "Benches", icon: "🪑", color: "#9B59B6", desc: "Flat & Adjustable", count: "12+" },
-  { name: "Cardio", icon: "🏃", color: "#E74C3C", desc: "Treadmills & Bikes", count: "10+" },
+  { name: "Barbells & Plates", icon: "🏋️", color: "#FF6B35", desc: "Olympic & Bumper Plates", count: "25+", filter: "Barbells,Plates" },
+  { name: "Racks & Rigs", icon: "🏗️", color: "#4A90D9", desc: "Cages & Power Racks", count: "15+", filter: "Racks" },
+  { name: "Dumbbells", icon: "💪", color: "#2ECC71", desc: "Fixed & Adjustable", count: "30+", filter: "Dumbbells" },
+  { name: "Benches", icon: "🪑", color: "#9B59B6", desc: "Flat & Adjustable", count: "12+", filter: "Benches" },
+  { name: "Cardio", icon: "🏃", color: "#E74C3C", desc: "Treadmills & Bikes", count: "10+", filter: "Cardio" },
 ];
 
 /* ═══════════ FLASH DEALS BANNER ═══════════ */
@@ -64,12 +64,12 @@ const FLASH_DEALS = [
 
 /* ═══════════ SHOP BY GOAL ═══════════ */
 const GOALS = [
-  { title: "Home Gym Starter", desc: "Build your dream home gym with budget-friendly equipment from ₹9,999. Free delivery across India.", icon: HomeIcon, color: "#FF6B35", link: "/shop" },
-  { title: "Commercial Gym Setup", desc: "Heavy-duty racks, benches & machines built for 100+ daily users. Professional grade steel.", icon: Building2, color: "#4A90D9", link: "/shop" },
-  { title: "CrossFit & HIIT Training", desc: "Bumper plates, pull-up rigs, wall balls, sleds & plyo boxes. Built for intense WODs.", icon: Swords, color: "#2ECC71", link: "/shop" },
-  { title: "Powerlifting Gear", desc: "Competition-spec barbells, calibrated plates, deadlift platforms & monolift attachments.", icon: Trophy, color: "#9B59B6", link: "/shop" },
-  { title: "Yoga & Recovery", desc: "Premium yoga mats, foam rollers, resistance bands & stretching equipment for recovery.", icon: Target, color: "#E91E63", link: "/shop" },
-  { title: "Cardio & Endurance", desc: "Motorized treadmills, exercise bikes, rowing machines & skipping ropes for cardio.", icon: TrendingUp, color: "#E74C3C", link: "/shop" },
+  { title: "Home Gym Starter", desc: "Build your dream home gym with budget-friendly equipment from ₹9,999. Free delivery across India.", icon: HomeIcon, color: "#FF6B35", filter: "Barbells,Plates,Dumbbells,Benches" },
+  { title: "Commercial Gym Setup", desc: "Heavy-duty racks, benches & machines built for 100+ daily users. Professional grade steel.", icon: Building2, color: "#4A90D9", filter: "Racks,Machines,Commercial Gym" },
+  { title: "CrossFit & HIIT Training", desc: "Bumper plates, pull-up rigs, wall balls, sleds & plyo boxes. Built for intense WODs.", icon: Swords, color: "#2ECC71", filter: "Racks,Plates,Cardio,Functional Training" },
+  { title: "Powerlifting Gear", desc: "Competition-spec barbells, calibrated plates, deadlift platforms & monolift attachments.", icon: Trophy, color: "#9B59B6", filter: "Barbells,Plates,Racks" },
+  { title: "Yoga & Recovery", desc: "Premium yoga mats, foam rollers, resistance bands & stretching equipment for recovery.", icon: Target, color: "#E91E63", filter: "Accessories,Flooring" },
+  { title: "Cardio & Endurance", desc: "Motorized treadmills, exercise bikes, rowing machines & skipping ropes for cardio.", icon: TrendingUp, color: "#E74C3C", filter: "Cardio" },
 ];
 
 /* ═══════════ HOW IT WORKS ═══════════ */
@@ -78,14 +78,6 @@ const STEPS = [
   { num: "02", title: "Order & Pay", desc: "Secure checkout with Razorpay. UPI, Cards, COD available.", icon: IndianRupee },
   { num: "03", title: "Fast Delivery", desc: "Free Pan-India delivery. Heavy equipment handled with care.", icon: Truck },
   { num: "04", title: "Train & Grow", desc: "1-year warranty. 24/7 support. Your fitness journey starts here.", icon: Dumbbell },
-];
-
-/* ═══════════ TESTIMONIALS ═══════════ */
-const REVIEWS = [
-  { text: "Opened my gym with FitTrack Pro equipment. Saved ₹3 lakhs vs imported brands. Quality is commercial-grade.", author: "Rajesh Kumar", role: "Gym Owner, Mumbai", rating: 5 },
-  { text: "Home gym delivered in 3 days. The power rack is bulletproof. Best investment I've made.", author: "Priya Sharma", role: "Fitness Enthusiast, Delhi", rating: 5 },
-  { text: "Compared 5 brands. Same steel, same capacity, 40% cheaper. Best decision ever.", author: "Vikram Mehta", role: "Powerlifter, Bangalore", rating: 5 },
-  { text: "Excellent customer support. Helped me choose the right equipment. Fast delivery.", author: "Anita Desai", role: "Yoga Instructor, Pune", rating: 5 },
 ];
 
 /* ═══════════ HOOKS ═══════════ */
@@ -163,6 +155,28 @@ export default function Home() {
   const [goalRef, goalInView] = useInView();
   const [howRef, howInView] = useInView();
 
+  // User-submitted reviews (from the Reviews page / API)
+  const [userReviews, setUserReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadReviews = async () => {
+      try {
+        const res = await api.get("/reviews/");
+        const data = res.data?.results ?? res.data;
+        if (!cancelled) setUserReviews(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed to load reviews:", err);
+        if (!cancelled) setUserReviews([]);
+      } finally {
+        if (!cancelled) setReviewsLoading(false);
+      }
+    };
+    loadReviews();
+    return () => { cancelled = true; };
+  }, []);
+
   // Horizontal scroll refs
   const catScrollRef = useRef(null);
   const dealScrollRef = useRef(null);
@@ -210,7 +224,7 @@ export default function Home() {
           </div>
           <div className="home-categories__grid">
             {CATEGORIES.map((cat, i) => (
-              <Link to={`/shop?category=${encodeURIComponent(cat.name)}`} className="home-cat-card" key={cat.name} style={{ animationDelay: `${i * 50}ms` }}>
+              <Link to={{ pathname: "/shop", search: `?category=${encodeURIComponent(cat.filter)}` }} className="home-cat-card" key={cat.name} style={{ animationDelay: `${i * 50}ms` }}>
                 <div className="home-cat-card__icon" style={{ background: `${cat.color}12`, color: cat.color }}>
                   <span>{cat.icon}</span>
                 </div>
@@ -234,7 +248,7 @@ export default function Home() {
           </div>
           <div className="home-goals__grid">
             {GOALS.map((g, i) => (
-              <Link to={g.link} className="home-goal-card" key={g.title} style={{ transitionDelay: `${i * 80}ms` }}>
+              <Link to={{ pathname: "/shop", search: `?category=${encodeURIComponent(g.filter)}` }} className="home-goal-card" key={g.title} style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="home-goal-card__icon" style={{ background: `${g.color}12`, color: g.color }}>
                   <g.icon size={28} />
                 </div>
@@ -284,22 +298,45 @@ export default function Home() {
               <h2>What Our Customers Say</h2>
             </div>
           </div>
-          <div className="home-testimonials__grid">
-            {REVIEWS.map((r, i) => (
-              <div className="home-test-card" key={r.author} style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="home-test-card__stars">
-                  {Array.from({ length: r.rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
-                </div>
-                <p className="home-test-card__text">"{r.text}"</p>
-                <div className="home-test-card__author">
-                  <div className="home-test-card__avatar">{r.author.split(" ").map(w => w[0]).join("").slice(0, 2)}</div>
-                  <div>
-                    <span className="home-test-card__name">{r.author}</span>
-                    <span className="home-test-card__role">{r.role}</span>
+
+          {reviewsLoading ? (
+            <div className="home-test-empty">
+              <p>Loading reviews...</p>
+            </div>
+          ) : userReviews.length === 0 ? (
+            <div className="home-test-empty">
+              <p>No reviews yet. Be the first to share your experience!</p>
+              <Link to="/reviews" className="ft-btn ft-btn--primary">Write a Review</Link>
+            </div>
+          ) : (
+            <div className="home-testimonials__grid">
+              {userReviews.slice(0, 4).map((review, i) => {
+                const author = review.user_name || "Anonymous";
+                const initials = author.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+                const rating = Math.max(1, Math.min(5, Number(review.rating) || 5));
+                return (
+                  <div className="home-test-card" key={review.id || i} style={{ transitionDelay: `${i * 100}ms` }}>
+                    <div className="home-test-card__stars">
+                      {Array.from({ length: rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
+                    </div>
+                    {review.title && <h3 className="home-test-card__title">{review.title}</h3>}
+                    <p className="home-test-card__text">"{review.text}"</p>
+                    {review.product_name && <span className="home-test-card__product">🏷️ {review.product_name}</span>}
+                    <div className="home-test-card__author">
+                      <div className="home-test-card__avatar">{initials}</div>
+                      <div>
+                        <span className="home-test-card__name">{author}</span>
+                        {review.role && <span className="home-test-card__role">{review.role}</span>}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
+          )}
+
+          <div className="home-testimonials__more">
+            <Link to="/reviews" className="ft-btn ft-btn--ghost">View All Reviews</Link>
           </div>
         </div>
       </section>

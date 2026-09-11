@@ -241,9 +241,15 @@ export default function Shop() {
     [products]
   );
 
+  // Category filter may be a single category or comma-separated (e.g. "Barbells,Plates")
+  const activeCats = useMemo(
+    () => cat.split(",").map((c) => c.trim()).filter(Boolean),
+    [cat]
+  );
+
   const filtered = useMemo(() => {
     let list = products
-      .filter((p) => (cat === "All" ? true : p.cat === cat))
+      .filter((p) => (cat === "All" ? true : activeCats.includes(p.cat)))
       .filter((p) => (rating === "All" ? true : getProductRating(p) === Number(rating)))
       .filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase())
@@ -256,9 +262,11 @@ export default function Shop() {
       list = [...list].sort((a, b) => b.price - a.price);
 
     return list;
-  }, [cat, rating, sort, query, products]);
+  }, [cat, activeCats, rating, sort, query, products]);
 
  const relatedProducts = useMemo(() => selectedProduct ? products.filter((item) => item.id !== selectedProduct.id && item.cat === selectedProduct.cat).slice(0, 4) : [], [products, selectedProduct]);
+
+  const categoryLabel = cat === "All" ? "All Equipment" : activeCats.join(" + ");
 
   return (
     <main className="ft-page shop">
@@ -267,7 +275,7 @@ export default function Shop() {
         <div className="shop-hero-bg__overlay" />
         <section className="shop-hero ft-container">
           <span className="ft-eyebrow">Full catalogue</span>
-          <h1>{cat === "All" ? `Shop All Equipment (${products.length})` : `${cat} (${filtered.length})`}</h1>
+          <h1>{cat === "All" ? `Shop All Equipment (${products.length})` : `${categoryLabel} (${filtered.length})`}</h1>
           {cat !== "All" && (
             <button className="ft-btn ft-btn--ghost" style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1rem', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={() => { setCat('All'); searchParams.delete('category'); setSearchParams(searchParams, { replace: true }); }}>
               ← View All Equipment
