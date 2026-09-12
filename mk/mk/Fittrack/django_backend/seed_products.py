@@ -52,7 +52,7 @@ PRODUCTS = [
         "tag": "POPULAR",
         "is_featured": True,
         "stock": 40,
-        "image": "product_images/Ez-curl-bar.jpg",
+        "image": "product_images/ez-curl-bar.jpg",
     },
     {
         "name": "Cast Iron Plate Set 50kg",
