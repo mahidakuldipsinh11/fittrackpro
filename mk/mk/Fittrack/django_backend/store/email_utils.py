@@ -577,6 +577,8 @@ def send_login_notification_email(user):
     try:
         if not user.email:
             return False
+        from django.utils import timezone
+        formatted_time = timezone.now().strftime('%d %B %Y, %I:%M %p')
         html = f"""
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;">
             <div style="background:#1a1a2e;padding:30px;text-align:center;">
@@ -589,7 +591,7 @@ def send_login_notification_email(user):
                 <p style="color:#555;">You have successfully logged in to your FitTrack Pro account.</p>
                 <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:15px;margin:20px 0;">
                     <p style="margin:0;color:#166534;"><strong>Email:</strong> {user.email}</p>
-                    <p style="margin:5px 0 0;color:#166534;"><strong>Login Time:</strong> {__import__('django.utils.timezone').now().strftime('%d %B %Y, %I:%M %p')}</p>
+                    <p style="margin:5px 0 0;color:#166534;"><strong>Login Time:</strong> {formatted_time}</p>
                 </div>
                 <p style="color:#555;">If this wasn't you, please change your password immediately.</p>
                 <div style="text-align:center;margin:25px 0;">

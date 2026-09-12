@@ -29,13 +29,20 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        user = authenticate(
-            request=self.context.get("request"),
-            email=attrs["email"],
-            password=attrs["password"],
-        )
-        if not user:
+        email = attrs["email"].strip().lower()
+        password = attrs["password"]
+
+        try:
+            user = User.objects.get(email__iexact=email)
+        except User.DoesNotExist:
+            user = None
+
+        if not user or not user.check_password(password):
             raise serializers.ValidationError("Invalid email or password.")
+
+        if not user.is_active:
+            raise serializers.ValidationError("This account is inactive.")
+
         attrs["user"] = user
         return attrs
 

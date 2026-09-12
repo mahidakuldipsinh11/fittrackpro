@@ -63,16 +63,21 @@ class LoginView(APIView):
         user = serializer.validated_data["user"]
         tokens = get_tokens_for_user(user)
 
-        # Send login notification email
+        # Send login notification email in background (avoids blocking response / SMTP hang)
         import logging as _log_mod
+        import threading
         _log = _log_mod.getLogger('store.email')
-        try:
-            from store.email_utils import send_login_notification_email
-            sent = send_login_notification_email(user)
-            if sent:
-                _log.info(f'Login email sent to {user.email}')
-        except Exception as e:
-            _log.error(f'Login email failed for {user.email}: {e}')
+
+        def _send_login_notification(user):
+            try:
+                from store.email_utils import send_login_notification_email
+                sent = send_login_notification_email(user)
+                if sent:
+                    _log.info(f'Login email sent to {user.email}')
+            except Exception as e:
+                _log.error(f'Login email failed for {user.email}: {e}')
+
+        threading.Thread(target=_send_login_notification, args=(user,), daemon=True).start()
 
         return Response(
             {
