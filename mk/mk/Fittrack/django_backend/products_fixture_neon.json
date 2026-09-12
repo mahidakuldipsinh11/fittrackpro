@@ -1,0 +1,1238 @@
+[
+  {
+    "model": "store.category",
+    "pk": 6,
+    "fields": {
+      "name": "Accessories"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 2,
+    "fields": {
+      "name": "Barbells & Plates"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 5,
+    "fields": {
+      "name": "Benches"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 4,
+    "fields": {
+      "name": "Cardio"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 17,
+    "fields": {
+      "name": "Clothing"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 10,
+    "fields": {
+      "name": "Dumbbells"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 13,
+    "fields": {
+      "name": "Functional Training"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 15,
+    "fields": {
+      "name": "Gym Flooring"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 16,
+    "fields": {
+      "name": "Gym Packages"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 11,
+    "fields": {
+      "name": "Kettlebells"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 7,
+    "fields": {
+      "name": "Machines"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 9,
+    "fields": {
+      "name": "Racks"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 3,
+    "fields": {
+      "name": "Racks & Rigs"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 14,
+    "fields": {
+      "name": "Storage"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 18,
+    "fields": {
+      "name": "Supplements"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 8,
+    "fields": {
+      "name": "Weights"
+    },
+    "name": null
+  },
+  {
+    "model": "store.category",
+    "pk": 12,
+    "fields": {
+      "name": "Yoga & Fitness"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 869,
+    "fields": {
+      "name": "Resistance Band Set (5 levels)",
+      "category": 6,
+      "price": "999.00",
+      "was_price": "1499.00",
+      "off_percent": 33,
+      "description": "Premium quality resistance band set (5 levels) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/869_Resistance_Band_Set__5_levels_.jpg",
+      "brand": "Boldfit",
+      "tag": "Popular",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 83,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 870,
+    "fields": {
+      "name": "Resistance Band Loop Set (6 pcs)",
+      "category": 6,
+      "price": "699.00",
+      "was_price": "999.00",
+      "off_percent": 30,
+      "description": "Premium quality resistance band loop set (6 pcs) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/870_Resistance_Band_Loop_Set__6_pcs_.jpg",
+      "brand": "Proline",
+      "tag": "New",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 69,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 871,
+    "fields": {
+      "name": "Jump Rope / Speed Rope",
+      "category": 6,
+      "price": "499.00",
+      "was_price": "799.00",
+      "off_percent": 38,
+      "description": "Premium quality jump rope / speed rope for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/871_Jump_Rope___Speed_Rope.jpg",
+      "brand": "JETECH",
+      "tag": "Bestseller",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 97,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 872,
+    "fields": {
+      "name": "Gym Gloves Full Finger",
+      "category": 6,
+      "price": "699.00",
+      "was_price": "999.00",
+      "off_percent": 30,
+      "description": "Premium quality gym gloves full finger for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/872_Gym_Gloves_Full_Finger.jpg",
+      "brand": "Lifelong",
+      "tag": "New",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 97,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 815,
+    "fields": {
+      "name": "Olympic Barbell 7ft 20kg",
+      "category": 2,
+      "price": "8999.00",
+      "was_price": "12999.00",
+      "off_percent": 31,
+      "description": "Premium quality olympic barbell 7ft 20kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/815_Olympic_Barbell_7ft_20kg.jpg",
+      "brand": "Nivia",
+      "tag": "Popular",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 63,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 816,
+    "fields": {
+      "name": " EZ Curl Bar 4ft 10kg",
+      "category": 2,
+      "price": "3499.00",
+      "was_price": "5499.00",
+      "off_percent": 36,
+      "description": "Premium quality  ez curl bar 4ft 10kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/816_EZ_Curl_Bar_4ft_10kg.jpg",
+      "brand": "Garner",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 91,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 817,
+    "fields": {
+      "name": "Weight Plate 2.5kg (Pair)",
+      "category": 2,
+      "price": "999.00",
+      "was_price": "1499.00",
+      "off_percent": 33,
+      "description": "Premium quality weight plate 2.5kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/817_Weight_Plate_2_5kg__Pair_.jpg",
+      "brand": "Garner",
+      "tag": "Deal",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 32,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 818,
+    "fields": {
+      "name": "Weight Plate 5kg (Pair)",
+      "category": 2,
+      "price": "1799.00",
+      "was_price": "2499.00",
+      "off_percent": 28,
+      "description": "Premium quality weight plate 5kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/818_Weight_Plate_5kg__Pair_.jpg",
+      "brand": "SPARNOD",
+      "tag": null,
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 83,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 887,
+    "fields": {
+      "name": "Flat Weight Bench",
+      "category": 5,
+      "price": "4999.00",
+      "was_price": "7499.00",
+      "off_percent": 33,
+      "description": "Premium quality flat weight bench for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/887_Flat_Weight_Bench.jpg",
+      "brand": "JETECH",
+      "tag": "Popular",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 20,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 888,
+    "fields": {
+      "name": "Adjustable Incline Bench",
+      "category": 5,
+      "price": "8999.00",
+      "was_price": "12999.00",
+      "off_percent": 31,
+      "description": "Premium quality adjustable incline bench for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/888_Adjustable_Incline_Bench.jpg",
+      "brand": "Boldfit",
+      "tag": "Trending",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 13,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 889,
+    "fields": {
+      "name": "Olympic Adjustable Bench with Rack",
+      "category": 5,
+      "price": "14999.00",
+      "was_price": "21999.00",
+      "off_percent": 32,
+      "description": "Premium quality olympic adjustable bench with rack for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/889_Olympic_Adjustable_Bench_with_Rack.jpg",
+      "brand": "Vinex",
+      "tag": null,
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 56,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 901,
+    "fields": {
+      "name": "Treadmill Motorized 3HP",
+      "category": 4,
+      "price": "34999.00",
+      "was_price": "49999.00",
+      "off_percent": 30,
+      "description": "Premium quality treadmill motorized 3hp for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/901_Treadmill_Motorized_3HP.jpg",
+      "brand": "PowerMax",
+      "tag": "Bestseller",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 29,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 902,
+    "fields": {
+      "name": "Treadmill Manual / Non-Motorized",
+      "category": 4,
+      "price": "14999.00",
+      "was_price": "21999.00",
+      "off_percent": 32,
+      "description": "Premium quality treadmill manual / non-motorized for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/902_Treadmill_Manual___Non-Motorized.jpg",
+      "brand": "MuscleBlaze",
+      "tag": "Popular",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 71,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 903,
+    "fields": {
+      "name": "Exercise Bike Upright",
+      "category": 4,
+      "price": "12999.00",
+      "was_price": "18999.00",
+      "off_percent": 32,
+      "description": "Premium quality exercise bike upright for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/903_Exercise_Bike_Upright.jpg",
+      "brand": "Rogue Fitness",
+      "tag": "Trending",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 37,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 904,
+    "fields": {
+      "name": "Spin Bike Indoor Cycling",
+      "category": 4,
+      "price": "16999.00",
+      "was_price": "24999.00",
+      "off_percent": 32,
+      "description": "Premium quality spin bike indoor cycling for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/904_Spin_Bike_Indoor_Cycling.jpg",
+      "brand": "MuscleBlaze",
+      "tag": "Trending",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 49,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 915,
+    "fields": {
+      "name": "Men's Gym T-Shirt Polyester",
+      "category": 17,
+      "price": "499.00",
+      "was_price": "799.00",
+      "off_percent": 38,
+      "description": "Premium quality men's gym t-shirt polyester for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/915_Men_s_Gym_T-Shirt_Polyester.jpg",
+      "brand": "Strauss",
+      "tag": "New",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 63,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 916,
+    "fields": {
+      "name": "Men's Gym Tank Top",
+      "category": 17,
+      "price": "399.00",
+      "was_price": "699.00",
+      "off_percent": 43,
+      "description": "Premium quality men's gym tank top for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/916_Men_s_Gym_Tank_Top.jpg",
+      "brand": "Kobo",
+      "tag": null,
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 9,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 917,
+    "fields": {
+      "name": "Men's Track Pants",
+      "category": 17,
+      "price": "799.00",
+      "was_price": "1299.00",
+      "off_percent": 38,
+      "description": "Premium quality men's track pants for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/917_Men_s_Track_Pants.jpg",
+      "brand": "PowerMax",
+      "tag": "Trending",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 44,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 851,
+    "fields": {
+      "name": "Rubber Hex Dumbbell 2kg (Pair)",
+      "category": 10,
+      "price": "799.00",
+      "was_price": "1199.00",
+      "off_percent": 33,
+      "description": "Premium quality rubber hex dumbbell 2kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/851_Rubber_Hex_Dumbbell_2kg__Pair_.jpg",
+      "brand": "Fitline",
+      "tag": "New",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 51,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 852,
+    "fields": {
+      "name": "Rubber Hex Dumbbell 5kg (Pair)",
+      "category": 10,
+      "price": "1499.00",
+      "was_price": "2199.00",
+      "off_percent": 32,
+      "description": "Premium quality rubber hex dumbbell 5kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/852_Rubber_Hex_Dumbbell_5kg__Pair_.jpg",
+      "brand": "Garner",
+      "tag": "Popular",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 48,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 853,
+    "fields": {
+      "name": "Rubber Hex Dumbbell 7.5kg (Pair)",
+      "category": 10,
+      "price": "2199.00",
+      "was_price": "3199.00",
+      "off_percent": 31,
+      "description": "Premium quality rubber hex dumbbell 7.5kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/853_Rubber_Hex_Dumbbell_7_5kg__Pair_.jpg",
+      "brand": "Fitline",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 78,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 854,
+    "fields": {
+      "name": "Rubber Hex Dumbbell 10kg (Pair)",
+      "category": 10,
+      "price": "2999.00",
+      "was_price": "4299.00",
+      "off_percent": 30,
+      "description": "Premium quality rubber hex dumbbell 10kg (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/854_Rubber_Hex_Dumbbell_10kg__Pair_.jpg",
+      "brand": "Gymstick",
+      "tag": null,
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 48,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 1009,
+    "fields": {
+      "name": "Battle Rope 9m x 38mm",
+      "category": 13,
+      "price": "3499.00",
+      "was_price": "4999.00",
+      "off_percent": 30,
+      "description": "Premium quality battle rope 9m x 38mm for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/1009_Battle_Rope_9m_x_38mm.jpg",
+      "brand": "SPARNOD",
+      "tag": "Bestseller",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 33,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 1010,
+    "fields": {
+      "name": "Battle Rope 12m x 38mm",
+      "category": 13,
+      "price": "4499.00",
+      "was_price": "6499.00",
+      "off_percent": 31,
+      "description": "Premium quality battle rope 12m x 38mm for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/1010_Battle_Rope_12m_x_38mm.jpg",
+      "brand": "JETECH",
+      "tag": "Bestseller",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 32,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 1011,
+    "fields": {
+      "name": "Plyo Box Set (3 sizes)",
+      "category": 13,
+      "price": "5999.00",
+      "was_price": "8999.00",
+      "off_percent": 33,
+      "description": "Premium quality plyo box set (3 sizes) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/1011_Plyo_Box_Set__3_sizes_.jpg",
+      "brand": "Peloton",
+      "tag": null,
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 20,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 989,
+    "fields": {
+      "name": "Rubber Gym Mat 4x6 ft",
+      "category": 15,
+      "price": "1999.00",
+      "was_price": "2999.00",
+      "off_percent": 33,
+      "description": "Premium quality rubber gym mat 4x6 ft for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/989_Rubber_Gym_Mat_4x6_ft.jpg",
+      "brand": "Stamina",
+      "tag": null,
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 45,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 990,
+    "fields": {
+      "name": "Rubber Gym Mat 3x3 ft",
+      "category": 15,
+      "price": "999.00",
+      "was_price": "1499.00",
+      "off_percent": 33,
+      "description": "Premium quality rubber gym mat 3x3 ft for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/990_Rubber_Gym_Mat_3x3_ft.jpg",
+      "brand": "Peloton",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 99,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 991,
+    "fields": {
+      "name": "Interlocking Floor Tiles (6 pcs)",
+      "category": 15,
+      "price": "1499.00",
+      "was_price": "2199.00",
+      "off_percent": 32,
+      "description": "Premium quality interlocking floor tiles (6 pcs) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/991_Interlocking_Floor_Tiles__6_pcs_.jpg",
+      "brand": "Boldfit",
+      "tag": "Popular",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 56,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 943,
+    "fields": {
+      "name": "Kettlebell 4kg",
+      "category": 11,
+      "price": "999.00",
+      "was_price": "1499.00",
+      "off_percent": 33,
+      "description": "Premium quality kettlebell 4kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/943_Kettlebell_4kg.jpg",
+      "brand": "MuscleBlaze",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 69,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 944,
+    "fields": {
+      "name": "Kettlebell 6kg",
+      "category": 11,
+      "price": "1299.00",
+      "was_price": "1899.00",
+      "off_percent": 32,
+      "description": "Premium quality kettlebell 6kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/944_Kettlebell_6kg.jpg",
+      "brand": "Stamina",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 66,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 945,
+    "fields": {
+      "name": "Kettlebell 8kg",
+      "category": 11,
+      "price": "1699.00",
+      "was_price": "2499.00",
+      "off_percent": 32,
+      "description": "Premium quality kettlebell 8kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/945_Kettlebell_8kg.jpg",
+      "brand": "Strauss",
+      "tag": "Bestseller",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 32,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 946,
+    "fields": {
+      "name": "Kettlebell 10kg",
+      "category": 11,
+      "price": "2099.00",
+      "was_price": "2999.00",
+      "off_percent": 30,
+      "description": "Premium quality kettlebell 10kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/946_Kettlebell_10kg.jpg",
+      "brand": "Stamina",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 91,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 955,
+    "fields": {
+      "name": "Lat Pulldown Machine",
+      "category": 7,
+      "price": "19999.00",
+      "was_price": "29999.00",
+      "off_percent": 33,
+      "description": "Premium quality lat pulldown machine for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/955_Lat_Pulldown_Machine.jpg",
+      "brand": "Decathlon",
+      "tag": "New",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 71,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 956,
+    "fields": {
+      "name": "Cable Crossover Machine",
+      "category": 7,
+      "price": "44999.00",
+      "was_price": "64999.00",
+      "off_percent": 31,
+      "description": "Premium quality cable crossover machine for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/956_Cable_Crossover_Machine.jpg",
+      "brand": "Decathlon",
+      "tag": "Bestseller",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 32,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 957,
+    "fields": {
+      "name": "Smith Machine",
+      "category": 7,
+      "price": "39999.00",
+      "was_price": "59999.00",
+      "off_percent": 33,
+      "description": "Premium quality smith machine for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/957_Smith_Machine.jpg",
+      "brand": "Garner",
+      "tag": null,
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 61,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 958,
+    "fields": {
+      "name": "Leg Press Machine 45 degree",
+      "category": 7,
+      "price": "29999.00",
+      "was_price": "44999.00",
+      "off_percent": 33,
+      "description": "Premium quality leg press machine 45 degree for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/958_Leg_Press_Machine_45_degree.jpg",
+      "brand": "Vinex",
+      "tag": "New",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 61,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 833,
+    "fields": {
+      "name": "Power Rack / Squat Cage",
+      "category": 3,
+      "price": "24999.00",
+      "was_price": "34999.00",
+      "off_percent": 29,
+      "description": "Premium quality power rack / squat cage for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/833_Power_Rack___Squat_Cage.jpg",
+      "brand": "Bowflex",
+      "tag": "Trending",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 32,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 834,
+    "fields": {
+      "name": "Half Rack with Plate Storage",
+      "category": 3,
+      "price": "18999.00",
+      "was_price": "26999.00",
+      "off_percent": 30,
+      "description": "Premium quality half rack with plate storage for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/834_Half_Rack_with_Plate_Storage.jpg",
+      "brand": "Bowflex",
+      "tag": "Bestseller",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 73,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 835,
+    "fields": {
+      "name": "Wall-Mounted Foldable Rack",
+      "category": 3,
+      "price": "14999.00",
+      "was_price": "21999.00",
+      "off_percent": 32,
+      "description": "Premium quality wall-mounted foldable rack for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/835_Wall-Mounted_Foldable_Rack.jpg",
+      "brand": "Cosco",
+      "tag": "Bestseller",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 38,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 836,
+    "fields": {
+      "name": "Pull-Up Bar Doorway",
+      "category": 3,
+      "price": "1999.00",
+      "was_price": "2999.00",
+      "off_percent": 33,
+      "description": "Premium quality pull-up bar doorway for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/836_Pull-Up_Bar_Doorway.jpg",
+      "brand": "Lifelong",
+      "tag": "Trending",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 50,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 999,
+    "fields": {
+      "name": "Dumbbell Rack 3-Tier",
+      "category": 14,
+      "price": "5999.00",
+      "was_price": "8999.00",
+      "off_percent": 33,
+      "description": "Premium quality dumbbell rack 3-tier for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/999_Dumbbell_Rack_3-Tier.jpg",
+      "brand": "Cosco",
+      "tag": "Popular",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 78,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 1000,
+    "fields": {
+      "name": "Weight Plate Tree Stand",
+      "category": 14,
+      "price": "3999.00",
+      "was_price": "5999.00",
+      "off_percent": 33,
+      "description": "Premium quality weight plate tree stand for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/1000_Weight_Plate_Tree_Stand.jpg",
+      "brand": "Rogue Fitness",
+      "tag": null,
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 80,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 1001,
+    "fields": {
+      "name": "Barbell Holder Wall Mount",
+      "category": 14,
+      "price": "1499.00",
+      "was_price": "2199.00",
+      "off_percent": 32,
+      "description": "Premium quality barbell holder wall mount for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/1001_Barbell_Holder_Wall_Mount.jpg",
+      "brand": "Gymstick",
+      "tag": null,
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 89,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 929,
+    "fields": {
+      "name": "Whey Protein 1kg Chocolate",
+      "category": 18,
+      "price": "1499.00",
+      "was_price": "2199.00",
+      "off_percent": 32,
+      "description": "Premium quality whey protein 1kg chocolate for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/929_Whey_Protein_1kg_Chocolate.jpg",
+      "brand": "Cosco",
+      "tag": "Deal",
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 42,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 930,
+    "fields": {
+      "name": "Whey Protein 2kg Chocolate",
+      "category": 18,
+      "price": "2699.00",
+      "was_price": "3999.00",
+      "off_percent": 33,
+      "description": "Premium quality whey protein 2kg chocolate for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/930_Whey_Protein_2kg_Chocolate.jpg",
+      "brand": "Fittr",
+      "tag": "Trending",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 18,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 931,
+    "fields": {
+      "name": "Whey Protein Isolate 1kg",
+      "category": 18,
+      "price": "1999.00",
+      "was_price": "2999.00",
+      "off_percent": 33,
+      "description": "Premium quality whey protein isolate 1kg for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/931_Whey_Protein_Isolate_1kg.jpg",
+      "brand": "Strauss",
+      "tag": "Deal",
+      "is_deal": false,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 30,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 932,
+    "fields": {
+      "name": "Mass Gainer 3kg Chocolate",
+      "category": 18,
+      "price": "2499.00",
+      "was_price": "3499.00",
+      "off_percent": 29,
+      "description": "Premium quality mass gainer 3kg chocolate for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/932_Mass_Gainer_3kg_Chocolate.jpg",
+      "brand": "Fittr",
+      "tag": "Deal",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 67,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 969,
+    "fields": {
+      "name": "Yoga Mat 6mm Thick",
+      "category": 12,
+      "price": "599.00",
+      "was_price": "899.00",
+      "off_percent": 33,
+      "description": "Premium quality yoga mat 6mm thick for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/969_Yoga_Mat_6mm_Thick.jpg",
+      "brand": "Lifelong",
+      "tag": null,
+      "is_deal": true,
+      "is_featured": false,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 18,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 970,
+    "fields": {
+      "name": "Yoga Mat 8mm Premium",
+      "category": 12,
+      "price": "999.00",
+      "was_price": "1499.00",
+      "off_percent": 33,
+      "description": "Premium quality yoga mat 8mm premium for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/970_Yoga_Mat_8mm_Premium.jpg",
+      "brand": "MuscleBlaze",
+      "tag": "Popular",
+      "is_deal": true,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 65,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  },
+  {
+    "model": "store.product",
+    "pk": 971,
+    "fields": {
+      "name": "Yoga Block (Pair)",
+      "category": 12,
+      "price": "399.00",
+      "was_price": "599.00",
+      "off_percent": 33,
+      "description": "Premium quality yoga block (pair) for home and commercial gym use. Built to last with professional-grade materials.",
+      "image": "/product_images/971_Yoga_Block__Pair_.jpg",
+      "brand": "MuscleBlaze",
+      "tag": "Popular",
+      "is_deal": false,
+      "is_featured": true,
+      "claimed": 0,
+      "ends_in_hours": 48,
+      "stock": 84,
+      "created_at": "2026-01-01T00:00:00+00:00"
+    },
+    "name": null
+  }
+]

@@ -66,3 +66,6 @@ mk/mk/Fittrack/django_backend/staticfiles/
 mk/mk/Fittrack/django_backend/assets/
 mk/mk/Fittrack/django_backend/index.html
 node_modules/
+
+.vercel
+.env*
