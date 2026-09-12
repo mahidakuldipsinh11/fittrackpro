@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Heart, ShoppingCart, ArrowLeft, Star, Truck, Shield, RotateCcw, ChevronRight, Plus, Minus } from "lucide-react";
+import { Heart, ShoppingCart, ArrowLeft, Star, Truck, Shield, RotateCcw, ChevronRight, Plus, Minus, MessageSquare, Send } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useToast } from "../context/ToastContext";
@@ -22,6 +22,16 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [added, setAdded] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewHover, setReviewHover] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRole, setReviewRole] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const reviewsRef = useRef(null);
 
   const isLoggedIn = !!JSON.parse(localStorage.getItem("currentUser") || "null");
   const showDiscount = isLoggedIn && isCouponActive;
@@ -30,6 +40,64 @@ export default function ProductDetail() {
     loadProduct();
     window.scrollTo(0, 0);
   }, [id]);
+
+  // Fetch reviews for this product
+  useEffect(() => {
+    if (!product) return;
+    setReviewsLoading(true);
+    api.get("/reviews/", { params: { product_name: product.name } })
+      .then((res) => setReviews(res.data.results || res.data || []))
+      .catch(() => setReviews([]))
+      .finally(() => setReviewsLoading(false));
+  }, [product?.name]);
+
+  const scrollToReviews = () => {
+    reviewsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      toast.error("Please login to submit a review.");
+      navigate("/login");
+      return;
+    }
+    if (!reviewText.trim()) {
+      toast.error("Please write your review.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const userData = JSON.parse(localStorage.getItem("currentUser") || "null");
+      const payload = {
+        rating: reviewRating,
+        text: reviewText.trim(),
+        user_name: userData?.name || undefined,
+        user_email: userData?.email || undefined,
+        product_name: product.name,
+      };
+      if (reviewTitle.trim()) payload.title = reviewTitle.trim();
+      if (reviewRole.trim()) payload.role = reviewRole.trim();
+      await api.post("/reviews/", payload);
+      toast.success("Review submitted! Thank you. 🎉");
+      setShowReviewForm(false);
+      setReviewRating(5);
+      setReviewTitle("");
+      setReviewText("");
+      setReviewRole("");
+      const res = await api.get("/reviews/", { params: { product_name: product.name } });
+      setReviews(res.data.results || res.data || []);
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        toast.error("Please login to submit a review.");
+        navigate("/login");
+      } else {
+        toast.error(err.response?.data?.detail || "Failed to submit review. Try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const loadProduct = async () => {
     setLoading(true);
@@ -83,6 +151,15 @@ export default function ProductDetail() {
   const currentPrice = selectedVariant?.price_override || p.price;
   const wishlisted = isLoggedIn && isInWishlist(p.id);
 
+  // Review stats
+  const avgRating = reviews.length
+    ? (reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length).toFixed(1)
+    : "0";
+  const ratingCounts = [5, 4, 3, 2, 1].map((r) => ({
+    stars: r,
+    count: reviews.filter((rev) => Number(rev.rating) === r).length,
+  }));
+
   // Determine variant type
   const variants = p.variants || [];
   const sizeVariants = variants.filter(v => v.variant_type === "size");
@@ -117,9 +194,10 @@ export default function ProductDetail() {
 
             <div className="pd-rating">
               {[1,2,3,4,5].map(i => (
-                <Star key={i} size={16} fill={i <= 4 ? "#f97316" : "none"} stroke={i <= 4 ? "#f97316" : "#64748b"} />
+                <Star key={i} size={16} fill={i <= Math.round(Number(avgRating)) ? "#f97316" : "none"} stroke={i <= Math.round(Number(avgRating)) ? "#f97316" : "#64748b"} />
               ))}
-              <span>4.0 out of 5</span>
+              <span>{avgRating} out of 5 {reviews.length > 0 && `(${reviews.length} review${reviews.length > 1 ? "s" : ""})`}</span>
+              {reviews.length > 0 && <button className="pd-reviews-link" onClick={scrollToReviews}>View Reviews</button>}
             </div>
 
             <div className="pd-price-box">
@@ -218,6 +296,143 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <section className="pd-reviews" ref={reviewsRef}>
+          <div className="pd-reviews__head">
+            <div>
+              <h2><MessageSquare size={20} /> Customer Reviews</h2>
+              <p>
+                {reviewsLoading ? "Loading reviews..." : reviews.length > 0
+                  ? `${reviews.length} review${reviews.length > 1 ? "s" : ""} for ${p.name}`
+                  : "No reviews yet for this product. Be the first to review!"}
+              </p>
+            </div>
+            {!showReviewForm && (
+              <button className="pd-review-btn" onClick={() => setShowReviewForm(true)}>
+                ✍️ Write a Review
+              </button>
+            )}
+          </div>
+
+          {reviews.length > 0 && (
+            <div className="pd-reviews__summary">
+              <div className="pd-avg">
+                <span className="pd-avg-num">{avgRating}</span>
+                <div className="rv-stars">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star key={s} size={16} fill={s <= Math.round(Number(avgRating)) ? "#C8A951" : "none"} stroke={s <= Math.round(Number(avgRating)) ? "#C8A951" : "#888"} />
+                  ))}
+                </div>
+                <span className="pd-avg-count">Based on {reviews.length} review{reviews.length > 1 ? "s" : ""}</span>
+              </div>
+              <div className="pd-rating-bars">
+                {ratingCounts.map(({ stars, count }) => (
+                  <div className="rv-bar-row" key={stars}>
+                    <span className="rv-bar-label">{stars} ★</span>
+                    <div className="rv-bar-track">
+                      <div className="rv-bar-fill" style={{ width: reviews.length > 0 ? `${(count / reviews.length) * 100}%` : "0%" }} />
+                    </div>
+                    <span className="rv-bar-count">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {showReviewForm && (
+            <form className="pd-review-form" onSubmit={handleSubmitReview}>
+              <h3>Write a Review for {p.name}</h3>
+              <div className="rv-form__field">
+                <label>Your Rating *</label>
+                <div className="rv-form__rating">
+                  <div className="rv-stars">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        className={`rv-star ${(reviewHover || reviewRating) >= s ? "active" : ""}`}
+                        onClick={() => setReviewRating(s)}
+                        onMouseEnter={() => setReviewHover(s)}
+                        onMouseLeave={() => setReviewHover(0)}
+                        aria-label={`${s} star`}
+                      >
+                        <Star size={24} fill={(reviewHover || reviewRating) >= s ? "#C8A951" : "none"} stroke={(reviewHover || reviewRating) >= s ? "#C8A951" : "#666"} />
+                      </button>
+                    ))}
+                  </div>
+                  <span className="rv-form__rating-label">{["Poor", "Fair", "Good", "Very Good", "Excellent"][reviewRating - 1]}</span>
+                </div>
+              </div>
+              <div className="rv-form__field">
+                <label>Review Title</label>
+                <input type="text" placeholder="Summarize your experience" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} maxLength={200} />
+              </div>
+              <div className="rv-form__field">
+                <label>Your Review *</label>
+                <textarea placeholder="Tell others about your experience with this product..." value={reviewText} onChange={(e) => setReviewText(e.target.value)} rows={4} required />
+              </div>
+              <div className="rv-form__row">
+                <div className="rv-form__field">
+                  <label>Your Role (Optional)</label>
+                  <input type="text" placeholder="e.g. Gym Owner, Fitness Trainer" value={reviewRole} onChange={(e) => setReviewRole(e.target.value)} />
+                </div>
+              </div>
+              <div className="pd-review-actions">
+                <button type="submit" className="pd-review-submit" disabled={submitting}>
+                  <Send size={16} /> {submitting ? "Submitting..." : "Submit Review"}
+                </button>
+                <button type="button" className="pd-review-cancel" onClick={() => setShowReviewForm(false)}>Cancel</button>
+              </div>
+            </form>
+          )}
+
+          {reviewsLoading ? (
+            <div className="pd-reviews__empty"><div className="rv-spinner" /><p>Loading reviews...</p></div>
+          ) : reviews.length === 0 ? (
+            <div className="pd-reviews__empty">
+              <MessageSquare size={40} />
+              <p>No reviews yet. Be the first to share your experience with this product!</p>
+              {isLoggedIn && !showReviewForm && (
+                <button className="pd-review-btn" onClick={() => setShowReviewForm(true)}>Write a Review</button>
+              )}
+            </div>
+          ) : (
+            <div className="rv-grid pd-review-grid">
+              {reviews.map((review) => {
+                const initial = review.user_name ? review.user_name.charAt(0).toUpperCase() : "U";
+                const date = new Date(review.created_at).toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
+                return (
+                  <div className="rv-card" key={review.id}>
+                    <div className="rv-card__top">
+                      <div className="rv-stars">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={14} fill={s <= Number(review.rating) ? "#C8A951" : "none"} stroke={s <= Number(review.rating) ? "#C8A951" : "#888"} />
+                        ))}
+                      </div>
+                      <span className="rv-card__date">{date}</span>
+                    </div>
+                    {review.title && <h3 className="rv-card__title">{review.title}</h3>}
+                    <p className="rv-card__text">{review.text}</p>
+                    <div className="rv-card__author">
+                      <div className="rv-card__avatar">{initial}</div>
+                      <div>
+                        <span className="rv-card__name">{review.user_name || "Anonymous"}</span>
+                        {review.role && <span className="rv-card__role">{review.role}</span>}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {!showReviewForm && !isLoggedIn && reviews.length === 0 && (
+            <button className="pd-review-btn" onClick={() => { navigate("/login"); }}>
+              Sign In to Write a Review
+            </button>
+          )}
+        </section>
 
         {/* Related Products */}
         {related.length > 0 && (

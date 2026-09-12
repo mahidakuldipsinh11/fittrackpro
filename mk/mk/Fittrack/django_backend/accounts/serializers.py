@@ -5,11 +5,16 @@ from .models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=6)
+    password = serializers.CharField(write_only=True, min_length=8, max_length=16)
 
     class Meta:
         model = User
         fields = ["id", "name", "email", "password"]
+
+    def validate_password(self, value):
+        if not (8 <= len(value) <= 16):
+            raise serializers.ValidationError("Password must be 8-16 characters long.")
+        return value
 
     def create(self, validated_data):
         return User.objects.create_user(

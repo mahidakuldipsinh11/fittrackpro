@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import {
   Zap, Shield, Truck, RotateCcw, Star, Dumbbell,
   Tag, Check, Phone, ArrowUpRight, Award, Users,
-  Package, Heart, Globe, Clock, ChevronRight, Quote
+  Package, Heart, Globe, Clock, ChevronRight, Quote, MessageSquare
 } from "lucide-react";
+import api from "../api/client";
 import "./About.css";
 
 /* ═══════════ PROFESSIONAL ECOMMERCE ABOUT PAGE ═══════════ */
@@ -16,15 +17,6 @@ const VALUES = [
   { icon: "🌱", title: "Sustainability", desc: "Eco-friendly packaging, efficient logistics, and products designed to last for years, not months." },
   { icon: "🇮🇳", title: "Made in India", desc: "Proudly supporting Indian manufacturers and craftsmanship. Building world-class fitness equipment right here." },
   { icon: "❤️", title: "Fitness for All", desc: "From beginners to pro athletes, from home gyms to commercial setups — equipment for every fitness journey." },
-];
-
-const TESTIMONIALS = [
-  { text: "Opened my gym with FitTrack Pro equipment. Saved ₹3 lakhs vs imported brands. Quality is commercial-grade — members love it.", author: "Rajesh Kumar", role: "Gym Owner, Mumbai", initials: "RK", rating: 5 },
-  { text: "Home gym delivered in 3 days. The power rack is bulletproof. Best investment I've made for my fitness journey.", author: "Priya Sharma", role: "Fitness Enthusiast, Delhi", initials: "PS", rating: 5 },
-  { text: "Compared 5 brands. Same steel, same capacity, 40% cheaper. Switched my entire gym to FitTrack Pro. Best decision ever.", author: "Vikram Mehta", role: "Powerlifter, Bangalore", initials: "VM", rating: 5 },
-  { text: "Excellent customer support. They helped me choose the right equipment for my home gym. Delivery was fast and hassle-free.", author: "Anita Desai", role: "Yoga Instructor, Pune", initials: "AD", rating: 5 },
-  { text: "The quality of dumbbells and barbells is outstanding. At this price point, nothing else comes close in India.", author: "Suresh Patel", role: "CrossFit Box Owner, Ahmedabad", initials: "SP", rating: 5 },
-  { text: "Bought a complete gym setup for my society. FitTrack Pro gave us bulk pricing and free installation. Amazing service!", author: "Meena Iyer", role: "Apartment Complex, Chennai", initials: "MI", rating: 5 },
 ];
 
 function useInView(threshold = 0.15) {
@@ -48,6 +40,20 @@ export default function About() {
   const [valuesRef, valuesInView] = useInView();
   const [testRef, testInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
+
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    api.get("/reviews/")
+      .then((res) => {
+        if (!cancelled) setReviews(res.data?.results ?? res.data ?? []);
+      })
+      .catch(() => { if (!cancelled) setReviews([]); })
+      .finally(() => { if (!cancelled) setReviewsLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   return (
     <main className="ft-page about-pro">
@@ -126,30 +132,48 @@ export default function About() {
       <section className={`apro-test ${testInView ? "in-view" : ""}`} ref={testRef}>
         <div className="ft-container">
           <div className="apro-section-header">
-            <span className="apro-eyebrow">💬 Customer Stories</span>
+            <span className="apro-eyebrow"><MessageSquare size={14} /> Customer Stories</span>
             <h2>What Our Customers Say About Us</h2>
             <p className="apro-section-sub">Real reviews from real buyers — verified purchases only.</p>
           </div>
-          <div className="apro-test__grid">
-            {TESTIMONIALS.map((r, i) => (
-              <div className="apro-test__card" key={r.author} style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="apro-test__card-top">
-                  <div className="apro-test__stars">
-                    {Array.from({ length: r.rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
+          {reviewsLoading ? (
+            <div className="apro-test__empty"><div className="rv-spinner" /><p>Loading reviews...</p></div>
+          ) : reviews.length === 0 ? (
+            <div className="apro-test__empty">
+              <MessageSquare size={40} />
+              <p>No reviews yet. Be the first to share your experience!</p>
+              <Link to="/reviews" className="ft-btn ft-btn--primary">Write a Review</Link>
+            </div>
+          ) : (
+            <div className="apro-test__grid">
+              {reviews.map((r, i) => {
+                const initial = r.user_name ? r.user_name.charAt(0).toUpperCase() : "U";
+                const rating = Math.max(1, Math.min(5, Number(r.rating) || 5));
+                return (
+                  <div className="apro-test__card" key={r.id || i} style={{ transitionDelay: `${i * 100}ms` }}>
+                    <div className="apro-test__card-top">
+                      <div className="apro-test__stars">
+                        {Array.from({ length: rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
+                      </div>
+                    </div>
+                    <Quote size={20} className="apro-test__quote-icon" />
+                    {r.title && <h4 className="apro-test__title">{r.title}</h4>}
+                    <p className="apro-test__text">"{r.text}"</p>
+                    {r.product_name && <span className="apro-test__product">🏷️ {r.product_name}</span>}
+                    <div className="apro-test__author">
+                      <div className="apro-test__avatar">{initial}</div>
+                      <div>
+                        <span className="apro-test__name">{r.user_name || "Anonymous"}</span>
+                        {r.role && <span className="apro-test__role">{r.role}</span>}
+                      </div>
+                    </div>
                   </div>
-                  <span className="apro-test__verified">✓ Verified Purchase</span>
-                </div>
-                <Quote size={20} className="apro-test__quote-icon" />
-                <p className="apro-test__text">{r.text}</p>
-                <div className="apro-test__author">
-                  <div className="apro-test__avatar">{r.initials}</div>
-                  <div>
-                    <span className="apro-test__name">{r.author}</span>
-                    <span className="apro-test__role">{r.role}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
+          )}
+          <div className="apro-test__more">
+            <Link to="/reviews" className="ft-btn ft-btn--ghost">View All Reviews & Write Yours</Link>
           </div>
         </div>
       </section>
@@ -159,7 +183,7 @@ export default function About() {
         <div className="ft-container apro-cta__inner">
           <div className="apro-cta__content">
             <h2>Ready to Start Your Fitness Journey?</h2>
-            <p>Join 50,000+ athletes who trust FitTrack Pro for their gym equipment needs. Shop now and get free delivery across India.</p>
+            <p>Join 45+ products who trust FitTrack Pro for their gym equipment needs. Shop now and get free delivery across India.</p>
             <div className="apro-cta__actions">
               <Link to="/shop" className="ft-btn ft-btn--primary apro-cta__btn">
                 <Dumbbell size={18} /> Shop All Equipment

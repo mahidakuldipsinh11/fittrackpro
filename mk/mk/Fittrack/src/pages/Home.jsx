@@ -19,38 +19,38 @@ const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1541534741688-6078c6bf
 /* ═══════════ HERO BANNER SLIDES ═══════════ */
 const HERO_SLIDES = [
   {
-    title: "Build Your Dream Gym",
-    sub: "Premium fitness equipment at factory-direct prices. 200+ products. Free Pan-India delivery.",
+    title: "Get Fit. Get Strong. Get FitTrack Pro",
+    sub: "Premium fitness equipment at factory-direct prices. Trusted by athletes — quality you can feel, support you can rely on.",
     cta: "Shop Now",
     link: "/shop",
     img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&auto=format&fit=crop&q=85",
-    badge: "UP TO 40% OFF"
+    badge: "🇮🇳 INDIA'S #1 GYM EQUIPMENT STORE"
   },
   {
-    title: "Commercial-Grade Racks",
-    sub: "Heavy-duty power racks, squat stands & cable machines built for 100+ daily users.",
+    title: "Commercial-Grade. Home Comfort.",
+    sub: "Heavy-duty racks, benches & machines engineered for 10+ daily workouts. Free delivery everywhere.",
     cta: "Explore Racks",
-    link: "/shop?category=Racks+%26+Rigs",
+    link: "/shop?category=Racks",
     img: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1920&auto=format&fit=crop&q=85",
-    badge: "NEW ARRIVAL"
+    badge: "🔥 40% FLAT OFF — LIMITED TIME"
   },
   {
-    title: "Home Gym Starter Kits",
-    sub: "Everything you need to start training at home. Complete setups from ₹9,999.",
+    title: "Your Dream Gym. One Order Away.",
+    sub: "Complete luxury home gym packages with delivery, installation & 1-year warranty. Built for every budget.",
     cta: "View Kits",
     link: "/shop",
     img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1920&auto=format&fit=crop&q=85",
-    badge: "BEST SELLER"
+    badge: "⭐ 4.9/5 ATHLETE RATED"
   }
 ];
 
 /* ═══════════ CATEGORIES ═══════════ */
 const CATEGORIES = [
-  { name: "Barbells & Plates", icon: "🏋️", color: "#FF6B35", desc: "Olympic & Bumper Plates", count: "25+", filter: "Barbells,Plates" },
-  { name: "Racks & Rigs", icon: "🏗️", color: "#4A90D9", desc: "Cages & Power Racks", count: "15+", filter: "Racks" },
-  { name: "Dumbbells", icon: "💪", color: "#2ECC71", desc: "Fixed & Adjustable", count: "30+", filter: "Dumbbells" },
-  { name: "Benches", icon: "🪑", color: "#9B59B6", desc: "Flat & Adjustable", count: "12+", filter: "Benches" },
-  { name: "Cardio", icon: "🏃", color: "#E74C3C", desc: "Treadmills & Bikes", count: "10+", filter: "Cardio" },
+  { name: "Barbells & Plates", icon: "🏋️", color: "#FF6B35", desc: "Olympic & Bumper Plates", count: "6+", filter: "Weights" },
+  { name: "Racks & Rigs", icon: "🏗️", color: "#4A90D9", desc: "Cages & Power Racks", count: "3+", filter: "Racks" },
+  { name: "Dumbbells", icon: "💪", color: "#2ECC71", desc: "Fixed & Adjustable", count: "2+", filter: "Dumbbells" },
+  { name: "Benches", icon: "🪑", color: "#9B59B6", desc: "Flat & Adjustable", count: "4+", filter: "Benches" },
+  { name: "Cardio", icon: "🏃", color: "#E74C3C", desc: "Treadmills & Bikes", count: "8+", filter: "Cardio" },
 ];
 
 /* ═══════════ FLASH DEALS BANNER ═══════════ */
@@ -64,11 +64,11 @@ const FLASH_DEALS = [
 
 /* ═══════════ SHOP BY GOAL ═══════════ */
 const GOALS = [
-  { title: "Home Gym Starter", desc: "Build your dream home gym with budget-friendly equipment from ₹9,999. Free delivery across India.", icon: HomeIcon, color: "#FF6B35", filter: "Barbells,Plates,Dumbbells,Benches" },
-  { title: "Commercial Gym Setup", desc: "Heavy-duty racks, benches & machines built for 100+ daily users. Professional grade steel.", icon: Building2, color: "#4A90D9", filter: "Racks,Machines,Commercial Gym" },
-  { title: "CrossFit & HIIT Training", desc: "Bumper plates, pull-up rigs, wall balls, sleds & plyo boxes. Built for intense WODs.", icon: Swords, color: "#2ECC71", filter: "Racks,Plates,Cardio,Functional Training" },
-  { title: "Powerlifting Gear", desc: "Competition-spec barbells, calibrated plates, deadlift platforms & monolift attachments.", icon: Trophy, color: "#9B59B6", filter: "Barbells,Plates,Racks" },
-  { title: "Yoga & Recovery", desc: "Premium yoga mats, foam rollers, resistance bands & stretching equipment for recovery.", icon: Target, color: "#E91E63", filter: "Accessories,Flooring" },
+  { title: "Home Gym Starter", desc: "Complete luxury home gym package with premium equipment, delivery & installation included.", icon: HomeIcon, color: "#FF6B35", filter: "Home Gym Package" },
+  { title: "Commercial Gym Setup", desc: "Heavy-duty commercial racks, machines & benches built for 100+ daily users. Professional grade steel.", icon: Building2, color: "#4A90D9", filter: "Commercial" },
+  { title: "CrossFit & HIIT Training", desc: "Bumper plates, pull-up rigs, wall balls, sleds & plyo boxes. Built for intense WODs.", icon: Swords, color: "#2ECC71", filter: "Racks,Weights,Cardio,Functional Training" },
+  { title: "Powerlifting Gear", desc: "Competition-spec barbells, calibrated plates, deadlift platforms & monolift attachments.", icon: Trophy, color: "#9B59B6", filter: "Weights,Racks,Benches" },
+  { title: "Yoga & Recovery", desc: "Premium yoga mats, foam rollers, resistance bands & stretching equipment for recovery.", icon: Target, color: "#E91E63", filter: "Accessories,Gym Flooring,Yoga" },
   { title: "Cardio & Endurance", desc: "Motorized treadmills, exercise bikes, rowing machines & skipping ropes for cardio.", icon: TrendingUp, color: "#E74C3C", filter: "Cardio" },
 ];
 
@@ -122,6 +122,17 @@ function HeroCarousel() {
         <span className="home-hero-carousel__badge">{slide.badge}</span>
         <h1 className="home-hero-carousel__title">{slide.title}</h1>
         <p className="home-hero-carousel__sub">{slide.sub}</p>
+        <div className="home-hero-carousel__stats">
+          <div className="home-hero-carousel__stat">
+            <strong>45+</strong><span>Premium Products</span>
+          </div>
+          <div className="home-hero-carousel__stat">
+            <strong>24/7</strong><span>Expert Support</span>
+          </div>
+          <div className="home-hero-carousel__stat">
+            <strong>100%</strong><span>Secure Payments</span>
+          </div>
+        </div>
         <Link to={slide.link} className="ft-btn ft-btn--primary home-hero-carousel__btn">
           {slide.cta} <ArrowRight size={18} />
         </Link>
@@ -207,6 +218,22 @@ export default function Home() {
   const newArrivals = useMemo(() => [...products].reverse().slice(0, 8), [products]);
   const trendingProducts = useMemo(() => [...products].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 8), [products]);
 
+  // ── Shop by Goal: har goal ke related products (same match logic as Shop page) ──
+  const goalProducts = useMemo(() => {
+    const matchWord = (ac) => {
+      const singular = ac.replace(/s$/, "");
+      return [ac, singular].filter(Boolean);
+    };
+    return GOALS.map((g) => {
+      const terms = g.filter.split(",").map((c) => c.trim().toLowerCase()).filter(Boolean);
+      const matched = products.filter((p) => {
+        const haystack = `${p.cat} ${p.name}`.toLowerCase();
+        return terms.some((ac) => matchWord(ac).some((w) => haystack.includes(w)));
+      });
+      return { goal: g, items: matched.slice(0, 4) };
+    });
+  }, [products]);
+
   return (
     <main className="ft-page home-ecom">
 
@@ -247,14 +274,29 @@ export default function Home() {
             </div>
           </div>
           <div className="home-goals__grid">
-            {GOALS.map((g, i) => (
+            {goalProducts.map(({ goal: g, items }, i) => (
               <Link to={{ pathname: "/shop", search: `?category=${encodeURIComponent(g.filter)}` }} className="home-goal-card" key={g.title} style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="home-goal-card__icon" style={{ background: `${g.color}12`, color: g.color }}>
                   <g.icon size={28} />
                 </div>
-                <div>
+                {items.length > 0 && (
+                  <div className="home-goal-card__imgs">
+                    {items.slice(0, 3).map((item, j) => (
+                      <img
+                        key={item.id}
+                        src={item.image}
+                        alt={item.name}
+                        className="home-goal-card__img"
+                        loading="lazy"
+                        onError={(e) => { e.target.style.display = "none"; }}
+                        style={{ zIndex: 3 - j, marginLeft: j > 0 ? `-${8 + j * 4}px` : 0 }}
+                      />
+                    ))}
+                  </div>
+                )}
+                <div className="home-goal-card__body">
                   <h3>{g.title}</h3>
-                  <p>{g.desc}</p>
+                  <p>{items.length > 0 ? `${items.length} related product${items.length > 1 ? "s" : ""}` : g.desc}</p>
                 </div>
                 <ArrowRight size={18} className="home-goal-card__arrow" />
               </Link>
@@ -345,7 +387,7 @@ export default function Home() {
       <section className="home-final-cta">
         <div className="ft-container home-final-cta__inner">
           <h2>Ready to Build Your Dream Gym?</h2>
-          <p>Join 50+ athletes who trust FitTrack Pro. Shop now and get free delivery across India.</p>
+          <p>Join 50 item who trust our premium fitness equipment. Shop now and get free delivery across India.</p>
           <div className="home-final-cta__actions">
             <Link to="/shop" className="ft-btn ft-btn--primary"><Dumbbell size={18} /> Shop All Equipment</Link>
             <Link to="/deals" className="ft-btn ft-btn--ghost"><Flame size={16} /> Deals</Link>

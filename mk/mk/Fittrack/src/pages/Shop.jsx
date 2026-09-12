@@ -241,15 +241,27 @@ export default function Shop() {
     [products]
   );
 
-  // Category filter may be a single category or comma-separated (e.g. "Barbells,Plates")
+  // Category filter — substring match on category AND product name, so
+  // "Barbells" matches category "Weights" products like "Olympic Barbell".
+  // Plural-tolerant: checks both "barbells" and its singular root "barbell".
   const activeCats = useMemo(
-    () => cat.split(",").map((c) => c.trim()).filter(Boolean),
+    () => cat.split(",").map((c) => c.trim().toLowerCase()).filter(Boolean),
     [cat]
   );
 
+  const matchesCat = (p) => {
+    if (!activeCats.length) return true;
+    const haystack = `${p.cat} ${p.name}`.toLowerCase();
+    return activeCats.some((ac) => {
+      if (haystack.includes(ac)) return true;
+      const singular = ac.replace(/s$/, "");
+      return singular !== ac && haystack.includes(singular);
+    });
+  };
+
   const filtered = useMemo(() => {
     let list = products
-      .filter((p) => (cat === "All" ? true : activeCats.includes(p.cat)))
+      .filter((p) => (cat === "All" ? true : matchesCat(p)))
       .filter((p) => (rating === "All" ? true : getProductRating(p) === Number(rating)))
       .filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase())

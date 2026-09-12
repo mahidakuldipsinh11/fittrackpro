@@ -72,7 +72,66 @@
 .pd-trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .pd-trust-item { display: flex; align-items: center; gap: 0.5rem; color: var(--steel); font-size: 0.8rem; }
 
-/* Related */
+.pd-reviews-link { background: none; border: none; color: var(--orange); cursor: pointer; font-size: 0.85rem; text-decoration: underline; margin-left: 0.75rem; padding: 0; }
+.pd-reviews-link:hover { color: var(--orange); opacity: 0.85; }
+
+/* ═══ PRODUCT REVIEWS SECTION ═══ */
+.pd-reviews { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.pd-reviews__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.pd-reviews__head h2 { font-family: 'Oswald', sans-serif; color: var(--ivory); font-size: 1.3rem; text-transform: uppercase; margin: 0 0 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.pd-reviews__head p { color: var(--steel); font-size: 0.9rem; margin: 0; }
+.pd-review-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.75rem 1.5rem; background: var(--grad-cta); color: #FAF7F2; border: none; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.2s; }
+.pd-review-btn:hover { opacity: 0.9; }
+
+.pd-reviews__summary { background: var(--bg-panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: center; }
+.pd-avg { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; text-align: center; }
+.pd-avg-num { font-size: 2.5rem; font-weight: 800; color: var(--orange); line-height: 1; }
+.pd-avg-count { font-size: 0.8rem; color: var(--steel); }
+.pd-rating-bars { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.pd-review-form { background: var(--bg-panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.pd-review-form h3 { color: var(--ivory); font-size: 1.1rem; font-weight: 700; margin: 0 0 1.25rem; }
+.pd-review-form label { display: block; color: var(--ivory); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.pd-review-form input, .pd-review-form textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-panel); color: var(--ivory); font-size: 0.9rem; font-family: inherit; box-sizing: border-box; transition: border-color 0.2s; }
+.pd-review-form input:focus, .pd-review-form textarea:focus { outline: none; border-color: var(--orange); }
+.pd-review-form textarea { resize: vertical; }
+.pd-review-actions { display: flex; gap: 0.75rem; margin-top: 0.5rem; align-items: center; }
+.pd-review-submit { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.75rem; background: var(--grad-cta); color: #FAF7F2; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+.pd-review-submit:hover { opacity: 0.9; }
+.pd-review-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.pd-review-cancel { padding: 0.8rem 1.25rem; background: none; border: 1px solid var(--border); color: var(--steel); border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; }
+.pd-review-cancel:hover { border-color: var(--orange); color: var(--orange); }
+
+/* Review cards + stars + bars (product page dark theme) */
+.pd-review-grid { margin-top: 0.5rem; }
+.rv-stars { display: inline-flex; gap: 2px; }
+.rv-star { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; transition: transform 0.15s; }
+.rv-star:hover:not(:disabled) { transform: scale(1.15); }
+.rv-star:disabled { cursor: default; }
+.rv-card { background: var(--bg-panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s; }
+.rv-card:hover { transform: translateY(-3px); border-color: var(--orange); }
+.rv-card__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.rv-card__date { font-size: 0.75rem; color: var(--steel-dim); }
+.rv-card__title { font-size: 1rem; font-weight: 700; color: var(--ivory); margin: 0 0 0.5rem; }
+.rv-card__text { font-size: 0.9rem; color: var(--steel); line-height: 1.7; flex: 1; margin: 0 0 0.75rem; }
+.rv-card__author { display: flex; align-items: center; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.rv-card__avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), #c2410c); color: #FAF7F2; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.rv-card__name { display: block; font-weight: 700; color: var(--ivory); font-size: 0.85rem; }
+.rv-card__role { display: block; font-size: 0.75rem; color: var(--steel-dim); }
+.rv-bar-row { display: flex; align-items: center; gap: 0.75rem; }
+.rv-bar-label { font-size: 0.85rem; font-weight: 600; color: var(--ivory); width: 32px; text-align: right; }
+.rv-bar-track { flex: 1; height: 10px; background: var(--border); border-radius: 100px; overflow: hidden; }
+.rv-bar-fill { height: 100%; background: linear-gradient(90deg, var(--orange), #fb923c); border-radius: 100px; transition: width 0.6s ease; }
+.rv-bar-count { font-size: 0.8rem; color: var(--steel-dim); width: 30px; }
+.rv-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; margin: 0 auto 1rem; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.pd-reviews__empty { text-align: center; padding: 3rem 1rem; color: var(--steel); display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+
+@media (max-width: 768px) {
+  .pd-reviews__summary { grid-template-columns: 1fr; gap: 1.25rem; }
+  .pd-review-grid { grid-template-columns: 1fr !important; }
+}
 .pd-related { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
 .pd-related h2 { font-family: 'Oswald', sans-serif; color: var(--ivory); font-size: 1.3rem; text-transform: uppercase; margin-bottom: 1.25rem; }
 .pd-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }

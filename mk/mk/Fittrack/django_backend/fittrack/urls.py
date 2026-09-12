@@ -16,8 +16,13 @@ urlpatterns = [
 # Static files serve karo (dev me)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Serve /assets/ from static/assets/ (for Vite build output)
-ASSETS_DIR = str(settings.BASE_DIR / 'static' / 'assets')
+# Serve /assets/ from the same dist/assets folder that index.html references (Vite build output).
+# Order matters: use the dist directory (template source) if present, else static/assets.
+_dist_dir = settings.BASE_DIR.parent / "dist"
+if (_dist_dir / "assets").is_dir():
+    ASSETS_DIR = str(_dist_dir / "assets")
+else:
+    ASSETS_DIR = str(settings.BASE_DIR / 'static' / 'assets')
 if os.path.isdir(ASSETS_DIR):
     if settings.DEBUG:
         urlpatterns += static('/assets/', document_root=ASSETS_DIR)

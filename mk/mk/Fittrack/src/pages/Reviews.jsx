@@ -105,7 +105,7 @@ export default function Reviews() {
     e.preventDefault();
 
     const stored = localStorage.getItem("fittrack_token");
-    const user = JSON.parse(localStorage.getItem("fittrack_user") || "null");
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
     if (!stored || !user) {
       toast.error("Please login to submit a review.");
       navigate("/login");
@@ -151,7 +151,7 @@ export default function Reviews() {
     }
   };
 
-  const isLoggedIn = !!localStorage.getItem("fittrack_token") && !!JSON.parse(localStorage.getItem("fittrack_user") || "null");
+  const isLoggedIn = !!localStorage.getItem("fittrack_token") && !!JSON.parse(localStorage.getItem("currentUser") || "null");
 
   // Stats
   const totalReviews = reviews.length;

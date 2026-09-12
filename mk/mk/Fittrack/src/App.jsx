@@ -28,6 +28,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Disclaimer from "./pages/Disclaimer";
 import Reviews from "./pages/Reviews";
 import CartDrawer from "./context/CartDrawer";
+import Chatbot from "./context/Chatbot";
 import "./index.css";
 import "./App.css";
 
@@ -107,6 +108,7 @@ function AppShell() {
       </Routes>
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <CartDrawer />}
+      {!isAdminRoute && <Chatbot />}
     </>
   );
 }

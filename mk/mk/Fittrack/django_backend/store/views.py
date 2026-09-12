@@ -502,7 +502,11 @@ class ReviewListCreateView(generics.ListCreateAPIView):
         return [permissions.AllowAny()]
 
     def get_queryset(self):
-        return Review.objects.filter(is_approved=True)
+        qs = Review.objects.filter(is_approved=True)
+        product_name = self.request.query_params.get("product_name")
+        if product_name:
+            qs = qs.filter(product_name=product_name)
+        return qs
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

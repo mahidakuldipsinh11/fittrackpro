@@ -28,6 +28,14 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    const password = formData.password;
+    if (password.length < 8 || password.length > 16) {
+      setIsError(true);
+      toast.error('Password must be 8-16 characters long.');
+      setIsLoading(false);
+      return;
+    }
+
     const result = await login(formData.email, formData.password);
 
     if (result.success) {
@@ -68,6 +76,8 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                minLength={8}
+                maxLength={16}
               />
               <label htmlFor="password">Password</label>
               <button
