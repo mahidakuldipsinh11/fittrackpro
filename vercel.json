@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd mk/mk/Fittrack && npm install && VITE_API_URL=https://fittrackpro-backend.vercel.app/api npx vite build --base=/",
+  "buildCommand": "cd mk/mk/Fittrack && npm install && VITE_API_URL=https://fittrackpro-backend-vig5.onrender.com/api npx vite build --base=/",
   "outputDirectory": "mk/mk/Fittrack/dist",
   "installCommand": "cd mk/mk/Fittrack && npm install",
   "cleanUrls": true,
