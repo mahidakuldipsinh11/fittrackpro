@@ -26,18 +26,23 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         tokens = get_tokens_for_user(user)
 
-        # Send welcome email (synchronous — ensures delivery on serverless)
+        # Send welcome email in background (avoids blocking the response on slow/unreachable SMTP)
         import logging as _log_mod
+        import threading
         _log = _log_mod.getLogger('store.email')
-        try:
-            from store.email_utils import send_welcome_email
-            sent = send_welcome_email(user)
-            if sent:
-                _log.info(f'Welcome email sent to {user.email}')
-            else:
-                _log.warning(f'Welcome email NOT sent to {user.email}')
-        except Exception as e:
-            _log.error(f'Welcome email failed for {user.email}: {e}')
+
+        def _send_welcome(user):
+            try:
+                from store.email_utils import send_welcome_email
+                sent = send_welcome_email(user)
+                if sent:
+                    _log.info(f'Welcome email sent to {user.email}')
+                else:
+                    _log.warning(f'Welcome email NOT sent to {user.email}')
+            except Exception as e:
+                _log.error(f'Welcome email failed for {user.email}: {e}')
+
+        threading.Thread(target=_send_welcome, args=(user,), daemon=True).start()
 
         return Response(
             {
