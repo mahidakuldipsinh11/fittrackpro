@@ -29,9 +29,9 @@ const Login = () => {
     setIsLoading(true);
 
     const password = formData.password;
-    if (password.length < 8 || password.length > 16) {
+    if (password.length < 8 || password.length > 128) {
       setIsError(true);
-      toast.error('Password must be 8-16 characters long.');
+      toast.error('Password must be 8-128 characters long.');
       setIsLoading(false);
       return;
     }
@@ -77,7 +77,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 minLength={8}
-                maxLength={16}
+                maxLength={128}
               />
               <label htmlFor="password">Password</label>
               <button
