@@ -27,9 +27,10 @@
 8. Key Features
 9. Security Implementation
 10. Deployment & Hosting
-11. Screenshots Description
-12. Future Enhancements
-13. Conclusion
+11. Database Access (pgAdmin4 / HeidiSQL / XAMPP)
+12. Product Catalog (All 50 Products)
+13. Future Enhancements
+14. Conclusion
 
 ---
 
@@ -117,7 +118,7 @@ The project demonstrates a complete production-ready application built with indu
                       ▼
 ┌─────────────────────────────────────────────────────┐
 │           RENDER (Django Backend Server)            │
-│   https://fittrackpro-backend-uayc.onrender.com     │
+│   https://fittrackpro-backend-vig5.onrender.com     │
 │                                                     │
 │   Django REST Framework                             │
 │   ├── /api/products/         Product CRUD           │
@@ -414,8 +415,8 @@ GitHub (main branch)
       │
       └──► Render (Auto-deploy on push)
                 Django server → Gunicorn
-                URL: fittrackpro-backend-uayc.onrender.com
-                PostgreSQL Database: fittrack_db_340o
+                URL: fittrackpro-backend-vig5.onrender.com
+                PostgreSQL Database: fittrack_db_edli
 ```
 
 ### Build Configuration (`vercel.json`)
@@ -439,7 +440,63 @@ GitHub (main branch)
 
 ---
 
-## 11. Product Catalog (All 50 Products)
+## 11. Database Access — pgAdmin4, HeidiSQL & XAMPP/phpMyAdmin
+
+The project has **two database instances** that can be opened with different GUI tools:
+
+| Database | Engine | Host | Content |
+|---|---|---|---|
+| **Production (Live)** | PostgreSQL | Render Cloud (`fittrack-db-v2`) | Current live data — 50 products, 3 users, reviews |
+| **Local Copy** | MariaDB/MySQL | `127.0.0.1:3306` → database `fittrack_db` | Offline copy of the production data |
+
+The local MySQL copy was generated directly from the live Render PostgreSQL data (`python manage.py dumpdata` + `loaddata`), so both databases stay in sync — **50 products, 13 categories, 3 users, 1 review**.
+
+### Method 1 — pgAdmin4 (Live PostgreSQL on Render)
+
+1. Open **pgAdmin4** → right-click **Servers** → **Register → Server…**
+2. **Name** tab → `FitTrack Pro`
+3. **Connection** tab:
+
+| Field | Value |
+|---|---|
+| Host name/address | `dpg-daigcj95efls73ddp5ig-a.singapore-postgres.render.com` |
+| Port | `5432` |
+| Maintenance database | `fittrack_db_edli` |
+| Username | `fittrack_user` |
+| Password | *(real value is stored in the Render dashboard / `.env` — see note below)* |
+
+4. **SSL** tab → SSL mode: **Require**
+5. Save → expand **Databases → fittrack_db_edli → Schemas → public → Tables**
+6. Browse tables like `store_product`, `accounts_user`, `store_review`
+
+### Method 2 — HeidiSQL (Local MySQL/MariaDB)
+
+1. Open **HeidiSQL** → **Session manager → New** session, name `FitTrack Local`
+2. **Connection** tab:
+
+| Field | Value |
+|---|---|
+| Hostname / IP | `127.0.0.1` |
+| User | `root` |
+| Password | *(local MySQL root password)* |
+| Port | `3306` |
+
+3. Click **Open** → expand the server → database **`fittrack_db`** → **Tables**
+4. Double-click any table (e.g. `store_product`) to browse its rows in the data grid
+
+### Method 3 — XAMPP / phpMyAdmin (Local MySQL/MariaDB)
+
+1. Start **Apache** from the **XAMPP Control Panel** (do **not** start XAMPP's own MySQL — port `3306` is already used by the standalone MariaDB service that holds `fittrack_db`; starting both causes a port conflict)
+2. In `D:\xampp\phpMyAdmin\config.inc.php` set the server password:
+   `$cfg['Servers'][$i]['password'] = '...';`
+3. Open **http://localhost/phpmyadmin** in a browser → database **`fittrack_db`** appears in the left panel
+4. Click `fittrack_db` → all 24 tables listed → click any table → **Browse** tab to view rows, **Structure** tab for columns
+
+> 🔐 **Security note:** Real database passwords are deliberately NOT written in this report (they live in the Render dashboard / `.env` files). All host, port, database, and username details are documented above.
+
+---
+
+## 12. Product Catalog (All 50 Products)
 
 | # | Product Name | Category | Price (₹) |
 |---|---|---|---|
@@ -496,7 +553,7 @@ GitHub (main branch)
 
 ---
 
-## 12. Future Enhancements
+## 13. Future Enhancements
 
 | Enhancement | Description |
 |---|---|
@@ -513,7 +570,7 @@ GitHub (main branch)
 
 ---
 
-## 13. Conclusion
+## 14. Conclusion
 
 FitTrack Pro successfully demonstrates a complete, production-ready e-commerce web application built using modern full-stack technologies. The project covers:
 

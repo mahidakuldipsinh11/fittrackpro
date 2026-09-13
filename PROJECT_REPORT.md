@@ -195,3 +195,32 @@ cd mk/mk/Fittrack && npm run build   # refreshes dist/
 - **Register** is limited to 8–16 char passwords (backend rule); **login** accepts up to 128.
 - Postgres free instance expires **12 Oct 2026** — plan migration to a renewal/larger tier.
 - `product_images/` (repo root) is now empty of duplicate images; canonical folder is `django_backend/product_images/` (50 files).
+
+---
+
+## 11. Opening the Database — pgAdmin4 / HeidiSQL / XAMPP
+
+Two database instances exist, viewable with three GUI tools:
+
+| DB | Engine | Host | Data |
+|---|---|---|---|
+| **Live** | PostgreSQL | Render Cloud (`fittrack-db-v2`) | Production data (50 products, 3 users, reviews) |
+| **Local copy** | MariaDB/MySQL | `127.0.0.1:3306` → `fittrack_db` | Offline mirror of live data (in sync) |
+
+### pgAdmin4 → Live PostgreSQL
+1. pgAdmin4 → **Register → Server…** → name `FitTrack Pro`
+2. Connection: host `dpg-daigcj95efls73ddp5ig-a.singapore-postgres.render.com`, port `5432`, DB `fittrack_db_edli`, user `fittrack_user`, password = Render dashboard/.env value
+3. **SSL tab → SSL mode: Require** → Save → `Databases → fittrack_db_edli → Schemas → public → Tables`
+
+### HeidiSQL → Local MySQL
+1. **Session manager → New** → host `127.0.0.1`, user `root`, port `3306`, password = local MySQL root password
+2. **Open** → expand server → `fittrack_db` → **Tables** → double-click a table to browse rows
+
+### XAMPP/phpMyAdmin → Local MySQL
+1. XAMPP Control Panel → start **Apache only** (do NOT start XAMPP MySQL — port 3306 already used by standalone MariaDB)
+2. phpMyAdmin password in `D:\xampp\phpMyAdmin\config.inc.php` → `$cfg['Servers'][$i]['password'] = '...';`
+3. Open `http://localhost/phpmyadmin` → **`fittrack_db`** → click table → **Browse** tab
+
+> 🔐 Passwords intentionally not written in this file — they live in Render dashboard / `.env`.
+
+*End of report*
