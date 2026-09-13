@@ -279,21 +279,6 @@ export default function Home() {
                 <div className="home-goal-card__icon" style={{ background: `${g.color}12`, color: g.color }}>
                   <g.icon size={28} />
                 </div>
-                {items.length > 0 && (
-                  <div className="home-goal-card__imgs">
-                    {items.slice(0, 3).map((item, j) => (
-                      <img
-                        key={item.id}
-                        src={item.image}
-                        alt={item.name}
-                        className="home-goal-card__img"
-                        loading="lazy"
-                        onError={(e) => { e.target.style.display = "none"; }}
-                        style={{ zIndex: 3 - j, marginLeft: j > 0 ? `-${8 + j * 4}px` : 0 }}
-                      />
-                    ))}
-                  </div>
-                )}
                 <div className="home-goal-card__body">
                   <h3>{g.title}</h3>
                   <p>{items.length > 0 ? `${items.length} related product${items.length > 1 ? "s" : ""}` : g.desc}</p>

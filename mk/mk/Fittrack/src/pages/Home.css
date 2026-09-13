@@ -312,13 +312,6 @@
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.home-goal-card__imgs { display: flex; align-items: center; flex-shrink: 0; }
-.home-goal-card__img {
-  width: 44px; height: 44px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--bg-panel);
-  transition: transform 0.2s;
-}
-.home-goal-card:hover .home-goal-card__img { transform: scale(1.08); }
 .home-goal-card__body { flex: 1; min-width: 0; }
 .home-goal-card h3 { font-size: 0.9rem; font-weight: 700; color: var(--ivory); }
 .home-goal-card p { font-size: 0.75rem; color: var(--steel); }
