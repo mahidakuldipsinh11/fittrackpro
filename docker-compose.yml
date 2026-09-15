@@ -3,8 +3,9 @@
 # Ek command me saathe frontend + backend + database chalu hoga:
 #     docker compose up --build
 # Phir kholo: http://localhost:8000  (mobile/PC se LAN IP:8000 bhi)
-# First boot me admin + 50 products auto-create honge.
-# Default login: admin@fittrack.com / FitTrack@Admin123
+# First boot par 50 products auto-seed honge.
+# Admin login hardcoded nahi hai — pehli boot par auto-generate hokar
+# console me sirf ek baar print hota hai (niche ADMIN_* vars se override kar sakte ho).
 # =====================================================================
 
 services:
@@ -33,10 +34,10 @@ services:
       DEBUG: "False"
       ALLOWED_HOSTS: "*"
       PORT: "8000"
-      # Admin user (first boot par create hoga agar maujood nahi)
-      ADMIN_EMAIL: admin@fittrack.com
-      ADMIN_PASSWORD: FitTrack@Admin123
-      ADMIN_NAME: Admin
+      # Admin user — email/password YAHAN mat likho (public repo me nahi aana chahiye).
+      # Chodo to first boot par random credentials generate hokar console me print honge.
+      # Apna khud ka lagana ho to env command se do (docker compose run -e ...) ya .env file:
+      #   ADMIN_EMAIL / ADMIN_PASSWORD / ADMIN_NAME
       # Razorpay TEST keys (dev ke liye — production me real keys lagao)
       RAZORPAY_KEY_ID: rzp_test_TaW16ZhoA7FeH5
       RAZORPAY_KEY_SECRET: KMFQ6Oa7sFYmwzt0O0Eg7bkG

@@ -27,25 +27,25 @@ fi
 echo "Running migrations..."
 python manage.py migrate --noinput
 
-# ---- Create admin superuser (safe: only if missing) ----
+# ---- Create admin superuser (safe: only if missing; creds never hardcoded) ----
 echo "Ensuring admin user..."
-ADMIN_EMAIL="${ADMIN_EMAIL:-admin@fittrack.com}"
-ADMIN_PASSWORD="${ADMIN_PASSWORD:-FitTrack@Admin123}"
-ADMIN_NAME="${ADMIN_NAME:-Admin}"
 python manage.py shell -c "
-import os, django
+import os, django, secrets, string
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fittrack.settings')
 django.setup()
 from django.contrib.auth import get_user_model
 U = get_user_model()
-email = os.environ.get('ADMIN_EMAIL', '$ADMIN_EMAIL')
-pw = os.environ.get('ADMIN_PASSWORD', '$ADMIN_PASSWORD')
-name = os.environ.get('ADMIN_NAME', '$ADMIN_NAME')
+email = os.environ.get('ADMIN_EMAIL', 'admin@fittrack.com')
+name = os.environ.get('ADMIN_NAME', 'Admin')
+pw = os.environ.get('ADMIN_PASSWORD', '') or ''.join(secrets.choice(string.ascii_letters + string.digits + '#!@') for _ in range(16))
 if U.objects.filter(email=email).exists():
     print('Admin already exists, skipping')
 else:
     U.objects.create_superuser(email=email, name=name, password=pw)
-    print('Admin created:', email)
+    print('=== NEW SUPERUSER CREATED (save this now, shown only once) ===')
+    print('Email   :', email)
+    print('Password:', pw if not os.environ.get('ADMIN_PASSWORD') else '(set via ADMIN_PASSWORD env)')
+    print('=============================================================')
 "
 
 # ---- Seed 50 products only on first boot (never reset existing data) ----
