@@ -84,9 +84,11 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-    # SSL mode for cloud databases
+    # SSL mode for cloud databases (default require, but respect explicit sslmode
+    # in the URL, e.g. local docker Postgres uses ?sslmode=disable)
     DATABASES["default"]["OPTIONS"] = DATABASES["default"].get("OPTIONS", {})
-    DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
+    if "sslmode" not in DATABASES["default"]["OPTIONS"]:
+        DATABASES["default"]["OPTIONS"]["sslmode"] = "require"
 else:
     # Local: MySQL (fallback)
     DATABASES = {

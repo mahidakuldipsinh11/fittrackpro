@@ -1,0 +1,55 @@
+# =====================================================================
+# FitTrack Pro — Docker Compose
+# Ek command me saathe frontend + backend + database chalu hoga:
+#     docker compose up --build
+# Phir kholo: http://localhost:8000  (mobile/PC se LAN IP:8000 bhi)
+# First boot me admin + 50 products auto-create honge.
+# Default login: admin@fittrack.com / FitTrack@Admin123
+# =====================================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: fittrack_db
+      POSTGRES_USER: fittrack
+      POSTGRES_PASSWORD: fittrack123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fittrack -d fittrack_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Local Postgres (no SSL) — settings.py URL ke sslmode ka respect karta hai
+      DATABASE_URL: postgresql://fittrack:fittrack123@db:5432/fittrack_db?sslmode=disable
+      SECRET_KEY: django-insecure-docker-dev-key-please-change-in-prod
+      DEBUG: "False"
+      ALLOWED_HOSTS: "*"
+      PORT: "8000"
+      # Admin user (first boot par create hoga agar maujood nahi)
+      ADMIN_EMAIL: admin@fittrack.com
+      ADMIN_PASSWORD: FitTrack@Admin123
+      ADMIN_NAME: Admin
+      # Razorpay TEST keys (dev ke liye — production me real keys lagao)
+      RAZORPAY_KEY_ID: rzp_test_TaW16ZhoA7FeH5
+      RAZORPAY_KEY_SECRET: KMFQ6Oa7sFYmwzt0O0Eg7bkG
+      # Email bhejne ke liye (optional — nahi diya to console par print hoga)
+      # EMAIL_HOST_USER: you@gmail.com
+      # EMAIL_HOST_PASSWORD: your-app-password
+      # EMAIL_HOST: smtp.gmail.com
+      # EMAIL_PORT: "587"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    name: fittrack_pgdata
