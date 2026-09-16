@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Zap, Shield, Truck, RotateCcw, Star, Dumbbell,
-  Tag, Check, Phone, ArrowUpRight, Award, Users,
-  Package, Heart, Globe, Clock, ChevronRight, Quote, MessageSquare
+  Tag, Check, Users, Heart, Quote, MessageSquare, CreditCard
 } from "lucide-react";
 import api from "../api/client";
+import { useProducts } from "../context/ProductContext";
 import "./About.css";
 
 /* ═══════════ PROFESSIONAL ECOMMERCE ABOUT PAGE ═══════════ */
@@ -17,6 +17,30 @@ const VALUES = [
   { icon: "🌱", title: "Sustainability", desc: "Eco-friendly packaging, efficient logistics, and products designed to last for years, not months." },
   { icon: "🇮🇳", title: "Made in India", desc: "Proudly supporting Indian manufacturers and craftsmanship. Building world-class fitness equipment right here." },
   { icon: "❤️", title: "Fitness for All", desc: "From beginners to pro athletes, from home gyms to commercial setups — equipment for every fitness journey." },
+];
+
+const JOURNEY = [
+  { year: "2022", title: "The Beginning", desc: "FitTrack Pro started in a garage with a single mission — honest fitness equipment at fair prices for Indian homes." },
+  { year: "2023", title: "Crossing 10,000 Orders", desc: "Home gyms across India started trusting us. Free delivery rollout across 200+ cities begins." },
+  { year: "2024", title: "Full Product Range", desc: "Racks, benches, dumbbells, cardio machines & full gym setups — a complete catalogue under one roof." },
+  { year: "2025", title: "Trusted Nationwide", desc: "500+ commercial gyms & trainers now source equipment from us. 4.8★ average rating across verified buyers." },
+  { year: "2026", title: "Building the Future", desc: "Expanding categories, faster delivery network, and a community-first approach — this is just the start." },
+];
+
+const TEAM = [
+  { name: "Kuldipsinh Mahida", role: "Founder & CEO", desc: "Fitness enthusiast turned entrepreneur, on a mission to make quality gym gear accessible to every Indian." },
+  { name: "Priya Sharma", role: "Head of Customer Success", desc: "Ensures every order, return & query is handled with care — the voice our customers trust." },
+  { name: "Rahul Desai", role: "Product & Sourcing Lead", desc: "Curates and quality-checks every piece of equipment before it reaches the catalogue." },
+  { name: "Sneha Patel", role: "Logistics & Operations", desc: "Masters the supply chain so your order dispatches within 24 hours, anywhere in India." },
+];
+
+const TRUST_POINTS = [
+  { icon: Shield, title: "Secure Payments", desc: "100% encrypted via Razorpay" },
+  { icon: Truck, title: "Free Delivery", desc: "Across India on every order" },
+  { icon: RotateCcw, title: "7-Day Returns", desc: "No questions asked" },
+  { icon: Zap, title: "Fast Dispatch", desc: "Within 24–48 hours" },
+  { icon: CreditCard, title: "EMI Available", desc: "On orders above ₹5,000" },
+  { icon: Heart, title: "Customer First", desc: "24×7 expert support" },
 ];
 
 function useInView(threshold = 0.15) {
@@ -35,9 +59,14 @@ function useInView(threshold = 0.15) {
 }
 
 export default function About() {
+  const { products } = useProducts();
   const [heroRef, heroInView] = useInView();
+  const [statsRef, statsInView] = useInView();
   const [missionRef, missionInView] = useInView();
   const [valuesRef, valuesInView] = useInView();
+  const [journeyRef, journeyInView] = useInView();
+  const [teamRef, teamInView] = useInView();
+  const [trustRef, trustInView] = useInView();
   const [testRef, testInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
 
@@ -54,6 +83,17 @@ export default function About() {
       .finally(() => { if (!cancelled) setReviewsLoading(false); });
     return () => { cancelled = true; };
   }, []);
+
+  const productCount = products?.length ?? 50;
+
+  const STATS = [
+    { icon: "🏋️", num: `${productCount}+`, label: "Products" },
+    { icon: "👥", num: "10,000+", label: "Happy Customers" },
+    { icon: "📍", num: "500+", label: "Cities Served" },
+    { icon: "⭐", num: "4.8", label: "Average Rating" },
+    { icon: "🚚", num: "24H", label: "Dispatch Time" },
+    { icon: "🔄", num: "7-Day", label: "Easy Returns" },
+  ];
 
   return (
     <main className="ft-page about-pro">
@@ -86,6 +126,21 @@ export default function About() {
             <Link to="/deals" className="ft-btn ft-btn--ghost apro-hero__btn">
               <Tag size={16} /> View Deals
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ STATS BANNER ═══ */}
+      <section className={`apro-stats ${statsInView ? "in-view" : ""}`} ref={statsRef}>
+        <div className="ft-container">
+          <div className="apro-stats__grid">
+            {STATS.map((s, i) => (
+              <div className="apro-stats__item" key={s.label} style={{ transitionDelay: `${i * 80}ms` }}>
+                <span className="apro-stats__icon">{s.icon}</span>
+                <span className="apro-stats__num">{s.num}</span>
+                <span className="apro-stats__label">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -128,6 +183,51 @@ export default function About() {
         </div>
       </section>
 
+      {/* ═══ JOURNEY — TIMELINE ═══ */}
+      <section className={`apro-journey ${journeyInView ? "in-view" : ""}`} ref={journeyRef}>
+        <div className="ft-container">
+          <div className="apro-section-header">
+            <span className="apro-eyebrow">🚀 Our Journey</span>
+            <h2>How We Got Here</h2>
+            <p className="apro-section-sub">From a garage dream to India's trusted fitness equipment destination.</p>
+          </div>
+          <div className="apro-journey__timeline">
+            <div className="apro-journey__line"></div>
+            {JOURNEY.map((j, i) => (
+              <div className={`apro-journey__item ${i % 2 === 0 ? "left" : "right"}`} key={j.year} style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="apro-journey__dot"></div>
+                <div className="apro-journey__card">
+                  <span className="apro-journey__year">{j.year}</span>
+                  <h3>{j.title}</h3>
+                  <p>{j.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TEAM ═══ */}
+      <section className={`apro-team ${teamInView ? "in-view" : ""}`} ref={teamRef}>
+        <div className="ft-container">
+          <div className="apro-section-header">
+            <span className="apro-eyebrow"><Users size={14} /> The People Behind It</span>
+            <h2>Meet Our Team</h2>
+            <p className="apro-section-sub">A small, obsessed team working hard so you can train harder.</p>
+          </div>
+          <div className="apro-team__grid">
+            {TEAM.map((m, i) => (
+              <div className="apro-team__card" key={m.name} style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="apro-team__avatar">{m.name.charAt(0)}</div>
+                <h3>{m.name}</h3>
+                <p className="apro-team__role">{m.role}</p>
+                <p>{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ TESTIMONIALS ═══ */}
       <section className={`apro-test ${testInView ? "in-view" : ""}`} ref={testRef}>
         <div className="ft-container">
@@ -155,6 +255,7 @@ export default function About() {
                       <div className="apro-test__stars">
                         {Array.from({ length: rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
                       </div>
+                      <span className="apro-test__verified"><Check size={12} /> Verified</span>
                     </div>
                     <Quote size={20} className="apro-test__quote-icon" />
                     {r.title && <h4 className="apro-test__title">{r.title}</h4>}
@@ -178,12 +279,30 @@ export default function About() {
         </div>
       </section>
 
+      {/* ═══ TRUST STRIP ═══ */}
+      <section className={`apro-trust ${trustInView ? "in-view" : ""}`} ref={trustRef}>
+        <div className="ft-container">
+          <div className="apro-trust__grid">
+            {TRUST_POINTS.map((t) => {
+              const Icon = t.icon;
+              return (
+                <div className="apro-trust__item" key={t.title}>
+                  <Icon size={26} />
+                  <h4>{t.title}</h4>
+                  <p>{t.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ FINAL CTA ═══ */}
       <section className={`apro-cta ${ctaInView ? "in-view" : ""}`} ref={ctaRef}>
         <div className="ft-container apro-cta__inner">
           <div className="apro-cta__content">
             <h2>Ready to Start Your Fitness Journey?</h2>
-            <p>Join 45+ products who trust FitTrack Pro for their gym equipment needs. Shop now and get free delivery across India.</p>
+            <p>{productCount}+ products ready to ship. Join thousands of happy customers and get free delivery across India.</p>
             <div className="apro-cta__actions">
               <Link to="/shop" className="ft-btn ft-btn--primary apro-cta__btn">
                 <Dumbbell size={18} /> Shop All Equipment

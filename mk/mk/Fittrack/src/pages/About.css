@@ -172,6 +172,10 @@
   margin: 0 auto 1rem;
 }
 .apro-team__card h3 { font-size: 1.05rem; font-weight: 700; color: var(--ivory); margin-bottom: 0.5rem; }
+.apro-team__role {
+  display: block; font-size: 0.78rem; font-weight: 700; color: var(--gold);
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem;
+}
 .apro-team__card p { font-size: 0.85rem; color: var(--steel); line-height: 1.6; }
 
 /* ═══════════ TESTIMONIALS ═══════════ */
