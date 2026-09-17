@@ -219,10 +219,9 @@ class EmailHealthView(APIView):
         # 2) General egress tests (IPv4 + IPv6)
         tests = [
             ("google-8.8.8.8:53", "8.8.8.8", 53),
-            ("gmail-smtp587", "smtp.gmail.com", 587),
-            ("gmail-smtp465", "smtp.gmail.com", 465),
-            ("gmail-smtp25", "smtp.gmail.com", 25),
-            ("outlook-smtp587", "smtp.office365.com", 587),
+            ("https-google443", "www.google.com", 443),
+            ("https-resend443", "api.resend.com", 443),
+            ("https-sendgrid443", "api.sendgrid.com", 443),
         ]
         for label, host, port in tests:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
