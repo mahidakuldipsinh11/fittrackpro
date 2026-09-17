@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star, BarChart3, Shield } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
-import api from "../api/client";
+import { useProducts } from "../context/ProductContext";
 import "./Navbar.css";
 
 const CATEGORIES = [
@@ -25,6 +25,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { products } = useProducts();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -34,7 +35,6 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState({ products: [], categories: [] });
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef();
-  const searchTimer = useRef(null);
   const dropdownRef = useRef();
   const sidebarRef = useRef();
 
@@ -94,26 +94,31 @@ export default function Navbar() {
     navigate("/");
   };
 
-  const fetchSuggestions = useCallback((q) => {
-    clearTimeout(searchTimer.current);
-    if (!q || q.length < 1) {
+  useEffect(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) {
       setSearchResults({ products: [], categories: [] });
       return;
     }
-    searchTimer.current = setTimeout(async () => {
-      try {
-        const catQuery = selectedCategory !== "All Categories" ? `&category=${encodeURIComponent(selectedCategory)}` : "";
-        const res = await api.get(`/search/?q=${encodeURIComponent(q)}${catQuery}`);
-        setSearchResults(res.data);
-      } catch {
-        // silent
-      }
-    }, 200);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    fetchSuggestions(searchTerm);
-  }, [searchTerm, fetchSuggestions]);
+    // Shop.jsx jaisa hi catalog (ProductContext) — local filter, sab items matches
+    const matched = products
+      .filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.cat || "").toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q)
+      )
+      .slice(0, 8)
+      .map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.image, cat: p.cat }));
+    const cats = [
+      ...new Set(
+        matched
+          .map((p) => p.cat)
+          .filter((c) => c && c.toLowerCase().includes(q))
+      ),
+    ].slice(0, 5);
+    setSearchResults({ products: matched, categories: cats });
+  }, [searchTerm, products]);
 
   useEffect(() => {
     const handleClick = (e) => {
