@@ -183,3 +183,38 @@ class ConfirmPasswordResetView(APIView):
         user.save(update_fields=["password"])
 
         return Response({"detail": "Your password has been reset successfully. You can now login."})
+
+
+class EmailHealthView(APIView):
+    """Diagnostic: live SMTP test. Returns which backend is active and the real send error (if any)."""
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        from django.core.mail import send_mail
+
+        to = request.data.get("to") or settings.EMAIL_HOST_USER
+        backend = settings.EMAIL_BACKEND
+        if "@gmail.com" not in to.lower():
+            to = settings.EMAIL_HOST_USER
+
+        info = {
+            "email_backend": backend,
+            "email_host": settings.EMAIL_HOST,
+            "email_host_user": settings.EMAIL_HOST_USER,
+            "host_password_set": bool(settings.EMAIL_HOST_PASSWORD),
+        }
+
+        try:
+            send_mail(
+                "FitTrack SMTP Live Test",
+                "If you receive this, live SMTP works.",
+                settings.DEFAULT_FROM_EMAIL,
+                [to],
+                fail_silently=False,
+            )
+            info["result"] = "sent"
+            return Response(info, status=status.HTTP_200_OK)
+        except Exception as e:
+            info["result"] = "failed"
+            info["error"] = str(e)
+            return Response(info, status=status.HTTP_200_OK)

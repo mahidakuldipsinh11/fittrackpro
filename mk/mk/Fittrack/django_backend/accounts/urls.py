@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import (
     ConfirmPasswordResetView,
+    EmailHealthView,
     LoginView,
     MeView,
     RegisterView,
@@ -16,4 +17,5 @@ urlpatterns = [
     path("users/", UserListView.as_view(), name="user-list"),
     path("password-reset/", RequestPasswordResetView.as_view(), name="password-reset"),
     path("password-reset/confirm/", ConfirmPasswordResetView.as_view(), name="password-reset-confirm"),
+    path("email-health/", EmailHealthView.as_view(), name="email-health"),
 ]
