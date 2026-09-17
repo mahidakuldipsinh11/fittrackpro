@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import "./Shop.css";
 import { useCart } from "../context/CartContext";
@@ -201,9 +201,6 @@ function ProductDetailsModal({ product, relatedProducts, onSelectProduct, onClos
 
 export default function Shop() {
   const { products } = useProducts();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialCat = searchParams.get("category") || "All";
-  const [cat, setCat] = useState(initialCat);
   const [rating, setRating] = useState("All");
   const [sort, setSort] = useState("Featured");
   const [query, setQuery] = useState("");
@@ -227,41 +224,8 @@ export default function Shop() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    const urlCat = searchParams.get("category");
-    if (urlCat) {
-      setCat(urlCat);
-    } else if (!searchParams.has("category") && cat !== "All") {
-      setCat("All");
-    }
-  }, [searchParams]);
-
-  const categories = useMemo(
-    () => [...new Set(products.map((p) => p.cat).filter(Boolean))].sort(),
-    [products]
-  );
-
-  // Category filter — substring match on category AND product name, so
-  // "Barbells" matches category "Weights" products like "Olympic Barbell".
-  // Plural-tolerant: checks both "barbells" and its singular root "barbell".
-  const activeCats = useMemo(
-    () => cat.split(",").map((c) => c.trim().toLowerCase()).filter(Boolean),
-    [cat]
-  );
-
-  const matchesCat = (p) => {
-    if (!activeCats.length) return true;
-    const haystack = `${p.cat} ${p.name}`.toLowerCase();
-    return activeCats.some((ac) => {
-      if (haystack.includes(ac)) return true;
-      const singular = ac.replace(/s$/, "");
-      return singular !== ac && haystack.includes(singular);
-    });
-  };
-
   const filtered = useMemo(() => {
     let list = products
-      .filter((p) => (cat === "All" ? true : matchesCat(p)))
       .filter((p) => (rating === "All" ? true : getProductRating(p) === Number(rating)))
       .filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase())
@@ -274,11 +238,9 @@ export default function Shop() {
       list = [...list].sort((a, b) => b.price - a.price);
 
     return list;
-  }, [cat, activeCats, rating, sort, query, products]);
+  }, [rating, sort, query, products]);
 
  const relatedProducts = useMemo(() => selectedProduct ? products.filter((item) => item.id !== selectedProduct.id && item.cat === selectedProduct.cat).slice(0, 4) : [], [products, selectedProduct]);
-
-  const categoryLabel = cat === "All" ? "All Equipment" : activeCats.join(" + ");
 
   return (
     <main className="ft-page shop">
@@ -287,12 +249,7 @@ export default function Shop() {
         <div className="shop-hero-bg__overlay" />
         <section className="shop-hero ft-container">
           <span className="ft-eyebrow">Full catalogue</span>
-          <h1>{cat === "All" ? `Shop All Equipment (${products.length})` : `${categoryLabel} (${filtered.length})`}</h1>
-          {cat !== "All" && (
-            <button className="ft-btn ft-btn--ghost" style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1rem', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={() => { setCat('All'); searchParams.delete('category'); setSearchParams(searchParams, { replace: true }); }}>
-              ← View All Equipment
-            </button>
-          )}
+          <h1>Shop All Equipment ({products.length})</h1>
         </section>
       </div>
 
@@ -309,20 +266,6 @@ export default function Shop() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-          </div>
-
-          <div className="shop-filters__block">
-            <label htmlFor="category-filter">Category</label>
-            <select
-              id="category-filter"
-              value={cat}
-              onChange={(e) => { const val = e.target.value; setCat(val); if (val === 'All') { searchParams.delete('category'); } else { searchParams.set('category', val); } setSearchParams(searchParams, { replace: true }); setIsFiltersOpen(false); }}
-            >
-              <option value="All">All Gym Equipment</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
           </div>
 
           <div className="shop-filters__block">

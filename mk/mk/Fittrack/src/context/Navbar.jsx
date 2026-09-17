@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star, BarChart3, Shield } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -25,20 +25,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [bounce, setBounce] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [searchResults, setSearchResults] = useState({ products: [], categories: [] });
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef();
   const dropdownRef = useRef();
   const sidebarRef = useRef();
-
-  const shopCategories = useMemo(
-    () => [
-      "All Categories",
-      ...[...new Set(products.map((p) => p.cat).filter(Boolean))].sort(),
-    ],
-    [products]
-  );
 
   const { cart, total } = useCart();
   const { wishlistCount } = useWishlist();
@@ -102,34 +93,18 @@ export default function Navbar() {
       setSearchResults({ products: [], categories: [] });
       return;
     }
-    // Shop.jsx jaisa hi catalog (ProductContext) — local filter, sab items matches
-    const catFilter = selectedCategory !== "All Categories" ? selectedCategory.toLowerCase() : null;
-    const matchesCat = (p) => {
-      if (!catFilter) return true;
-      const haystack = `${p.cat} ${p.name}`.toLowerCase();
-      if (haystack.includes(catFilter)) return true;
-      const singular = catFilter.replace(/s$/, "");
-      return singular !== catFilter && haystack.includes(singular);
-    };
+    // Shop catalog (ProductContext) se local filter — sirf matching products
     const matched = products
       .filter(
         (p) =>
-          matchesCat(p) &&
-          (p.name.toLowerCase().includes(q) ||
-            (p.cat || "").toLowerCase().includes(q) ||
-            (p.description || "").toLowerCase().includes(q))
+          p.name.toLowerCase().includes(q) ||
+          (p.cat || "").toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q)
       )
       .slice(0, 8)
       .map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.image, cat: p.cat }));
-    const cats = [
-      ...new Set(
-        matched
-          .map((p) => p.cat)
-          .filter((c) => c && c.toLowerCase().includes(q))
-      ),
-    ].slice(0, 5);
-    setSearchResults({ products: matched, categories: cats });
-  }, [searchTerm, products, selectedCategory]);
+    setSearchResults({ products: matched, categories: [] });
+  }, [searchTerm, products]);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -141,15 +116,9 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const handleSearch = (e) => {
+const handleSearch = (e) => {
     e.preventDefault();
-    let url = `/shop?search=${encodeURIComponent(searchTerm.trim())}`;
-    if (selectedCategory !== "All Categories") {
-      url += `&category=${encodeURIComponent(selectedCategory)}`;
-    }
-    navigate(url);
-    setShowSuggestions(false);
-    setSidebarOpen(false);
+    navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
   };
 
   const handleSuggestionClick = (name) => {
@@ -192,15 +161,6 @@ export default function Navbar() {
           {/* SEARCH — Right after logo */}
           <div className="ft-nav__search" ref={searchRef}>
             <form className="ft-nav__search-form" onSubmit={handleSearch}>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                aria-label="Category"
-              >
-                {shopCategories.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
               <input
                 type="text"
                 placeholder="Search dumbbells, protein, racks..."
@@ -213,18 +173,8 @@ export default function Navbar() {
               </button>
             </form>
 
-            {showSuggestions && (searchResults.products.length > 0 || searchResults.categories.length > 0) && (
+            {showSuggestions && searchResults.products.length > 0 && (
               <div className="ft-nav__suggestions">
-                {searchResults.categories.length > 0 && (
-                  <div className="ft-nav__sug-section">
-                    <span className="ft-nav__sug-label">Categories</span>
-                    {searchResults.categories.map((c) => (
-                      <button key={c} className="ft-nav__sug-cat" onClick={() => { navigate(`/shop?category=${encodeURIComponent(c)}`); setShowSuggestions(false); setSearchTerm(""); }}>
-                        <Search size={14} /> {c}
-                      </button>
-                    ))}
-                  </div>
-                )}
                 {searchResults.products.length > 0 && (
                   <div className="ft-nav__sug-section">
                     <span className="ft-nav__sug-label">Products</span>
