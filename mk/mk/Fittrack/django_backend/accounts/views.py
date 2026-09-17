@@ -1,10 +1,20 @@
+from django.conf import settings
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
+from .serializers import (
+    ConfirmPasswordResetSerializer,
+    LoginSerializer,
+    RegisterSerializer,
+    RequestPasswordResetSerializer,
+    UserSerializer,
+)
 
 
 def get_tokens_for_user(user):
@@ -102,3 +112,74 @@ class UserListView(generics.ListAPIView):
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]
+
+
+class RequestPasswordResetView(APIView):
+    """POST /api/auth/password-reset/ — email bhejo aur reset link generate karo."""
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = RequestPasswordResetSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+
+        user = None
+        try:
+            user = User.objects.get(email__iexact=email)
+        except User.DoesNotExist:
+            user = None
+
+        # Security: hamesha same message do, chahe email exist kare ya na kare.
+        if user and user.is_active:
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            reset_url = f"{settings.SITE_URL}/reset-password/{uid}/{token}"
+
+            import logging as _log_mod
+            import threading
+            _log = _log_mod.getLogger('store.email')
+
+            def _send_reset(user, url):
+                try:
+                    from store.email_utils import send_password_reset_email
+                    sent = send_password_reset_email(user, url)
+                    if sent:
+                        _log.info(f'Password reset email sent to {user.email}')
+                    else:
+                        _log.warning(f'Password reset email NOT sent to {user.email}')
+                except Exception as e:
+                    _log.error(f'Password reset email failed for {user.email}: {e}')
+
+            threading.Thread(target=_send_reset, args=(user, reset_url), daemon=True).start()
+
+        return Response(
+            {"detail": "If an account exists with this email, a password reset link has been sent to it."},
+            status=status.HTTP_200_OK,
+        )
+
+
+class ConfirmPasswordResetView(APIView):
+    """POST /api/auth/password-reset/confirm/ — link se new password set karo."""
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = ConfirmPasswordResetSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            uid = urlsafe_base64_decode(data["uid"]).decode()
+            user = User.objects.get(pk=uid)
+        except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+            user = None
+
+        if not user or not user.is_active or not default_token_generator.check_token(user, data["token"]):
+            return Response(
+                {"detail": "The password reset link is invalid or has expired. Please request a new one."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user.set_password(data["new_password"])
+        user.save(update_fields=["password"])
+
+        return Response({"detail": "Your password has been reset successfully. You can now login."})

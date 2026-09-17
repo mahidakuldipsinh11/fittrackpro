@@ -114,8 +114,34 @@ export const AuthProvider = ({ children }) => {
     window.dispatchEvent(new Event("auth:logout"));
   };
 
+  const forgotPassword = async (email) => {
+    setLoading(true);
+    try {
+      await api.post("/auth/password-reset/", { email });
+      return { success: true };
+    } catch (err) {
+      const errData = err.response?.data;
+      return { success: false, error: errData?.email?.[0] || errData?.detail || "Something went wrong. Please try again." };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetPassword = async (uid, token, newPassword) => {
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/password-reset/confirm/", { uid, token, new_password: newPassword });
+      return { success: true, data: res.data };
+    } catch (err) {
+      const errData = err.response?.data;
+      return { success: false, error: errData?.new_password?.[0] || errData?.detail || "This reset link is invalid or has expired. Please request a new one." };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, forgotPassword, resetPassword, loading }}>
       {children}
     </AuthContext.Provider>
   );

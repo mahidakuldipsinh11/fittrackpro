@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 import { Eye, EyeOff, Shield, CheckCircle } from 'lucide-react';
 import { checkPasswordStrength } from '../utils/passwordStrength';
 import './Auth.css';
 
-const Login = () => {
+const ResetPassword = () => {
+  const { uid, token } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
-  const { login } = useAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { resetPassword } = useAuth();
+  const [formData, setFormData] = useState({ password: '', confirm: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -29,18 +30,24 @@ const Login = () => {
     setIsLoading(true);
 
     const password = formData.password;
-    if (password.length < 8 || password.length > 128) {
+    if (password.length < 8 || password.length > 16) {
       setIsError(true);
-      toast.error('Password must be 8-128 characters long.');
+      toast.error('Password must be 8-16 characters long.');
+      setIsLoading(false);
+      return;
+    }
+    if (formData.password !== formData.confirm) {
+      setIsError(true);
+      toast.error('Passwords do not match.');
       setIsLoading(false);
       return;
     }
 
-    const result = await login(formData.email, formData.password);
+    const result = await resetPassword(uid, token, password);
 
     if (result.success) {
-      toast.success('Successfully logged in!');
-      navigate('/');
+      toast.success('Password reset successfully! Please login.');
+      navigate('/login');
     } else {
       setIsError(true);
       toast.error(result.error);
@@ -52,21 +59,9 @@ const Login = () => {
     <div className="auth-container">
       <div className={`auth-box ${isError ? 'shake' : 'slide-in'}`}>
         <div className="auth-box-content">
-          <h2>Welcome Back</h2>
-          <p>Login to continue to FitTrack</p>
+          <h2>Create New Password</h2>
+          <p>Choose a new password for your FitTrack account.</p>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder=" "
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <label htmlFor="email">Email</label>
-            </div>
             <div className="form-group">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -77,9 +72,9 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 minLength={8}
-                maxLength={128}
+                maxLength={16}
               />
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">New Password</label>
               <button
                 type="button"
                 className="password-toggle"
@@ -89,7 +84,6 @@ const Login = () => {
               </button>
             </div>
 
-            {/* Password Strength Indicator */}
             {formData.password && (
               <div className="password-strength">
                 <div className="password-strength__header">
@@ -99,8 +93,8 @@ const Login = () => {
                   </span>
                 </div>
                 <div className="password-strength__bar">
-                  <div 
-                    className="password-strength__fill" 
+                  <div
+                    className="password-strength__fill"
                     style={{ width: `${passwordStrength.percentage}%`, backgroundColor: passwordStrength.color }}
                   />
                 </div>
@@ -115,13 +109,27 @@ const Login = () => {
               </div>
             )}
 
+            <div className="form-group">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="confirm"
+                id="confirm"
+                placeholder=" "
+                value={formData.confirm}
+                onChange={handleChange}
+                required
+                minLength={8}
+                maxLength={16}
+              />
+              <label htmlFor="confirm">Confirm New Password</label>
+            </div>
+
             <button type="submit" className={`auth-btn ${isLoading ? 'btn-loading' : ''}`} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : 'Login'}
+              {isLoading ? <span className="spinner"></span> : 'Reset Password'}
             </button>
           </form>
           <div className="auth-links">
-            <p><Link to="/forgot-password" style={{ fontSize: '0.85rem' }}>Forgot password?</Link></p>
-            <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+            <p>Remembered it? <Link to="/login">Back to Login</Link></p>
           </div>
         </div>
       </div>
@@ -129,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

@@ -616,6 +616,46 @@ def send_login_notification_email(user):
         return False
 
 
+def send_password_reset_email(user, reset_url):
+    """Password reset link — user email par reset link bhejo."""
+    try:
+        if not user.email:
+            return False
+        html = f"""
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;">
+            <div style="background:#2563eb;padding:30px;text-align:center;">
+                <h1 style="color:white;margin:0;font-size:24px;">🏋️ FitTrack Pro</h1>
+                <p style="color:#fff;margin:10px 0 0;opacity:0.9;">Password Reset</p>
+            </div>
+            <div style="padding:30px;background:white;">
+                <h2 style="color:#1a1a2e;margin-top:0;">Reset Your Password</h2>
+                <p style="color:#555;">Hi <strong>{user.get_full_name() or user.name}</strong>,</p>
+                <p style="color:#555;">We received a request to reset your FitTrack Pro account password.</p>
+                <div style="text-align:center;margin:25px 0;">
+                    <a href="{reset_url}" style="background:#FF6B00;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block;">Create New Password</a>
+                </div>
+                <p style="color:#888;font-size:13px;">This link is valid for only <strong>1 hour</strong>. If you didn't request this, you can safely ignore this email — your password will not be changed.</p>
+                <p style="color:#888;font-size:13px;">Or open this link in your browser:<br><a href="{reset_url}" style="color:#FF6B00;word-break:break-all;">{reset_url}</a></p>
+            </div>
+            <div style="background:#1a1a2e;padding:20px;text-align:center;">
+                <p style="color:#94a3b8;margin:0;font-size:12px;">© 2026 FitTrack Pro. All rights reserved.</p>
+            </div>
+        </div>"""
+        msg = EmailMultiAlternatives(
+            subject="🔒 Reset Your Password — FitTrack Pro",
+            body=f"Hi {user.name}, click this link to create a new password: {reset_url}. This link expires in 1 hour.",
+            from_email=FROM_EMAIL,
+            to=[user.email],
+        )
+        msg.attach_alternative(html, "text/html")
+        msg.send(fail_silently=True)
+        logger.info(f"Password reset email sent to {user.email}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send password reset email to {user.email}: {e}")
+        return False
+
+
 def send_order_out_for_delivery_email(order):
     """
     Order out for delivery — tracking update email.

@@ -214,6 +214,9 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+# Frontend base URL for links inside emails (order tracking, password reset, etc.)
+SITE_URL = os.getenv("SITE_URL", "https://fittrackpro-sand.vercel.app")
+
 # EMAIL SETTINGS
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
 EMAIL_HOST = "smtp.gmail.com"
