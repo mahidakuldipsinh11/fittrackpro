@@ -16,8 +16,8 @@ const VALUES = [
 
 const TEAM = [
   { name: "Kuldipsinh Mahida", role: "Founder & CEO", desc: "Fitness enthusiast turned entrepreneur, on a mission to make quality gym gear accessible to every Indian." },
-  { name: "Priya Sharma", role: "Head of Customer Success", desc: "Ensures every order, return & query is handled with care — the voice our customers trust." },
-  { name: "Rahul Desai", role: "Product & Sourcing Lead", desc: "Curates and quality-checks every piece of equipment before it reaches the catalogue." },
+  { name: "Milap Sarikhda", role: "Head of Customer Success", desc: "Ensures every order, return & query is handled with care — the voice our customers trust." },
+  { name: "Kaba Vijay", role: "Product & Sourcing Lead", desc: "Curates and quality-checks every piece of equipment before it reaches the catalogue." },
 ];
 
 function useInView(threshold = 0.15) {
@@ -43,7 +43,7 @@ export default function About() {
   const [teamRef, teamInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
 
-  const productCount = 50;
+  const productCount = 45;
 
   const STATS = [
     { icon: "🏋️", num: `${productCount}+`, label: "Products" },
