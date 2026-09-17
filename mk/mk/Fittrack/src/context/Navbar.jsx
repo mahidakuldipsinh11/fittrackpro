@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, User, Package, Flame, Search, ChevronDown, LogOut, Home, ShoppingBag, Tag, Info, Headphones, X, Menu, Star, BarChart3, Shield } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -6,12 +6,6 @@ import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import "./Navbar.css";
-
-const CATEGORIES = [
-  "All Categories"
-];
-
-
 
 const NAV_LINKS = [
   { to: "/", label: "Home", icon: Home },
@@ -37,6 +31,14 @@ export default function Navbar() {
   const searchRef = useRef();
   const dropdownRef = useRef();
   const sidebarRef = useRef();
+
+  const shopCategories = useMemo(
+    () => [
+      "All Categories",
+      ...[...new Set(products.map((p) => p.cat).filter(Boolean))].sort(),
+    ],
+    [products]
+  );
 
   const { cart, total } = useCart();
   const { wishlistCount } = useWishlist();
@@ -101,12 +103,21 @@ export default function Navbar() {
       return;
     }
     // Shop.jsx jaisa hi catalog (ProductContext) — local filter, sab items matches
+    const catFilter = selectedCategory !== "All Categories" ? selectedCategory.toLowerCase() : null;
+    const matchesCat = (p) => {
+      if (!catFilter) return true;
+      const haystack = `${p.cat} ${p.name}`.toLowerCase();
+      if (haystack.includes(catFilter)) return true;
+      const singular = catFilter.replace(/s$/, "");
+      return singular !== catFilter && haystack.includes(singular);
+    };
     const matched = products
       .filter(
         (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.cat || "").toLowerCase().includes(q) ||
-          (p.description || "").toLowerCase().includes(q)
+          matchesCat(p) &&
+          (p.name.toLowerCase().includes(q) ||
+            (p.cat || "").toLowerCase().includes(q) ||
+            (p.description || "").toLowerCase().includes(q))
       )
       .slice(0, 8)
       .map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.image, cat: p.cat }));
@@ -118,7 +129,7 @@ export default function Navbar() {
       ),
     ].slice(0, 5);
     setSearchResults({ products: matched, categories: cats });
-  }, [searchTerm, products]);
+  }, [searchTerm, products, selectedCategory]);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -186,7 +197,7 @@ export default function Navbar() {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 aria-label="Category"
               >
-                {CATEGORIES.map((cat) => (
+                {shopCategories.map((cat) => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
