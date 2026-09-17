@@ -12,6 +12,8 @@ Requires env vars:
   EMAILJS_PUBLIC_KEY  — EmailJS "API/Public Key" (aka user_id)
   EMAILJS_SERVICE_ID  — email service ID (connected Gmail)
   EMAILJS_TEMPLATE_ID — password reset template ID
+  EMAILJS_PRIVATE_KEY — optional; needed if "Use Private Key (recommended)" is
+                        enabled in EmailJS Account > Security (sent as accessToken)
 """
 
 import json
@@ -43,23 +45,29 @@ def send_via_emailjs(template_params, template_id=None):
         public_key = os.environ.get("EMAILJS_PUBLIC_KEY", "").strip()
         service_id = os.environ.get("EMAILJS_SERVICE_ID", "").strip()
         template_id = template_id or os.environ.get("EMAILJS_TEMPLATE_ID", "").strip()
+        private_key = os.environ.get("EMAILJS_PRIVATE_KEY", "").strip()
         if not (public_key and service_id and template_id):
             logger.warning("EmailJS credentials not configured")
             return False
 
-        payload = json.dumps(
-            {
-                "service_id": service_id,
-                "template_id": template_id,
-                "user_id": public_key,
-                "template_params": template_params,
-            }
-        ).encode("utf-8")
+        payload = {
+            "service_id": service_id,
+            "template_id": template_id,
+            "user_id": public_key,
+            "template_params": template_params,
+        }
+        if private_key:
+            payload["accessToken"] = private_key
 
         req = urllib.request.Request(
             EMAILJS_SEND_URL,
-            data=payload,
-            headers={"Content-Type": "application/json"},
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                # EmailJS API Cloudflare ke peeche hai; default urllib UA (Python-urllib)
+                # blocked hota hai (403 error code: 1010). Browser-like UA zaroori hai.
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+            },
             method="POST",
         )
         with urllib.request.urlopen(req, timeout=25) as resp:

@@ -27,14 +27,6 @@ services:
       # Set this value in the Render Dashboard (same as django_backend/.env EMAIL_HOST_PASSWORD).
       - key: EMAIL_HOST_PASSWORD
         sync: false
-      # Gmail API OAuth (sends as fittrackpro.noreply@gmail.com over HTTPS 443).
-      # Generate via: python get_gmail_refresh_token.py
-      - key: GMAIL_CLIENT_ID
-        sync: false
-      - key: GMAIL_CLIENT_SECRET
-        sync: false
-      - key: GMAIL_REFRESH_TOKEN
-        sync: false
       # EmailJS (https://www.emailjs.com) — sends as fittrackpro.noreply@gmail.com
       # over HTTPS 443 with no Google verification needed.
       - key: EMAILJS_PUBLIC_KEY
@@ -42,6 +34,8 @@ services:
       - key: EMAILJS_SERVICE_ID
         sync: false
       - key: EMAILJS_TEMPLATE_ID
+        sync: false
+      - key: EMAILJS_PRIVATE_KEY
         sync: false
       - key: RESEND_API_KEY
         sync: false
