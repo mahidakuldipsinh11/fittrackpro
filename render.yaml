@@ -27,6 +27,12 @@ services:
       # Set this value in the Render Dashboard (same as django_backend/.env EMAIL_HOST_PASSWORD).
       - key: EMAIL_HOST_PASSWORD
         sync: false
+      # Resend API key (https://resend.com) — used for sending email over HTTPS
+      # because Render blocks outbound SMTP ports (25/465/587).
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM
+        value: "FitTrack Pro <onboarding@resend.dev>"
       - key: EMAIL_HOST
         value: "smtp.gmail.com"
       - key: EMAIL_PORT

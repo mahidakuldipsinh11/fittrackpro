@@ -7,6 +7,7 @@ Sender: fittrackpro.noreply@gmail.com
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -617,10 +618,11 @@ def send_login_notification_email(user):
 
 
 def send_password_reset_email(user, reset_url):
-    """Password reset link — user email par reset link bhejo."""
+    """Password reset link — user email par reset link bhejo (Resend API, SMTP fallback)."""
     try:
         if not user.email:
             return False
+
         html = f"""
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;">
             <div style="background:#2563eb;padding:30px;text-align:center;">
@@ -641,18 +643,74 @@ def send_password_reset_email(user, reset_url):
                 <p style="color:#94a3b8;margin:0;font-size:12px;">© 2026 FitTrack Pro. All rights reserved.</p>
             </div>
         </div>"""
+        subject = "🔒 Reset Your Password — FitTrack Pro"
+        text = f"Hi {user.name}, click this link to create a new password: {reset_url}. This link expires in 1 hour."
+
+        # Prefer Resend API (HTTPS egress) — Render blocks SMTP outbound.
+        if send_via_resend(subject, html, [user.email], text_body=text):
+            logger.info(f"Password reset email sent to {user.email} via Resend")
+            return True
+
+        # Fallback: classic SMTP (works locally, blocked on Render)
         msg = EmailMultiAlternatives(
-            subject="🔒 Reset Your Password — FitTrack Pro",
-            body=f"Hi {user.name}, click this link to create a new password: {reset_url}. This link expires in 1 hour.",
+            subject=subject,
+            body=text,
             from_email=FROM_EMAIL,
             to=[user.email],
         )
         msg.attach_alternative(html, "text/html")
         msg.send(fail_silently=True)
-        logger.info(f"Password reset email sent to {user.email}")
+        logger.info(f"Password reset email sent to {user.email} via SMTP")
         return True
     except Exception as e:
         logger.error(f"Failed to send password reset email to {user.email}: {e}")
+        return False
+
+
+def send_via_resend(subject, html, to_list, text_body=""):
+    """
+    Resend API (https://api.resend.com/emails) se email bhejna.
+    Render ke outbound SMTP ports blocked hain, isliye HTTPS API use hota hai.
+    Returns True only agar successfully queued/200.
+    """
+    import json
+    import urllib.request
+    import urllib.error
+
+    key = os.environ.get("RESEND_API_KEY", "").strip()
+    if not key:
+        return False
+
+    sender = os.environ.get("RESEND_FROM", "FitTrack Pro <onboarding@resend.dev>")
+
+    payload = {
+        "from": sender,
+        "to": to_list,
+        "subject": subject,
+        "html": html,
+    }
+    if text_body:
+        payload["text"] = text_body
+
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            body = resp.read().decode("utf-8")
+            logger.info(f"Resend response {resp.status}: {body}")
+            return resp.status == 200
+    except urllib.error.HTTPError as e:
+        logger.error(f"Resend HTTP error {e.code}: {e.read().decode('utf-8', errors='replace')}")
+        return False
+    except Exception as e:
+        logger.error(f"Resend error: {e}")
         return False
 
 

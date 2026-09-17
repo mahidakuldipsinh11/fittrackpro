@@ -198,11 +198,13 @@ class EmailHealthView(APIView):
             to = settings.EMAIL_HOST_USER
         do_send = bool(request.data.get("send", False))
 
+        import os
         info = {
             "email_backend": settings.EMAIL_BACKEND,
             "email_host": settings.EMAIL_HOST,
             "email_host_user": settings.EMAIL_HOST_USER,
             "host_password_set": bool(settings.EMAIL_HOST_PASSWORD),
+            "resend_key_set": bool(os.environ.get("RESEND_API_KEY", "").strip()),
             "dns": [],
             "network_tests": {},
         }
