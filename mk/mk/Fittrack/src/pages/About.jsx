@@ -1,9 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Zap, Shield, Truck, RotateCcw, Dumbbell,
-  Tag, Users, Heart, CreditCard
-} from "lucide-react";
+import { Dumbbell, Tag, Users } from "lucide-react";
 import "./About.css";
 
 /* ═══════════ PROFESSIONAL ECOMMERCE ABOUT PAGE ═══════════ */
@@ -22,15 +19,6 @@ const TEAM = [
   { name: "Priya Sharma", role: "Head of Customer Success", desc: "Ensures every order, return & query is handled with care — the voice our customers trust." },
   { name: "Rahul Desai", role: "Product & Sourcing Lead", desc: "Curates and quality-checks every piece of equipment before it reaches the catalogue." },
   { name: "Sneha Patel", role: "Logistics & Operations", desc: "Masters the supply chain so your order dispatches within 24 hours, anywhere in India." },
-];
-
-const TRUST_POINTS = [
-  { icon: Shield, title: "Secure Payments", desc: "100% encrypted via Razorpay" },
-  { icon: Truck, title: "Free Delivery", desc: "Across India on every order" },
-  { icon: RotateCcw, title: "7-Day Returns", desc: "No questions asked" },
-  { icon: Zap, title: "Fast Dispatch", desc: "Within 24–48 hours" },
-  { icon: CreditCard, title: "EMI Available", desc: "On orders above ₹5,000" },
-  { icon: Heart, title: "Customer First", desc: "24×7 expert support" },
 ];
 
 function useInView(threshold = 0.15) {
@@ -54,7 +42,6 @@ export default function About() {
   const [missionRef, missionInView] = useInView();
   const [valuesRef, valuesInView] = useInView();
   const [teamRef, teamInView] = useInView();
-  const [trustRef, trustInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
 
   const productCount = 50;
@@ -173,24 +160,6 @@ export default function About() {
                 <p>{m.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ TRUST STRIP ═══ */}
-      <section className={`apro-trust ${trustInView ? "in-view" : ""}`} ref={trustRef}>
-        <div className="ft-container">
-          <div className="apro-trust__grid">
-            {TRUST_POINTS.map((t) => {
-              const Icon = t.icon;
-              return (
-                <div className="apro-trust__item" key={t.title}>
-                  <Icon size={26} />
-                  <h4>{t.title}</h4>
-                  <p>{t.desc}</p>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>

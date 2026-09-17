@@ -140,24 +140,6 @@
 }
 .apro-team__card p { font-size: 0.85rem; color: var(--steel); line-height: 1.6; }
 
-/* ═══════════ TRUST STRIP ═══════════ */
-.apro-trust {
-  padding: 3rem 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.apro-trust__grid {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
-}
-.apro-trust__item {
-  text-align: center; padding: 1.5rem 0.75rem;
-  transition: all 0.3s ease; border-radius: 12px;
-}
-.apro-trust__item:hover { background: var(--bg-panel-2); }
-.apro-trust__item svg { color: var(--gold); margin-bottom: 0.75rem; }
-.apro-trust__item h4 { font-size: 0.9rem; font-weight: 700; color: var(--ivory); margin-bottom: 0.25rem; }
-.apro-trust__item p { font-size: 0.75rem; color: var(--steel); }
-
 /* ═══════════ FINAL CTA ═══════════ */
 .apro-cta { padding: 5rem 0; }
 .apro-cta__inner {
@@ -200,7 +182,6 @@
 @media (max-width: 1024px) {
   .apro-stats__grid { grid-template-columns: repeat(3, 1fr); }
   .apro-team__grid { grid-template-columns: repeat(2, 1fr); }
-  .apro-trust__grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -209,7 +190,6 @@
   .apro-stats__grid { grid-template-columns: repeat(3, 1fr); }
   .apro-values__grid { grid-template-columns: 1fr; }
   .apro-team__grid { grid-template-columns: 1fr; }
-  .apro-trust__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
@@ -217,12 +197,10 @@
   .apro-stats__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .apro-mission__card { padding: 1.5rem; }
   .apro-values__card { padding: 1.25rem; }
-  .apro-trust__grid { grid-template-columns: repeat(2, 1fr); }
   .apro-cta__inner { padding: 2.5rem 1.5rem; }
 }
 
 @media (max-width: 360px) {
   .apro-stats__grid { grid-template-columns: 1fr; }
   .apro-hero__actions { flex-direction: column; }
-  .apro-trust__grid { grid-template-columns: 1fr; }
 }
