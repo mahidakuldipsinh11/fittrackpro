@@ -55,6 +55,11 @@ const SECTIONS = [
     ],
   },
   {
+    icon: "⏳",
+    title: "Data Retention",
+    text: "We retain your account information and order records (including invoices) as long as your account is active, and for the periods required to comply with tax, accounting, and legal obligations in India (typically 6–8 years for financial records). Marketing preferences and analytics data are retained for up to 24 months or until you withdraw consent. When data is no longer needed, it is securely deleted or anonymized.",
+  },
+  {
     icon: "👤",
     title: "Your Rights",
     points: [
@@ -65,6 +70,11 @@ const SECTIONS = [
       "Data Portability: Request your data in a structured, machine-readable format.",
       "To exercise these rights, email us at privacy@fittrackpro.com.",
     ],
+  },
+  {
+    icon: "⚖️",
+    title: "Grievance Redressal (India DPDP Act)",
+    text: "In compliance with the Digital Personal Data Protection Act (DPDP Act) 2023, we have appointed a Grievance Officer. If you have any complaints regarding the handling of your personal data, you may contact our Grievance Officer via email at grievance@fittrackpro.com. We will acknowledge your complaint within 48 hours and aim to resolve it within 7 working days. If you are not satisfied with the resolution, you may approach the Data Protection Board of India (DPBI).",
   },
   {
     icon: "👶",
@@ -107,7 +117,7 @@ export default function PrivacyPolicy() {
           Your privacy matters. We protect your data with the same intensity we build our equipment.
         </p>
         <div className="policy-hero__meta">
-          <span>Last updated: January 2025</span>
+          <span>Last updated: September 2026</span>
           <span>•</span>
           <span>Effective immediately</span>
         </div>

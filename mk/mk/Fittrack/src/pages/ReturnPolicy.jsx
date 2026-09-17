@@ -42,6 +42,16 @@ const SECTIONS = [
     ],
   },
   {
+    icon: "🔁",
+    title: "Exchanges & Size Swaps",
+    text: "Don't want a refund? Message us after starting a return and we can exchange your item for a different size, color, or model instead. Free exchange shipping applies for defective items; a flat ₹79 reshipment fee applies for change-of-mind exchanges.",
+  },
+  {
+    icon: "🧾",
+    title: "Proof of Purchase",
+    text: "A valid order number or the digital invoice emailed to you at the time of purchase is required to initiate any return. Returns without proof of purchase may be declined or processed at our sole discretion.",
+  },
+  {
     icon: "🔍",
     title: "Return Inspection",
     text: "Once we receive the returned item, our quality team will inspect it within 2 business days. If the item passes inspection (unused, undamaged, original packaging), your refund will be processed. If the item is found damaged or used, we may offer a partial refund or reject the return.",
@@ -82,7 +92,7 @@ export default function ReturnPolicy() {
           We want you to love your gear. If something isn't right, we make returns simple and hassle-free.
         </p>
         <div className="policy-hero__meta">
-          <span>Last updated: January 2025</span>
+          <span>Last updated: September 2026</span>
           <span>•</span>
           <span>Effective immediately</span>
         </div>

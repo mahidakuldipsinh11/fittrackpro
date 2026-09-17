@@ -50,6 +50,16 @@ const SECTIONS = [
     ],
   },
   {
+    icon: "🧾",
+    title: "How Refunds Are Issued",
+    points: [
+      "UPI and wallet payments are refunded to the same UPI ID or wallet used at checkout.",
+      "Card and net banking payments are refunded to the same card or bank account — no refunds to a different account.",
+      "If the original payment method is no longer valid, contact support with your order ID for a bank transfer.",
+      "The refund reference/UTR number is emailed to you once the refund is initiated by the bank.",
+    ],
+  },
+  {
     icon: "📞",
     title: "How to Request a Refund",
     points: [
@@ -92,7 +102,7 @@ export default function RefundPolicy() {
           Transparent refund process. No hidden charges. Your money is safe with us.
         </p>
         <div className="policy-hero__meta">
-          <span>Last updated: January 2025</span>
+          <span>Last updated: September 2026</span>
           <span>•</span>
           <span>Effective immediately</span>
         </div>

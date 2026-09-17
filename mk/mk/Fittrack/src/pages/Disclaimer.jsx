@@ -41,10 +41,15 @@ const SECTIONS = [
     title: "Delivery Disclaimer",
     text: "Delivery timelines are estimates and not guaranteed. Factors such as location, weather, holidays, and unforeseen circumstances may cause delays. FitTrack Pro is not responsible for delays caused by courier partners. Risk of loss and title for items pass to you upon delivery.",
   },
+{
+    icon: "🛡️",
+    title: "Warranty & Liability",
+    text: "FitTrack Pro backstands as the seller of record for all products. Unless otherwise stated, products are sold 'as is' and 'as available' with the manufacturer's warranty only. FitTrack Pro, its directors, employees, partners, agents, suppliers, or affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service. Our total liability shall not exceed the amount you paid for the product in question. For any product-related defect or warranty claim, contact the respective brand's official support or write to us at warranty@fittrackpro.com.",
+  },
   {
-    icon: "🔗",
-    title: "Third-Party Links",
-    text: "Our website may contain links to third-party websites or services that are not owned or controlled by FitTrack Pro. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites. We strongly advise you to read the terms and privacy policy of every site you visit.",
+    icon: "🌐",
+    title: "Governing Law",
+    text: "These disclaimers and the use of our website are governed by and construed in accordance with the laws of India. Any disputes arising out of or in connection with the use of this website shall be subject to the exclusive jurisdiction of the courts of Delhi, India.",
   },
   {
     icon: "📧",
@@ -87,7 +92,7 @@ export default function Disclaimer() {
           Important legal information about using FitTrack Pro. Please read carefully.
         </p>
         <div className="policy-hero__meta">
-          <span>Last updated: January 2025</span>
+          <span>Last updated: September 2026</span>
           <span>•</span>
           <span>Effective immediately</span>
         </div>
