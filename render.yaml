@@ -27,8 +27,14 @@ services:
       # Set this value in the Render Dashboard (same as django_backend/.env EMAIL_HOST_PASSWORD).
       - key: EMAIL_HOST_PASSWORD
         sync: false
-      # Resend API key (https://resend.com) — used for sending email over HTTPS
-      # because Render blocks outbound SMTP ports (25/465/587).
+      # Gmail API OAuth (sends as fittrackpro.noreply@gmail.com over HTTPS 443).
+      # Generate via: python get_gmail_refresh_token.py
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
+        sync: false
       - key: RESEND_API_KEY
         sync: false
       - key: RESEND_FROM

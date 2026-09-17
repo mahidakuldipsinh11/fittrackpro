@@ -646,12 +646,18 @@ def send_password_reset_email(user, reset_url):
         subject = "🔒 Reset Your Password — FitTrack Pro"
         text = f"Hi {user.name}, click this link to create a new password: {reset_url}. This link expires in 1 hour."
 
-        # Prefer Resend API (HTTPS egress) — Render blocks SMTP outbound.
+        # 1) Gmail API (HTTPS 443) — sabse preferred: exact Gmail account se bhejta hai.
+        from .gmail_mailer import send_gmail_api
+        if send_gmail_api(subject, html, [user.email], text_body=text):
+            logger.info(f"Password reset email sent to {user.email} via Gmail API")
+            return True
+
+        # 2) Resend API (HTTPS egress) — fallback jab Gmail creds nahi hain.
         if send_via_resend(subject, html, [user.email], text_body=text):
             logger.info(f"Password reset email sent to {user.email} via Resend")
             return True
 
-        # Fallback: classic SMTP (works locally, blocked on Render)
+        # 3) Classic SMTP (works locally, blocked on Render)
         msg = EmailMultiAlternatives(
             subject=subject,
             body=text,
