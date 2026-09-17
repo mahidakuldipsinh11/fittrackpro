@@ -8,12 +8,7 @@ import api from "../api/client";
 import "./Navbar.css";
 
 const CATEGORIES = [
-  "All Categories",
-  "Gym Equipment",
-  "Supplements",
-  "Cardio Racks",
-  "Apparel & Gear",
-  "Accessories"
+  "All Categories"
 ];
 
 
