@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
-  Zap, Shield, Truck, RotateCcw, Star, Dumbbell,
-  Tag, Check, Users, Heart, Quote, MessageSquare, CreditCard
+  Zap, Shield, Truck, RotateCcw, Dumbbell,
+  Tag, Users, Heart, CreditCard
 } from "lucide-react";
-import api from "../api/client";
 import "./About.css";
 
 /* ═══════════ PROFESSIONAL ECOMMERCE ABOUT PAGE ═══════════ */
@@ -16,14 +15,6 @@ const VALUES = [
   { icon: "🌱", title: "Sustainability", desc: "Eco-friendly packaging, efficient logistics, and products designed to last for years, not months." },
   { icon: "🇮🇳", title: "Made in India", desc: "Proudly supporting Indian manufacturers and craftsmanship. Building world-class fitness equipment right here." },
   { icon: "❤️", title: "Fitness for All", desc: "From beginners to pro athletes, from home gyms to commercial setups — equipment for every fitness journey." },
-];
-
-const JOURNEY = [
-  { year: "2022", title: "Where It All Began", desc: "A small garage, 20 products and one big belief — every Indian deserves honest, commercial-grade fitness equipment at fair prices." },
-  { year: "2023", title: "Trust, Delivered", desc: "Home gyms across India started trusting us. Our 10,000th order shipped within 24 hours, and free delivery went live across 200+ cities." },
-  { year: "2024", title: "One Complete Store", desc: "Racks, benches, dumbbells, cardio machines and full gym setups — the complete catalogue under one roof, at factory-direct prices." },
-  { year: "2025", title: "India's Choice", desc: "500+ commercial gyms and trainers now source from us. A 4.8★ average rating across thousands of verified buyers earned us nationwide trust." },
-  { year: "2026", title: "The Journey Continues", desc: "Expanding categories, a faster delivery network, and a community-first approach. The next chapter is being written with you." },
 ];
 
 const TEAM = [
@@ -62,32 +53,16 @@ export default function About() {
   const [statsRef, statsInView] = useInView();
   const [missionRef, missionInView] = useInView();
   const [valuesRef, valuesInView] = useInView();
-  const [journeyRef, journeyInView] = useInView();
   const [teamRef, teamInView] = useInView();
   const [trustRef, trustInView] = useInView();
-  const [testRef, testInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
-
-  const [reviews, setReviews] = useState([]);
-  const [reviewsLoading, setReviewsLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    api.get("/reviews/")
-      .then((res) => {
-        if (!cancelled) setReviews(res.data?.results ?? res.data ?? []);
-      })
-      .catch(() => { if (!cancelled) setReviews([]); })
-      .finally(() => { if (!cancelled) setReviewsLoading(false); });
-    return () => { cancelled = true; };
-  }, []);
 
   const productCount = 50;
 
   const STATS = [
     { icon: "🏋️", num: `${productCount}+`, label: "Products" },
-    { icon: "👥", num: "10,000+", label: "Happy Customers" },
-    { icon: "📍", num: "500+", label: "Cities Served" },
+    { icon: "👥", num: "10", label: "Happy Customers" },
+    { icon: "📍", num: "5", label: "Cities Served" },
     { icon: "⭐", num: "4.8", label: "Average Rating" },
     { icon: "🚚", num: "24H", label: "Dispatch Time" },
     { icon: "🔄", num: "7-Day", label: "Easy Returns" },
@@ -181,30 +156,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* ═══ JOURNEY — TIMELINE ═══ */}
-      <section className={`apro-journey ${journeyInView ? "in-view" : ""}`} ref={journeyRef}>
-        <div className="ft-container">
-          <div className="apro-section-header">
-            <span className="apro-eyebrow">🚀 Our Journey</span>
-            <h2>How We Got Here</h2>
-            <p className="apro-section-sub">Every milestone has been a promise kept — here's how we grew from a garage to India's home of fitness equipment.</p>
-          </div>
-          <div className="apro-journey__timeline">
-            <div className="apro-journey__line"></div>
-            {JOURNEY.map((j, i) => (
-              <div className={`apro-journey__item ${i % 2 === 0 ? "left" : "right"}`} key={j.year} style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="apro-journey__dot"></div>
-                <div className="apro-journey__card">
-                  <span className="apro-journey__year">{j.year}</span>
-                  <h3>{j.title}</h3>
-                  <p>{j.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══ TEAM ═══ */}
       <section className={`apro-team ${teamInView ? "in-view" : ""}`} ref={teamRef}>
         <div className="ft-container">
@@ -222,57 +173,6 @@ export default function About() {
                 <p>{m.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ TESTIMONIALS ═══ */}
-      <section className={`apro-test ${testInView ? "in-view" : ""}`} ref={testRef}>
-        <div className="ft-container">
-          <div className="apro-section-header">
-            <span className="apro-eyebrow"><MessageSquare size={14} /> Customer Stories</span>
-            <h2>What Our Customers Say About Us</h2>
-            <p className="apro-section-sub">Real reviews from real buyers — verified purchases only.</p>
-          </div>
-          {reviewsLoading ? (
-            <div className="apro-test__empty"><div className="rv-spinner" /><p>Loading reviews...</p></div>
-          ) : reviews.length === 0 ? (
-            <div className="apro-test__empty">
-              <MessageSquare size={40} />
-              <p>No reviews yet. Be the first to share your experience!</p>
-              <Link to="/reviews" className="ft-btn ft-btn--primary">Write a Review</Link>
-            </div>
-          ) : (
-            <div className="apro-test__grid">
-              {reviews.map((r, i) => {
-                const initial = r.user_name ? r.user_name.charAt(0).toUpperCase() : "U";
-                const rating = Math.max(1, Math.min(5, Number(r.rating) || 5));
-                return (
-                  <div className="apro-test__card" key={r.id || i} style={{ transitionDelay: `${i * 100}ms` }}>
-                    <div className="apro-test__card-top">
-                      <div className="apro-test__stars">
-                        {Array.from({ length: rating }, (_, j) => <Star key={j} size={14} fill="#FFD60A" color="#FFD60A" />)}
-                      </div>
-                      <span className="apro-test__verified"><Check size={12} /> Verified</span>
-                    </div>
-                    <Quote size={20} className="apro-test__quote-icon" />
-                    {r.title && <h4 className="apro-test__title">{r.title}</h4>}
-                    <p className="apro-test__text">"{r.text}"</p>
-                    {r.product_name && <span className="apro-test__product">🏷️ {r.product_name}</span>}
-                    <div className="apro-test__author">
-                      <div className="apro-test__avatar">{initial}</div>
-                      <div>
-                        <span className="apro-test__name">{r.user_name || "Anonymous"}</span>
-                        {r.role && <span className="apro-test__role">{r.role}</span>}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          <div className="apro-test__more">
-            <Link to="/reviews" className="ft-btn ft-btn--ghost">View All Reviews & Write Yours</Link>
           </div>
         </div>
       </section>
