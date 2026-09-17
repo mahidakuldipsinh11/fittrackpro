@@ -5,7 +5,7 @@ import "./Footer.css";
 const TRUST_ITEMS = [
   { icon: "🔒", text: "Secure Checkout" },
   { icon: "🚚", text: "Free Shipping" },
-  { icon: "🔄", text: "7-Day Easy Returns" },
+  { icon: "🔄", text: "7-Day Easy Returns", to: "/return-policy" },
   { icon: "📞", text: "24/7 Support", to: "/contact" },
 ];
 
