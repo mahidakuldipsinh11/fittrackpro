@@ -18,7 +18,6 @@ const TEAM = [
   { name: "Kuldipsinh Mahida", role: "Founder & CEO", desc: "Fitness enthusiast turned entrepreneur, on a mission to make quality gym gear accessible to every Indian." },
   { name: "Priya Sharma", role: "Head of Customer Success", desc: "Ensures every order, return & query is handled with care — the voice our customers trust." },
   { name: "Rahul Desai", role: "Product & Sourcing Lead", desc: "Curates and quality-checks every piece of equipment before it reaches the catalogue." },
-  { name: "Sneha Patel", role: "Logistics & Operations", desc: "Masters the supply chain so your order dispatches within 24 hours, anywhere in India." },
 ];
 
 function useInView(threshold = 0.15) {
