@@ -133,7 +133,8 @@ class RequestPasswordResetView(APIView):
         if user and user.is_active:
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            reset_url = f"{settings.SITE_URL}/reset-password/{uid}/{token}"
+            # Root path par query params se open hota hai (SPA deep-link 404 se bachata hai).
+            reset_url = f"{settings.SITE_URL}/?r={uid}&t={token}"
 
             import logging as _log_mod
             import threading

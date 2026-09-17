@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import { ToastProvider } from "./context/ToastContext";
 import { ProductProvider } from "./context/ProductContext";
@@ -77,6 +77,22 @@ const PageWrapper = ({ children }) => (
   <div className="page-transition">{children}</div>
 );
 
+// Reset link ab form me aata hai: SITE_URL/?r=<uid>&t=<token> (deep-link 404 se bachane ke liye)
+const ResetRedirectFromQuery = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const r = params.get("r");
+    const t = params.get("t");
+    if (r && t) {
+      navigate(`/reset-password/${r}/${t}`, { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+};
+
 function AppShell() {
   const { pathname } = useLocation();
   const isAdminRoute = pathname.startsWith("/admin");
@@ -124,6 +140,7 @@ export default function App() {
             <CouponProvider>
               <ToastProvider>
                 <BrowserRouter>
+                  <ResetRedirectFromQuery />
                   <AppShell />
                 </BrowserRouter>
               </ToastProvider>
