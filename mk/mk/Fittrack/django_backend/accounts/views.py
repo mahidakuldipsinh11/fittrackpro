@@ -216,12 +216,16 @@ class EmailHealthView(APIView):
             info["dns"].append(f"dns-error: {e}")
 
         # 2) General egress tests (IPv4 + IPv6)
-        for label, host, port in [
+        tests = [
             ("google-8.8.8.8:53", "8.8.8.8", 53),
-            ("gmail-smtp-ipv4", "smtp.gmail.com", 587),
-        ]:
+            ("gmail-smtp587", "smtp.gmail.com", 587),
+            ("gmail-smtp465", "smtp.gmail.com", 465),
+            ("gmail-smtp25", "smtp.gmail.com", 25),
+            ("outlook-smtp587", "smtp.office365.com", 587),
+        ]
+        for label, host, port in tests:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(8)
+            sock.settimeout(10)
             try:
                 sock.connect((host, port))
                 info["network_tests"][label] = "connected"
