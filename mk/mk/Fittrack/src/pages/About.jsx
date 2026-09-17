@@ -5,7 +5,6 @@ import {
   Tag, Check, Users, Heart, Quote, MessageSquare, CreditCard
 } from "lucide-react";
 import api from "../api/client";
-import { useProducts } from "../context/ProductContext";
 import "./About.css";
 
 /* ═══════════ PROFESSIONAL ECOMMERCE ABOUT PAGE ═══════════ */
@@ -59,7 +58,6 @@ function useInView(threshold = 0.15) {
 }
 
 export default function About() {
-  const { products } = useProducts();
   const [heroRef, heroInView] = useInView();
   const [statsRef, statsInView] = useInView();
   const [missionRef, missionInView] = useInView();
@@ -84,7 +82,7 @@ export default function About() {
     return () => { cancelled = true; };
   }, []);
 
-  const productCount = products?.length ?? 50;
+  const productCount = 50;
 
   const STATS = [
     { icon: "🏋️", num: `${productCount}+`, label: "Products" },
