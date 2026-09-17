@@ -48,6 +48,10 @@ class ProductListView(generics.ListAPIView):
         if is_deal is not None:
             queryset = queryset.filter(is_deal=is_deal.lower() in ("1", "true", "yes"))
 
+        # Search me poora catalogue dikhao (50 ka cap sirf browse/list ke liye hai)
+        if search:
+            return queryset
+
         # Shop page pe max 50 products hi dikhane hain
         return queryset[:50]
 

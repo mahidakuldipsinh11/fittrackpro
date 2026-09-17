@@ -1,32 +1,10 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import api from "../api/client";
 import localProducts from "../data/products.json";
+import { resolveImageUrl } from "../utils/image";
 
 const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
-
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=800&auto=format&fit=crop&q=80";
-
-// Resolve relative image paths to absolute backend URLs
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
-const BACKEND_ORIGIN = API_BASE.startsWith("http") ? API_BASE.replace(/\/api\/?$/, "") : "";
-
-const resolveImageUrl = (url) => {
-  if (!url) return FALLBACK_IMAGE;
-  if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  // Normalize: API may return paths with or without a leading slash
-  const path = url.startsWith("/") ? url : `/${url}`;
-  if (BACKEND_ORIGIN) {
-    // Production (Vercel): images live on the Render backend origin
-    return `${BACKEND_ORIGIN}${path}`;
-  }
-  if (path.startsWith("/product_images/")) {
-    // Local dev: Django backend serves images on port 8000
-    return `http://localhost:8000${path}`;
-  }
-  return path; // relative paths served by same origin
-};
 
 const mapProduct = (p) => ({
   id: p.id,

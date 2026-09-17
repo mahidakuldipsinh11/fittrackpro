@@ -6,6 +6,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { useToast } from "../context/ToastContext";
 import { useCoupon } from "../context/CouponContext";
 import api from "../api/client";
+import { resolveImageUrl, onImageError } from "../utils/image";
 import "./ProductDetail.css";
 
 export default function ProductDetail() {
@@ -185,7 +186,7 @@ export default function ProductDetail() {
           <div className="pd-image-section">
             <div className="pd-image-wrap">
               {p.tag && <span className="pd-badge">{p.tag}</span>}
-              <img src={p.image} alt={p.name} />
+              <img src={resolveImageUrl(p.image)} alt={p.name} onError={onImageError} />
             </div>
           </div>
 
@@ -441,7 +442,7 @@ export default function ProductDetail() {
             <div className="pd-related-grid">
               {related.map(rp => (
                 <Link to={`/product/${rp.id}`} key={rp.id} className="pd-related-card">
-                  <img src={rp.image} alt={rp.name} />
+                  <img src={resolveImageUrl(rp.image)} alt={rp.name} onError={onImageError} />
                   <div>
                     <h4>{rp.name}</h4>
                     <span className="pd-related-price">₹{Number(rp.price).toLocaleString("en-IN")}</span>

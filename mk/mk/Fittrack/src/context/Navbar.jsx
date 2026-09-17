@@ -5,6 +5,8 @@ import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
+import api from "../api/client";
+import { resolveImageUrl } from "../utils/image";
 import "./Navbar.css";
 
 const NAV_LINKS = [
@@ -93,17 +95,41 @@ export default function Navbar() {
       setSearchResults({ products: [], categories: [] });
       return;
     }
-    // Shop catalog (ProductContext) se local filter — sirf matching products
-    const matched = products
+
+    // Sabse pehle client-side se fast suggestions (pehle 50 products me se)
+    const localHits = products
       .filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
           (p.cat || "").toLowerCase().includes(q) ||
           (p.description || "").toLowerCase().includes(q)
       )
-      .slice(0, 8)
+      .slice(0, 5)
       .map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.image, cat: p.cat }));
-    setSearchResults({ products: matched, categories: [] });
+
+    // Server-side suggest endpoint bhi — saare products par search (deoankit bhi mile)
+    api
+      .get("/products/suggest/", { params: { q: searchTerm.trim() } })
+      .then((res) => {
+        const serverProducts = (res.data?.products || [])
+          .map((s) => ({
+            id: s.id,
+            name: s.name,
+            price: Number(s.price),
+            image: resolveImageUrl(s.image),
+            cat: s.cat || "",
+          }));
+        const merged = [...serverProducts];
+        // Local hits jo server ne nahi diye (agar API slow/fail ho) unhe add karo
+        localHits.forEach((lp) => {
+          if (!merged.some((m) => m.id === lp.id)) merged.push(lp);
+        });
+        setSearchResults({ products: merged.slice(0, 8), categories: res.data?.categories || [] });
+      })
+      .catch(() => {
+        // API fail ho to local se hi dikhao
+        setSearchResults({ products: localHits, categories: [] });
+      });
   }, [searchTerm, products]);
 
   useEffect(() => {

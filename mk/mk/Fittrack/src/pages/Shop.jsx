@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Heart } from "lucide-react";
 import "./Shop.css";
 import { useCart } from "../context/CartContext";
@@ -201,11 +201,18 @@ function ProductDetailsModal({ product, relatedProducts, onSelectProduct, onClos
 
 export default function Shop() {
   const { products } = useProducts();
+  const [searchParams] = useSearchParams();
   const [rating, setRating] = useState("All");
   const [sort, setSort] = useState("Featured");
   const [query, setQuery] = useState("");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Navbar search → /shop?search=... se filter apply karo
+  useEffect(() => {
+    const fromUrl = searchParams.get("search");
+    if (fromUrl) setQuery(fromUrl);
+  }, [searchParams]);
 
   const handleViewDetails = (p) => {
     setSelectedProduct(p);

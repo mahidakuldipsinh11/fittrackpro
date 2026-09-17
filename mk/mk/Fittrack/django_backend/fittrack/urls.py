@@ -37,16 +37,15 @@ if os.path.isdir(ASSETS_DIR):
         ]
 
 # Product images serve karo — works in both DEBUG and production
-# urls.py: django_backend/fittrack/urls.py → need to reach Mk_demo/product_images
-# BASE_DIR = django_backend (from settings), so 4 parents up = Mk_demo
-PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent.parent / "product_images")
+# Pehle django_backend/product_images (tracked folder) check karo — yehi local+live dono par sahi
+# wale hain. Koi shadowing empty parent folder hai to usse ignore karo.
+PRODUCT_IMAGES_DIR = str(settings.BASE_DIR / "product_images")
+if not os.path.exists(PRODUCT_IMAGES_DIR):
+    PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent.parent / "product_images")
 if not os.path.exists(PRODUCT_IMAGES_DIR):
     PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent.parent / "product_images")
 if not os.path.exists(PRODUCT_IMAGES_DIR):
     PRODUCT_IMAGES_DIR = str(settings.BASE_DIR.parent.parent / "product_images")
-if not os.path.exists(PRODUCT_IMAGES_DIR):
-    # Fallback: directly inside django_backend
-    PRODUCT_IMAGES_DIR = str(settings.BASE_DIR / "product_images")
 if os.path.exists(PRODUCT_IMAGES_DIR):
     # Development: use static() helper
     if settings.DEBUG:
