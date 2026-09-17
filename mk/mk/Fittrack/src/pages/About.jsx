@@ -19,11 +19,11 @@ const VALUES = [
 ];
 
 const JOURNEY = [
-  { year: "2022", title: "The Beginning", desc: "FitTrack Pro started in a garage with a single mission — honest fitness equipment at fair prices for Indian homes." },
-  { year: "2023", title: "Crossing 10,000 Orders", desc: "Home gyms across India started trusting us. Free delivery rollout across 200+ cities begins." },
-  { year: "2024", title: "Full Product Range", desc: "Racks, benches, dumbbells, cardio machines & full gym setups — a complete catalogue under one roof." },
-  { year: "2025", title: "Trusted Nationwide", desc: "500+ commercial gyms & trainers now source equipment from us. 4.8★ average rating across verified buyers." },
-  { year: "2026", title: "Building the Future", desc: "Expanding categories, faster delivery network, and a community-first approach — this is just the start." },
+  { year: "2022", title: "Where It All Began", desc: "A small garage, 20 products and one big belief — every Indian deserves honest, commercial-grade fitness equipment at fair prices." },
+  { year: "2023", title: "Trust, Delivered", desc: "Home gyms across India started trusting us. Our 10,000th order shipped within 24 hours, and free delivery went live across 200+ cities." },
+  { year: "2024", title: "One Complete Store", desc: "Racks, benches, dumbbells, cardio machines and full gym setups — the complete catalogue under one roof, at factory-direct prices." },
+  { year: "2025", title: "India's Choice", desc: "500+ commercial gyms and trainers now source from us. A 4.8★ average rating across thousands of verified buyers earned us nationwide trust." },
+  { year: "2026", title: "The Journey Continues", desc: "Expanding categories, a faster delivery network, and a community-first approach. The next chapter is being written with you." },
 ];
 
 const TEAM = [
@@ -187,7 +187,7 @@ export default function About() {
           <div className="apro-section-header">
             <span className="apro-eyebrow">🚀 Our Journey</span>
             <h2>How We Got Here</h2>
-            <p className="apro-section-sub">From a garage dream to India's trusted fitness equipment destination.</p>
+            <p className="apro-section-sub">Every milestone has been a promise kept — here's how we grew from a garage to India's home of fitness equipment.</p>
           </div>
           <div className="apro-journey__timeline">
             <div className="apro-journey__line"></div>
