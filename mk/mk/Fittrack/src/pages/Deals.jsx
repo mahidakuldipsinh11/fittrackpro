@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useToast } from "../context/ToastContext";
 import { useProducts } from "../context/ProductContext";
@@ -19,6 +20,7 @@ function calculateTimeLeft(endTime) {
 }
 
 export default function Deals() {
+  const navigate = useNavigate();
   const { products } = useProducts();
   const { addToCart } = useCart();
   const { isCouponActive, applyCoupon, couponCode, discountPercent } = useCoupon();
@@ -59,6 +61,7 @@ export default function Deals() {
     const loggedInUser = JSON.parse(localStorage.getItem("currentUser") || "null");
     if (!loggedInUser) {
       toast.error("Please login or register before adding items to your cart.");
+      navigate("/login");
       return;
     }
     addToCart({
