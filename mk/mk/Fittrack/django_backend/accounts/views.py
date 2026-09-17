@@ -190,20 +190,47 @@ class EmailHealthView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
+        import socket
         from django.core.mail import send_mail
 
         to = request.data.get("to") or settings.EMAIL_HOST_USER
-        backend = settings.EMAIL_BACKEND
         if "@gmail.com" not in to.lower():
             to = settings.EMAIL_HOST_USER
 
         info = {
-            "email_backend": backend,
+            "email_backend": settings.EMAIL_BACKEND,
             "email_host": settings.EMAIL_HOST,
             "email_host_user": settings.EMAIL_HOST_USER,
             "host_password_set": bool(settings.EMAIL_HOST_PASSWORD),
+            "dns": [],
+            "network_tests": {},
         }
 
+        # 1) DNS resolution of smtp.gmail.com
+        try:
+            resolved = socket.getaddrinfo("smtp.gmail.com", 587)
+            for entry in resolved[:6]:
+                family = "IPv6" if entry[0] == socket.AF_INET6 else "IPv4"
+                info["dns"].append(f"{family}:{entry[4][0]}")
+        except Exception as e:
+            info["dns"].append(f"dns-error: {e}")
+
+        # 2) General egress tests (IPv4 + IPv6)
+        for label, host, port in [
+            ("google-8.8.8.8:53", "8.8.8.8", 53),
+            ("gmail-smtp-ipv4", "smtp.gmail.com", 587),
+        ]:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(8)
+            try:
+                sock.connect((host, port))
+                info["network_tests"][label] = "connected"
+            except Exception as e:
+                info["network_tests"][label] = f"{type(e).__name__}: {e}"
+            finally:
+                sock.close()
+
+        # 3) Actual send_mail attempt
         try:
             send_mail(
                 "FitTrack SMTP Live Test",
@@ -213,8 +240,8 @@ class EmailHealthView(APIView):
                 fail_silently=False,
             )
             info["result"] = "sent"
-            return Response(info, status=status.HTTP_200_OK)
         except Exception as e:
             info["result"] = "failed"
             info["error"] = str(e)
-            return Response(info, status=status.HTTP_200_OK)
+
+        return Response(info, status=status.HTTP_200_OK)
