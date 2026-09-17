@@ -119,8 +119,9 @@
 
 /* ═══════════ TEAM / PROMISE ═══════════ */
 .apro-team { padding: 5rem 0; }
-.apro-team__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.apro-team__grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; }
 .apro-team__card {
+  flex: 1 1 260px; max-width: 340px;
   background: var(--bg-panel); border: 1px solid var(--border);
   border-radius: 16px; padding: 2rem; text-align: center;
   opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
@@ -181,7 +182,6 @@
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 1024px) {
   .apro-stats__grid { grid-template-columns: repeat(3, 1fr); }
-  .apro-team__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -189,7 +189,6 @@
   .apro-mission__grid { grid-template-columns: 1fr; }
   .apro-stats__grid { grid-template-columns: repeat(3, 1fr); }
   .apro-values__grid { grid-template-columns: 1fr; }
-  .apro-team__grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
