@@ -196,6 +196,7 @@ class EmailHealthView(APIView):
         to = request.data.get("to") or settings.EMAIL_HOST_USER
         if "@gmail.com" not in to.lower():
             to = settings.EMAIL_HOST_USER
+        do_send = bool(request.data.get("send", False))
 
         info = {
             "email_backend": settings.EMAIL_BACKEND,
@@ -225,7 +226,7 @@ class EmailHealthView(APIView):
         ]
         for label, host, port in tests:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(10)
+            sock.settimeout(3)
             try:
                 sock.connect((host, port))
                 info["network_tests"][label] = "connected"
@@ -234,18 +235,21 @@ class EmailHealthView(APIView):
             finally:
                 sock.close()
 
-        # 3) Actual send_mail attempt
-        try:
-            send_mail(
-                "FitTrack SMTP Live Test",
-                "If you receive this, live SMTP works.",
-                settings.DEFAULT_FROM_EMAIL,
-                [to],
-                fail_silently=False,
-            )
-            info["result"] = "sent"
-        except Exception as e:
-            info["result"] = "failed"
-            info["error"] = str(e)
+        # 3) Actual send_mail attempt (only when send=true)
+        if do_send:
+            try:
+                send_mail(
+                    "FitTrack SMTP Live Test",
+                    "If you receive this, live SMTP works.",
+                    settings.DEFAULT_FROM_EMAIL,
+                    [to],
+                    fail_silently=False,
+                )
+                info["result"] = "sent"
+            except Exception as e:
+                info["result"] = "failed"
+                info["error"] = str(e)
+        else:
+            info["result"] = "skipped"
 
         return Response(info, status=status.HTTP_200_OK)
